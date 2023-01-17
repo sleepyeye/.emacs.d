@@ -11,3 +11,19 @@
   :demand t
   :config
   (evil-collection-init))
+
+(elpaca-use-package evil-surround
+  :demand t
+  :config
+  (global-evil-surround-mode 1))
+
+
+(elpaca-use-package evil-commentary
+  :demand t
+  :config
+  (evil-commentary-mode))
+
+(elpaca-use-package evil-lion
+  :demand t
+  :config
+  (evil-lion-mode))
