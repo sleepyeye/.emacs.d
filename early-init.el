@@ -13,6 +13,8 @@
 ;; things up later.
 (setq gc-cons-threshold 1073741824
       gc-cons-percentage 0.6)
+(setq read-process-output-max (* 1024 1024 32)) ;; 32mb
+
 
 ;; Resizing the Emacs frame can be a terribly expensive part of changing the
 ;; font. By inhibiting this, we easily halve startup times with fonts that are
@@ -23,6 +25,8 @@
 
 ;; add custom exec path
 (add-to-list 'exec-path "/opt/homebrew/bin")
+(add-to-list 'exec-path "~/.cargo/bin")
+(add-to-list 'exec-path "/Library/TeX/texbin")
 
 
 (provide 'early-init)
