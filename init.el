@@ -58,6 +58,7 @@ NAME and ARGS are in `use-package'."
 (load "~/.emacs.d/font.el")
 (load "~/.emacs.d/ui.el")
 (load "~/.emacs.d/magit.el")
+(load "~/.emacs.d/tree-sitter.el")
 
 ;;;
 (load "~/.emacs.d/tex.el")
