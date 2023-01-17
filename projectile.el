@@ -1,4 +1,5 @@
 (elpaca-use-package projectile
+  :demand t
   :after (general)
   :general
   (sleepy/project-keys
