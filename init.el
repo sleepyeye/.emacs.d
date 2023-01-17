@@ -41,6 +41,11 @@ NAME and ARGS are in `use-package'."
 		 :ensure nil
 		 ,@args)))
 
+(setenv "PATH"
+	(concat "/opt/homebrew/bin" path-separator
+		"~/.cargo/bin" path-separator
+		"/Library/TeX/texbin" path-separator
+		(getenv "PATH")))
 
 
 ;;; load core packages
