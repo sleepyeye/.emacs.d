@@ -31,7 +31,7 @@
     "j"   '(:ignore t :which-key "Jump")
     "b"   '(:ignore t :which-key "Buffer")
     "f"   '(:ignore t :which-key "File")
-    "g"   '(:ignore t :which-key "Git")
+    "g"   '(:ignore t :which-key "Utils")
     "w"   '(:ignore t :which-key "Window")
     "TAB" '(:ignore t :which-key "Workspace"))
 
@@ -77,15 +77,16 @@
     :infix     "TAB"
     :wk-full-keys: nil)
 
-  (general-create-definer sleepy/git-keys
+  (general-create-definer sleepy/util-keys
     :wrapping sleepy/leader-keys
     :infix     "g"
     :wk-full-keys: nil)
 
 
- 
   ;;; setup leader keybindings
   (sleepy/leader-keys
+    "SPC" 'find-file
+    "-" 'dired
     "!" 'shell-command
     ":" 'eval-expression
     "." 'repeat)
