@@ -4,6 +4,8 @@
   (setq evil-want-integration t) 
   (setq evil-want-keybinding nil)
   :config
+  (evil-set-command-property 'xref-find-definitions :jump t)
+  (evil-set-command-property 'xref-find-references :jump t)
   (evil-mode 1))
 
 (elpaca-use-package evil-collection
