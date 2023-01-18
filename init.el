@@ -91,3 +91,4 @@ NAME and ARGS are in `use-package'."
 (add-to-list 'default-frame-alist '(width . 100))
 (set-face-attribute 'default (selected-frame) :height 200)
 (recentf-mode 1)
+(global-hl-line-mode +1)
