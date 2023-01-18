@@ -101,7 +101,14 @@
    "v" '(describe-variable :which-key "desc variable"))
 
   (sleepy/window-keys
-   "v" '(split-window-vertically      :which-key "desc key")
-   "s" '(split-window-horizontally    :which-key "desc func"))
-
-  )
+   "o" 'other-window
+   "d" 'delete-window
+   "r" 'evil-window-rotate-upwards
+   "R" 'evil-window-rotate-upwards
+   "e" 'evil-window-exchange
+   "h" 'evil-window-left
+   "j" 'evil-window-down
+   "k" 'evil-window-up
+   "l" 'evil-window-right
+   "s" 'evil-window-split
+   "v" 'evil-window-vsplit))
