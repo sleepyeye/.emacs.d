@@ -9,13 +9,34 @@
   :demand t
   :general
   (sleepy/buffer-keys
-    "d" '(kill-current-buffer                :which-key  "kill current buffer")
-    "r" '(revert-buffer                      :which-key  "revert buffer")
-    "b" '(consult-buffer                     :which-key  "buffer list")
-    "B" '(consult-buffer-other-window        :which-key  "buffer list other window"))
+    "d" 'kill-current-buffer
+    "r" 'revert-buffer
+    "b" 'consult-buffer
+    "B" 'consult-buffer-other-window
+    "p" 'consult-project-buffer)
+
   (sleepy/search-keys
-    "s" '(consult-line                       :which-key  "line")
-    "d" '(consult-ripgrep                    :which-key  "rg")))
+    "s" 'consult-line
+    "S" 'consult-line-multi
+    "d" 'consult-ripgrep
+    "g" 'consult-git-grep)
+
+  (sleepy/jump-keys
+    "i" 'consult-outline
+    "l" 'consult-goto-line
+    "o" 'consult-outline
+    "d" 'consult-ripgrep
+    "g" 'consult-git-grep)
+
+  (sleepy/util-keys
+    "y" 'consult-yank-pop)
+
+  (sleepy/file-keys
+    "r" 'consult-recent-file)
+
+  :config
+  (setq xref-show-xrefs-function #'consult-xref
+	xref-show-definitions-function #'consult-xref))
 
 (elpaca-use-package orderless
   :demand t
