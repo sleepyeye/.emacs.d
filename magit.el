@@ -1,6 +1,6 @@
 (elpaca-use-package magit
   :demand t
   :general
-  (sleepy/git-keys
+  (sleepy/util-keys
    "g" 'magit-status)
   )
