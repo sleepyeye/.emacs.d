@@ -1,10 +1,17 @@
 (elpaca-use-package lsp-mode
-  :after corfu
-  :custom
-  (lsp-completion-provider :none) ;; we use Corfu!
   :init
-  (defun my/lsp-mode-setup-completion ()
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless))) ;; Configure orderless
-  :hook
-  (lsp-completion-mode . my/lsp-mode-setup-completion))
+  (setq lsp-keymap-prefix "C-c l")
+  (add-hook 'lsp-mode-hook #'evil-normalize-keymaps)
+  :hook ((latex-mode . lsp)
+	 (lsp-mode . lsp-enable-which-key-integration))
+  :general
+  (general-evil-define-key '(normal) lsp-mode-map
+    "gd" #'lsp-find-definition
+    "gD" #'lsp-find-references)
+  :commands lsp)
+
+;; (elpaca-use-package consult-lsp
+;;   :defer t
+;;   :hook lsp-mode)
+
+
