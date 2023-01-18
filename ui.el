@@ -28,4 +28,16 @@
   :demand t
   :config
   (global-hl-todo-mode))
+
+(elpaca-use-package doom-themes
+  :defer t
+  :config
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (doom-themes-org-config))
+
+(elpaca-use-package solaire-mode
+  :config
+  (solaire-global-mode +1)
+  (add-hook 'ediff-prepare-buffer-hook #'solaire-mode))
   
