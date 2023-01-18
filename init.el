@@ -41,12 +41,34 @@ NAME and ARGS are in `use-package'."
 		 :ensure nil
 		 ,@args)))
 
-(setenv "PATH"
-	(concat "/opt/homebrew/bin" path-separator
-		"~/.cargo/bin" path-separator
-		"/Library/TeX/texbin" path-separator
-		(getenv "PATH")))
+(setenv "PATH" (concat "/opt/homebrew/bin" path-separator
+		       "~/.cargo/bin" path-separator
+		       "/Library/TeX/texbin" path-separator
+		       (getenv "PATH")))
 
+
+;; From doom emacs
+(defconst IS-MAC      (eq system-type 'darwin))
+(defconst IS-LINUX    (memq system-type '(gnu gnu/linux gnu/kfreebsd berkeley-unix)))
+(defconst IS-WINDOWS  (memq system-type '(cygwin windows-nt ms-dos)))
+(defconst IS-BSD      (memq system-type '(darwin berkeley-unix gnu/kfreebsd)))
+
+(cond
+ (IS-MAC
+  ;; mac-* variables are used by the special emacs-mac build of Emacs by
+  ;; Yamamoto Mitsuharu, while other builds use ns-*.
+  (setq mac-command-modifier      'super
+	ns-command-modifier       'super
+	mac-option-modifier       'meta
+	ns-option-modifier        'meta
+	;; Free up the right option for character composition
+	mac-right-option-modifier 'none
+	ns-right-option-modifier  'none))
+ (IS-WINDOWS
+  (setq w32-lwindow-modifier 'super
+	w32-rwindow-modifier 'super)))
+
+(require 'xref)
 
 ;;; load core packages
 (load "~/.emacs.d/evil.el")
