@@ -1,4 +1,3 @@
-
 (setq TeX-parse-self t ; parse on load
       TeX-auto-save t  ; parse on save
       ;; Use hidden directories for AUCTeX files.
@@ -11,8 +10,7 @@
       ;; Automatically insert braces after sub/superscript in `LaTeX-math-mode'.
       TeX-electric-sub-and-superscript t
       ;; Just save, don't ask before each compilation.
-      TeX-save-query nil
-      TeX-shell "/opt/homebrew/bin/fish")
+      TeX-save-query nil)
 
 
 
@@ -115,7 +113,8 @@
 (elpaca-use-package auctex
   :defer t
   :config
-  (setq-default TeX-master t))
+  (setq-default TeX-master t)
+  )
 
 (elpaca-use-package auctex-latexmk
   :defer t
@@ -127,12 +126,15 @@
   (auctex-latexmk-setup))
 
 
-(add-hook 'LaTeX-mode-hook '(lambda()
-			      (require 'auctex-latexmk)
-			      (auctex-latexmk-setup)))
-
-(add-to-list 'auto-mode-alist '("\\.tex\\'" . LaTeX-mode))
+(add-to-list 'auto-mode-alist
+	     '("\\.tex\\'" . LaTeX-mode))
 (with-eval-after-load "tex-mode"
+  (add-hook 'tex-mode-hook #'lsp-deferred)
   (add-hook 'tex-mode-hook 'lsp)
   (add-hook 'latex-mode-hook 'lsp))
-(with-eval-after-load "bibtex" (add-hook 'bibtex-mode-hook 'lsp))
+(with-eval-after-load "bibtex"
+  (add-hook 'bibtex-mode-hook 'lsp))
+(setq font-latex-fontify-sectioning 'color)
+
+
+(add-hook 'LaTeX-mode-hook #'lsp-deferred)
