@@ -49,7 +49,7 @@
   :init
   (marginalia-mode))
 
-(elpaca-use-package corfu
+(elpaca-use-package (corfu :files (:defaults "extensions/*"))
   :demand t
   :custom
   (corfu-cycle t)
