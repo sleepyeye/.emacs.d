@@ -21,4 +21,9 @@
   (global-git-gutter-mode +1))
 
 
-(elpaca-use-package git-timemachine)
+(elpaca-use-package git-timemachine
+  :commands git-timemachine
+  :general
+  (sleepy/util-keys
+   "t" 'git-timemachine))
+
