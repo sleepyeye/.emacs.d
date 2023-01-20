@@ -82,6 +82,10 @@
     :infix     "g"
     :wk-full-keys: nil)
 
+  (general-define-key
+   "C-=" 'text-scale-increase
+   "C--" 'text-scale-decrease)
+
 
   ;;; setup leader keybindings
   (sleepy/leader-keys
