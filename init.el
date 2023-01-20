@@ -68,6 +68,9 @@ NAME and ARGS are in `use-package'."
   (setq w32-lwindow-modifier 'super
 	w32-rwindow-modifier 'super)))
 
+;; setup built-in emacs features
+(load "~/.emacs.d/defaults.el")
+
 ;;; load core packages
 (load "~/.emacs.d/evil.el")
 (load "~/.emacs.d/general.el")
@@ -84,4 +87,6 @@ NAME and ARGS are in `use-package'."
 
 ;;; setup languages
 (load "~/.emacs.d/tex.el")
+;; (load "~/.emacs.d/cc.el")
+;; (load "~/.emacs.d/python.el")
 

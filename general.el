@@ -82,6 +82,14 @@
     :infix     "g"
     :wk-full-keys: nil)
 
+  (general-create-definer sleepy/python-keys
+    :states '(normal visual motion)
+    :keymaps 'python-mode-map
+    :prefix "SPC m"
+    :non-normal-prefix "S-SPC")
+
+
+
   (general-define-key
    "C-=" 'text-scale-increase
    "C--" 'text-scale-decrease)
