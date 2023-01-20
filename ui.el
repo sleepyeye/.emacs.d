@@ -9,7 +9,7 @@
 
 
 ;; theme
-(load-theme 'modus-operandi)            ; Light theme
+;; (load-theme 'modus-operandi)            ; Light theme
 
 (elpaca-use-package pulsar
   :init
@@ -22,7 +22,25 @@
   (setq pulsar-iterations 10)
   (setq pulsar-face 'pulsar-magenta)
   (setq pulsar-highlight-face 'pulsar-yellow)
-  (pulsar-global-mode 1))
+  (pulsar-global-mode 1)
+  :custom
+  (pulsar-pulse-functions '(recenter-top-bottom
+			    move-to-window-line-top-bottom
+			    reposition-window
+			    bookmark-jump
+			    other-window
+			    delete-window
+			    delete-other-windows
+			    forward-page
+			    backward-page
+			    scroll-up-command
+			    scroll-down-command
+			    evil-window-right
+			    evil-window-left
+			    evil-window-up
+			    evil-window-down))
+  (pulsar-face 'pulsar-magenta)
+  (pulsar-delay 0.055))
 
 (elpaca-use-package hl-todo
   :demand t
@@ -30,10 +48,11 @@
   (global-hl-todo-mode))
 
 (elpaca-use-package doom-themes
-  :defer t
+  :demand t
   :config
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-one t)
   (doom-themes-org-config))
 
 (elpaca-use-package solaire-mode
