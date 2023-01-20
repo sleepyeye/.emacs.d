@@ -90,14 +90,14 @@
   ;;; setup leader keybindings
   (sleepy/leader-keys
     "SPC" 'find-file
-    "-" 'dired
+    "-" 'dired-jump
     "!" 'shell-command
     ":" 'eval-expression
     "." 'repeat)
 
   (sleepy/file-keys
-   "f" '(find-file              :which-key "find-file")
-   "F" '(find-file-other-window :which-key "find-file-other-window"))
+   "f" 'find-file             
+   "F" 'find-file-other-window)
 
   (sleepy/help-keys
    "m" '(describe-mode      :which-key "desc mode")
