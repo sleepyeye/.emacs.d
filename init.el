@@ -70,6 +70,14 @@ NAME and ARGS are in `use-package'."
 
 (require 'xref)
 
+(push '(python-mode . python-ts-mode) major-mode-remap-alist)
+;; (push '(css-mode . css-ts-mode) major-mode-remap-alist)
+;; (push '(javascript-mode . js-ts-mode) major-mode-remap-alist)
+;; (push '(js-json-mode . json-ts-mode) major-mode-remap-alist)
+;; (push '(typescript-mode . typescript-ts-mode) major-mode-remap-alist)
+;; (push '(c-mode . c-ts-mode) major-mode-remap-alist)
+;; (push '(c++-mode . c++-ts-mode) major-mode-remap-alist)
+
 ;;; load core packages
 (load "~/.emacs.d/evil.el")
 (load "~/.emacs.d/general.el")
