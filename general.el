@@ -100,6 +100,7 @@
    "F" '(find-file-other-window :which-key "find-file-other-window"))
 
   (sleepy/help-keys
+   "m" '(describe-mode      :which-key "desc mode")
    "k" '(describe-key      :which-key "desc key")
    "f" '(describe-function :which-key "desc func")
    "F" '(describe-Face     :which-key "desc face")
