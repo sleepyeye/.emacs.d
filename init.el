@@ -90,6 +90,7 @@ NAME and ARGS are in `use-package'."
 (load "~/.emacs.d/magit.el")
 (load "~/.emacs.d/tree-sitter.el")
 (load "~/.emacs.d/dired.el")
+(load "~/.emacs.d/workspace.el")
 
 ;;; setup languages
 (load "~/.emacs.d/tex.el")

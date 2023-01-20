@@ -106,6 +106,17 @@
    "F" '(describe-Face     :which-key "desc face")
    "v" '(describe-variable :which-key "desc variable"))
 
+  (sleepy/workspace-keys
+    "1" '(:ignore t :which-key "workspace 1")
+    "2" '(:ignore t :which-key "workspace 2")
+    "3" '(:ignore t :which-key "workspace 3")
+    "4" '(:ignore t :which-key "workspace 4")
+    "5" '(:ignore t :which-key "workspace 5")
+    "6" '(:ignore t :which-key "workspace 6")
+    "7" '(:ignore t :which-key "workspace 7")
+    "8" '(:ignore t :which-key "workspace 8")
+    "9" '(:ignore t :which-key "workspace 9"))
+
   (sleepy/window-keys
    "o" 'other-window
    "d" 'delete-window
