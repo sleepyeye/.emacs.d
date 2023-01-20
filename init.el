@@ -85,10 +85,3 @@ NAME and ARGS are in `use-package'."
 ;;; setup languages
 (load "~/.emacs.d/tex.el")
 
-
-;; FIXME
-(add-to-list 'default-frame-alist '(height . 60))
-(add-to-list 'default-frame-alist '(width . 100))
-(set-face-attribute 'default (selected-frame) :height 200)
-(recentf-mode 1)
-(global-hl-line-mode +1)
