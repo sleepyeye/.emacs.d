@@ -1,3 +1,16 @@
+(add-to-list 'auto-mode-alist '("\\.tex\\'" . LaTeX-mode))
+;; https://ogbe.net/emacs/latex
+;; (setq-default TeX-master nil)
+;; (setq-default TeX-command-extra-options "--shell-escape")
+;; (setq TeX-auto-save t)
+;; (setq TeX-parse-self t)
+;; (setq TeX-PDF-mode t)
+;; (setq reftex-plug-into-AUCTeX t)
+;; (setq TeX-save-query nil)
+;; (setq TeX-error-overview-open-after-TeX-run t)
+;; (setq TeX-electric-math '("$" . "$"))
+;; (setq TeX-electric-sub-and-superscript t)
+
 (setq TeX-parse-self t ; parse on load
       TeX-auto-save t  ; parse on save
       ;; Use hidden directories for AUCTeX files.
@@ -13,6 +26,51 @@
       TeX-save-query nil)
 
 
+
+;; (use-package auctex
+;;   :no-require t
+;;   :mode ("\\.tex\\'" . LaTeX-mode)
+;;   :init
+;;   (setq TeX-parse-self t ; parse on load
+;;         reftex-plug-into-AUCTeX t
+;;         TeX-auto-save t  ; parse on save
+;;         TeX-source-correlate-mode t
+;;         TeX-source-correlate-method 'synctex
+;;       TeX-source-correlate-start-server nil
+;;       TeX-electric-sub-and-superscript t
+;;       TeX-engine 'luatex ;; use lualatex by default
+;;       TeX-save-query nil))
+
+;; (use-package latex
+;;   :straight auctex
+;;   :general
+;;   (patrl/local-leader-keys
+;;     :keymaps 'LaTeX-mode-map
+;;     ;; "TAB" 'TeX-complete-symbol ;; FIXME let's 'TAB' do autocompletion (but it's kind of useless to be honest)
+;;     "=" '(reftex-toc :wk "reftex toc")
+;;     "(" '(reftex-latex :wk "reftex label")
+;;     ")" '(reftex-reference :wk "reftex ref")
+;;     "m" '(LaTeX-macro :wk "insert macro")
+;;     "s" '(LaTeX-section :wk "insert section header")
+;;     "e" '(LaTeX-environment :wk "insert environment")
+;;     "p" '(preview-at-point :wk "preview at point")
+;;     "f" '(TeX-font :wk "font")
+;;     "c" '(TeX-command-run-all :wk "compile"))
+;;   :init
+;;   (setq TeX-electric-math (cons "\\(" "\\)")) ;; '$' inserts an in-line equation '\(...\)'
+;;   ;; (setq preview-scale-function 1.5) ;; too big on vivacia
+;;   :config
+;;   ;; (add-hook 'TeX-mode-hook #'visual-line-mode)
+;;   (add-hook 'TeX-mode-hook #'reftex-mode)
+;;   (add-hook 'TeX-mode-hook #'olivetti-mode)
+;;   (add-hook 'TeX-mode-hook #'turn-on-auto-fill)
+;;   (add-hook 'TeX-mode-hook #'prettify-symbols-mode)
+;;   (add-hook 'TeX-after-compilation-finished-functions
+;;               #'TeX-revert-document-buffer)
+;;   (add-to-list 'TeX-view-program-selection '(output-pdf "PDF Tools"))
+;;   (add-hook 'TeX-mode-hook #'outline-minor-mode)
+;;   ;; (add-hook 'TeX-mode-hook #'flymake-aspell-setup)
+;;   (add-to-list 'TeX-view-program-selection '(output-pdf "Zathura")))
 
 ;; Fontification taken from https://tex.stackexchange.com/a/86119/81279.
 (setq font-latex-match-reference-keywords
@@ -110,31 +168,33 @@
   (setq lsp-latex-forward-search-args '("%l" "%p" "%f")))
 
 
-(elpaca-use-package auctex
+(elpaca-use-package (auctex :files
+			    (:defaults "*.el" "*.info" "dir" "doc" "etc" "images" "latex" "style"))
   :defer t
   :config
-  (setq-default TeX-master t)
-  )
+  (setq-default TeX-master t))
 
 (elpaca-use-package auctex-latexmk
-  :defer t
-  :hook TeX-mode-hook
-  :init
-  (setq auctex-latexmk-inherit-TeX-PDF-mode t)
-  (setq-default TeX-command-default "LatexMk")
-  :config
-  (auctex-latexmk-setup))
+  :init 
+  (with-eval-after-load 'tex
+    (auctex-latexmk-setup)
+    (setq-default TeX-command-default "LatexMk")
+    )
+  :defer t)
 
+;; (use-package evil-tex
+;;   :hook (LaTeX-mode . evil-tex-mode))
 
-(add-to-list 'auto-mode-alist
-	     '("\\.tex\\'" . LaTeX-mode))
-(with-eval-after-load "tex-mode"
-  (add-hook 'tex-mode-hook #'lsp-deferred)
-  (add-hook 'tex-mode-hook 'lsp)
-  (add-hook 'latex-mode-hook 'lsp))
-(with-eval-after-load "bibtex"
-  (add-hook 'bibtex-mode-hook 'lsp))
-(setq font-latex-fontify-sectioning 'color)
+;; (add-to-list 'auto-mode-alist
+;; 	     '("\\.tex\\'" . LaTeX-mode))
+
+;; (with-eval-after-load "tex-mode"
+;;   (add-hook 'tex-mode-hook #'lsp-deferred)
+;;   (add-hook 'latex-mode-hook #'lsp-deferred))
+;; (with-eval-after-load "bibtex"
+;;   (add-hook 'bibtex-mode-hook #'lsp-deferred))
+;; (setq font-latex-fontify-sectioning 'color)
 
 
 (add-hook 'LaTeX-mode-hook #'lsp-deferred)
+
