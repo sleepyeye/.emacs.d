@@ -1,4 +1,3 @@
-
 (elpaca-use-package doom-modeline
   :demand t
   :config
@@ -8,8 +7,30 @@
   (doom-modeline-icon t "Show icons in the modeline"))
 
 
-;; theme
-;; (load-theme 'modus-operandi)            ; Light theme
+(elpaca-use-package modus-themes
+  :demand t
+  :config
+  (load-theme 'modus-operandi t))
+
+(elpaca-use-package fontaine
+  :demand t
+  :after modus-themes
+  :init
+  (add-hook 'modus-themes-after-load-theme-hook #'fontaine-apply-current-preset)
+  :config
+  (setq fontaine-presets
+	'((regular
+	   :default-family "Fira Code"
+	   :default-height 150
+	   :default-weight regular
+	   :fixed-pitch-family "Fira Code"
+	   :fixed-pitch-serif-family "IBM Plex Serif"
+	   :variable-pitch-family "Overpass"
+	   :italic-family "JuliaMono"
+	   :bold-weight bold
+	   :line-spacing 1)))
+  (fontaine-set-preset 'regular))
+
 
 (elpaca-use-package pulsar
   :init
@@ -47,13 +68,13 @@
   :config
   (global-hl-todo-mode))
 
-(elpaca-use-package doom-themes
-  :demand t
-  :config
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-one t)
-  (doom-themes-org-config))
+;; (elpaca-use-package doom-themes
+;;   :demand t
+;;   :config
+;;   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+;;         doom-themes-enable-italic t) ; if nil, italics is universally disabled
+;;   (load-theme 'doom-one t)
+;;   (doom-themes-org-config))
 
 (elpaca-use-package solaire-mode
   :config
