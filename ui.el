@@ -60,3 +60,8 @@
   (solaire-global-mode +1)
   (add-hook 'ediff-prepare-buffer-hook #'solaire-mode))
   
+(setq confirm-kill-emacs 'y-or-n-p)
+(setq display-line-numbers t
+      display-line-numbers-type 'relative)
+(setq text-quoting-style 'curve)
+
