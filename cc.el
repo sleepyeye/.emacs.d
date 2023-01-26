@@ -4,3 +4,7 @@
   :config
   (modern-c++-font-lock-global-mode t))
 
+
+(add-hook 'c-mode-hook 'lsp)
+(add-hook 'c++-mode-hook 'lsp)
+

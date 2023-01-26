@@ -16,6 +16,7 @@
     "p" 'consult-project-buffer)
 
   (sleepy/search-keys
+    "i" 'consult-imenu
     "s" 'consult-line
     "S" 'consult-line-multi
     "d" 'consult-ripgrep

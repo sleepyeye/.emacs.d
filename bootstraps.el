@@ -40,11 +40,6 @@ NAME and ARGS are in `use-package'."
 		 :ensure nil
 		 ,@args)))
 
-(setenv "PATH" (concat "/opt/homebrew/bin" path-separator
-		       "~/.cargo/bin" path-separator
-		       "/Library/TeX/texbin" path-separator
-		       (getenv "PATH")))
-
 
 ;; From doom emacs
 (defconst IS-MAC      (eq system-type 'darwin))
@@ -66,3 +61,15 @@ NAME and ARGS are in `use-package'."
  (IS-WINDOWS
   (setq w32-lwindow-modifier 'super
 	w32-rwindow-modifier 'super)))
+
+(cond 
+ (IS-MAC
+  (setenv "PATH" (concat "/opt/homebrew/bin" path-separator
+			 "~/.cargo/bin" path-separator
+			 "/Library/TeX/texbin" path-separator
+			 (getenv "PATH"))))
+ (IS-LINUX
+  (setenv "PATH" (concat "~/.local/bin" path-separator
+			 "~/.cargo/bin" path-separator
+			 (getenv "PATH")))))
+  
