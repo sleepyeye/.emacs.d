@@ -15,11 +15,17 @@
     "B" 'consult-buffer-other-window
     "p" 'consult-project-buffer)
 
+  ;; TODO fix name
+  (defun consult-ripgrep-current ()
+    (interactive)
+    (consult-ripgrep default-directory))
+
   (sleepy/search-keys
     "i" 'consult-imenu
-    "s" 'consult-line
-    "S" 'consult-line-multi
-    "d" 'consult-ripgrep
+    "b" 'consult-line
+    "B" 'consult-line-multi
+    "d" 'consult-ripgrep-current
+    "p" 'consult-ripgrep
     "g" 'consult-git-grep)
 
   (sleepy/jump-keys
