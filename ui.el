@@ -21,12 +21,15 @@
   (setq fontaine-presets
 	'((regular
 	   :default-family "Fira Code"
-	   :default-height 150
+	   :default-height 200
 	   :default-weight regular
 	   :fixed-pitch-family "Fira Code"
 	   :fixed-pitch-serif-family "IBM Plex Serif"
-	   :variable-pitch-family "Overpass"
+	   :variable-pitch-family "IBM Plex Sans"
 	   :italic-family "JuliaMono"
+	   ;; :variable-pitch-family "Noto Sans"
+	   ;; :italic-family "Source Code Pro"
+	   :italic-slant italic
 	   :bold-weight bold
 	   :line-spacing 1)))
   (fontaine-set-preset 'regular))
