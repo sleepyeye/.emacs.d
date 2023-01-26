@@ -15,7 +15,13 @@
   (general-evil-define-key '(normal) lsp-mode-map
     "gd" #'lsp-find-definition
     "gD" #'lsp-find-references)
-  :commands (lsp lsp-deferred))
+  :commands (lsp lsp-deferred)
+  :config
+  (setq lsp-diagnostics-provider :none)
+  (setq lsp-ui-sideline-enable nil)
+  (setq lsp-eldoc-enable-hover nil)
+  (setq lsp-modeline-diagnostics-enable nil)
+  )
 
 ;; (elpaca-use-package consult-lsp
 ;;   :defer t
