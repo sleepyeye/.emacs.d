@@ -9,8 +9,12 @@
   (evil-set-command-property 'xref-find-references :jump t)
 
   ;; Not a long-term VI user, so let's Emacsify some other keybindings:
-  (define-key evil-normal-state-map (kbd "C-b") 'scroll-up-command)
-  (define-key evil-normal-state-map (kbd "C-n") 'next-line)
+  (define-key evil-normal-state-map (kbd "C-b") 'evil-scroll-down)
+  (define-key evil-normal-state-map (kbd "C-p") 'evil-scroll-up)
+  (define-key evil-normal-state-map (kbd "C-n") 'evil-next-line)
+  (define-key evil-normal-state-map (kbd "C-p") 'evil-previous-line)
+  (define-key evil-normal-state-map (kbd "C-a") 'evil-beginning-of-line)
+  (define-key evil-normal-state-map (kbd "C-e") 'evil-end-of-line)
 
   ;; ;; Even with the `evil-collections' (see below), some modes should be Emacs:
   ;; (dolist (mode '(custom-mode
