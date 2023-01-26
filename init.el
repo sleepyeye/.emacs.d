@@ -20,6 +20,8 @@
 
 ;;; setup languages
 (load "~/.emacs.d/tex.el")
+(load "~/.emacs.d/org.el")
+(load "~/.emacs.d/quarto.el")
 ;; (load "~/.emacs.d/cc.el")
 ;; (load "~/.emacs.d/python.el")
 
