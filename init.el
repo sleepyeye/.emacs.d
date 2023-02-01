@@ -17,8 +17,10 @@
 (load "~/.emacs.d/tree-sitter.el")
 (load "~/.emacs.d/dired.el")
 (load "~/.emacs.d/workspace.el")
+(load "~/.emacs.d/expand-region.el")
 
 ;;; setup languages
+(load "~/.emacs.d/ansible.el")
 (load "~/.emacs.d/tex.el")
 (load "~/.emacs.d/org.el")
 (load "~/.emacs.d/quarto.el")
