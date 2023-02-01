@@ -2,6 +2,18 @@
 (use-feature treesit
   :demand t
   :config
+  (defun treesit-mark-bigger-node ()
+    (let* ((root (treesit-buffer-root-node))
+	   (node (treesit-node-descendant-for-range root (region-beginning) (region-end)))
+	   (node-start (treesit-node-start node))
+	   (node-end (treesit-node-end node)))
+      ;; Node fits the region exactly. Try its parent node instead.
+      (when (and (= (region-beginning) node-start) (= (region-end) node-end))
+	(when-let ((node (treesit-node-parent node)))
+	  (setq node-start (treesit-node-start node)
+		node-end (treesit-node-end node))))
+      (set-mark node-end)
+      (goto-char node-start)))
   (setq treesit-font-lock-level 4)
   ;; this package is not in MELPA
   ;; credit @renzmann
