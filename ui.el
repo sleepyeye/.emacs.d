@@ -85,5 +85,6 @@
 (setq confirm-kill-emacs 'y-or-n-p)
 (setq display-line-numbers t
       display-line-numbers-type 'relative)
+(global-display-line-numbers-mode)
 (setq text-quoting-style 'curve)
 
