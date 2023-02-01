@@ -1,6 +1,9 @@
 ;; backup, lock and custom files
-(setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
-(setq display-line-numbers t)
+(setq
+ delete-old-versions t
+ backup-by-copying t
+ backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
+  
 (setq create-lockfiles nil
       auto-save-default t
       delete-old-versions t
@@ -32,3 +35,5 @@
 (set-terminal-coding-system 'utf-8)     ; Set coding system of terminal output
 (set-keyboard-coding-system 'utf-8)     ; Set coding system for keyboard input on TERMINAL
 (set-language-environment "English")    ; Set up multilingual environment
+
+(setq-default tab-width 2)
