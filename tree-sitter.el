@@ -22,6 +22,15 @@
   (setq treesit-auto-install 'prompt)
   (global-treesit-auto-mode))
 
+(elpaca-use-package (combobulate :host github :repo "mickeynp/combobulate" :protocol https)
+	:after treesit
+	:hook
+	((python-ts-mode . combobulate-mode)
+	 (js-ts-mode . combobulate-mode)
+	 (css-ts-mode . combobulate-mode)
+	 (yaml-ts-mode . combobulate-mode)
+	 (typescript-ts-mode . combobulate-mode)
+	 (tsx-ts-mode . combobulate-mode)))
 
 
 (elpaca-use-package evil-textobj-tree-sitter
