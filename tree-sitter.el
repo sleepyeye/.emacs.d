@@ -14,10 +14,14 @@
 		node-end (treesit-node-end node))))
       (set-mark node-end)
       (goto-char node-start)))
-  (setq treesit-font-lock-level 4)
-  ;; this package is not in MELPA
-  ;; credit @renzmann
-  (load "~/.emacs.d/treesit-auto.el"))
+  (setq treesit-font-lock-level 4))
+
+(elpaca-use-package (treesit-auto :host github :repo "renzmann/treesit-auto" :protocol https)
+  :demand t
+  :config
+  (setq treesit-auto-install 'prompt)
+  (global-treesit-auto-mode))
+
 
 
 (elpaca-use-package evil-textobj-tree-sitter
