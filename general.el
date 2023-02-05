@@ -26,6 +26,7 @@
 
     ;; define menus
     "h"   '(:ignore t :which-key "Help")
+    "c"   '(:ignore t :which-key "Code")
     "p"   '(:ignore t :which-key "Project")
     "s"   '(:ignore t :which-key "Search")
     "j"   '(:ignore t :which-key "Jump")
@@ -40,6 +41,11 @@
   (general-create-definer sleepy/help-keys
     :wrapping sleepy/leader-keys
     :infix     "h"
+    :wk-full-keys: nil)
+
+  (general-create-definer sleepy/code-keys
+    :wrapping sleepy/leader-keys
+    :infix     "c"
     :wk-full-keys: nil)
 
   (general-create-definer sleepy/project-keys
