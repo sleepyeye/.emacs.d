@@ -15,6 +15,10 @@
   (c-mode-common . google-make-newline-indent))
 
 
-(add-hook 'c-mode-hook 'lsp)
-(add-hook 'c++-mode-hook 'lsp)
+(elpaca-use-package clang-format+
+	:hook ((c-mode-hook . clang-format+-mode)
+				 (c++-mode-hook . clang-format+-mode)))
+
+(add-hook 'c-mode-hook #'lsp-deferred)
+(add-hook 'c++-mode-hook #'lsp-deferred)
 
