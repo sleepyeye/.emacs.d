@@ -16,7 +16,7 @@
       (goto-char node-start)))
   (setq treesit-font-lock-level 4))
 
-(elpaca-use-package (treesit-auto :host github :repo "renzmann/treesit-auto" :protocol https)
+(elpaca-use-package (treesit-auto :host github :repo "sleepyeye/treesit-auto" :protocol https)
   :demand t
   :config
   (setq treesit-auto-install 'prompt)
