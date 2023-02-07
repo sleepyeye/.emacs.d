@@ -30,11 +30,25 @@
 	 (css-ts-mode . combobulate-mode)
 	 (yaml-ts-mode . combobulate-mode)
 	 (typescript-ts-mode . combobulate-mode)
-	 (tsx-ts-mode . combobulate-mode)))
+	 (tsx-ts-mode . combobulate-mode))
+	:general
+	(general-define-key
+	 :keymaps 'combobulate-key-map
+	 "M-a" #'combobulate-navigate-beginning-of-defun
+	 "M-e" #'combobulate-navigate-end-of-defun
+	 "M-h" #'combobulate-navigate-up-list-maybe
+	 "M-j" #'combobulate-navigate-next
+	 "M-k" #'combobulate-navigate-previous
+	 "M-l" #'combobulate-navigate-down-list-maybe
+
+	 "M-J" #'combobulate-drag-down
+	 "M-K" #'combobulate-drag-up
+
+	 "M-m" #'combobulate-edit-cluster-dwim
+	 ))
 
 
 (elpaca-use-package evil-textobj-tree-sitter
-  :after (treest evil)
   :demand t
   :config
 
