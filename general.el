@@ -116,6 +116,7 @@
   (sleepy/help-keys
    "m" '(describe-mode      :which-key "desc mode")
    "k" '(describe-key      :which-key "desc key")
+   "K" '(describe-keymap      :which-key "desc key map")
    "f" '(describe-function :which-key "desc func")
    "F" '(describe-Face     :which-key "desc face")
    "v" '(describe-variable :which-key "desc variable"))
