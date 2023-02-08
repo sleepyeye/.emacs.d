@@ -21,6 +21,7 @@
 
 ;;; setup languages
 (load "~/.emacs.d/ansible.el")
+(load "~/.emacs.d/yaml.el")
 (load "~/.emacs.d/tex.el")
 (load "~/.emacs.d/org.el")
 (load "~/.emacs.d/quarto.el")
