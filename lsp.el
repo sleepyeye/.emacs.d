@@ -9,12 +9,18 @@
 				 (c-ts-mode . lsp-deferred)
 				 (c++-mode . lsp-deferred)
 				 (c++-ts-mode . lsp-deferred)
+				 (cmake-mode . lsp-deferred)
 				 (cmake-ts-mode . lsp-deferred)
 				 (lsp-mode . lsp-enable-which-key-integration))
 	:general
+
 	(general-evil-define-key '(normal) lsp-mode-map
 		"gd" #'lsp-find-definition
-		"gD" #'lsp-find-references)
+		"gD" #'lsp-find-references
+		"g=" #'lsp-format-buffer)
+
+	(general-evil-define-key '(normal visual motion) lsp-mode-map
+		"=" #'lsp-format-region)
 
 
 	(sleepy/code-keys "r" #'lsp-rename)
@@ -46,5 +52,4 @@
 ;; (elpaca-use-package consult-lsp
 ;;   :defer t
 ;;   :hook lsp-mode)
-
 
