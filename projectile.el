@@ -2,6 +2,11 @@
   :demand t
   :after (general)
   :general
+
+  ;;; override the keymap
+  (sleepy/leader-keys
+    "SPC" 'projectile-find-file)
+
   (sleepy/project-keys
     "!" 'projectile-run-shell-command-in-root
     "%" 'projectile-replace-regexp
