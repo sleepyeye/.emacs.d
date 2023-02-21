@@ -64,12 +64,14 @@ NAME and ARGS are in `use-package'."
 
 (cond 
  (IS-MAC
-  (setenv "PATH" (concat "/opt/homebrew/bin" path-separator
-			 "~/.cargo/bin" path-separator
-			 "/Library/TeX/texbin" path-separator
-			 (getenv "PATH"))))
+	(setenv "PATH" (concat "/opt/homebrew/bin" path-separator
+												 "~/.cargo/bin" path-separator
+												 "/Library/TeX/texbin" path-separator
+												 "~/miniforge3/bin" path-separator
+												 "~/.local/bin" path-separator
+												 (getenv "PATH"))))
  (IS-LINUX
-  (setenv "PATH" (concat "~/.local/bin" path-separator
-			 "~/.cargo/bin" path-separator
-			 (getenv "PATH")))))
-  
+	(setenv "PATH" (concat "~/.local/bin" path-separator
+												 "~/.cargo/bin" path-separator
+												 (getenv "PATH")))))
+
