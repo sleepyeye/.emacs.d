@@ -97,6 +97,7 @@
 
 
   (general-define-key
+   "s-x" 'execute-extended-command
    "C-=" 'text-scale-increase
    "C--" 'text-scale-decrease)
 
