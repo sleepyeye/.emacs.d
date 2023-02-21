@@ -1,3 +1,22 @@
+;;;###autoload
+(defconst sleepy/c++-ts-mode--override-indent-styles 
+	'((((node-is "access_specifier") parent-bol 0)
+		 ;; Indent the body of namespace definitions.
+		 ((parent-is "declaration_list") parent-bol 0))
+		((parent-is "if_statement") parent-bol 0)))
+
+
+;;;###autoload
+(defun sleepy/c-ts-mode--set-indent-style (mode)
+	"Override default indent style based on k&r which is the default c-ts-mode indent style."
+	(let ((style
+				 (pcase mode
+					 ('c (alist-get 'k&r (c-ts-mode--indent-styles mode)))
+					 ('cpp (append sleepy/c++-ts-mode--override-indent-styles
+												 (alist-get 'k&r (c-ts-mode--indent-styles mode)))))
+				 ))
+		`((,mode ,@style))))
+
 (elpaca-use-package cmake-mode
 	:hook (cmake-mode . lsp-deferred)
   :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'"))
@@ -19,25 +38,27 @@
 (add-hook 'c-mode-hook #'lsp-deferred)
 (add-hook 'c++-mode-hook #'lsp-deferred)
 
+(with-eval-after-load 'lsp
+	(setq-default lsp-clients-clangd-args
+								'("-j=4"
+									"--background-index"
+									;; "--clang-tidy"
+									"--completion-style=detailed"
+									"--header-insertion=never"
+									"--header-insertion-decorators=0")))
 
 
-(defconst sleepy/c-ts-mode--override-indent-styles
-	'((match "while" "do_statement") parent 0))
+(add-hook 'c-mode-hook
+					'(lambda ()
+						 (c-ts-mode)
+						 (setq-local treesit-simple-indent-rules
+												 (sleepy/c-ts-mode--set-indent-style 'c))))
 
-(defun sleepy/c-ts-mode--set-indent-style (mode)
-	"Override default indent style based on k&r which is the default c-ts-mode indent style."
-	(let ((style (push sleepy/c-ts-mode--override-indent-styles
-										 (alist-get 'k&r (c-ts-mode--indent-styles mode)))))
-		`((,mode ,@style))))
 
-;; ,@(when (eq mode 'cpp)
-;;     '(((node-is "access_specifier") parent-bol 0)
-;;       ;; Indent the body of namespace definitions.
-;;       ((parent-is "declaration_list") parent-bol c-ts-mode-indent-offset)))
+(add-hook 'c++-mode-hook
+					'(lambda ()
+						 (c++-ts-mode)
+						 (setq-local treesit-simple-indent-rules
+												 (sleepy/c-ts-mode--set-indent-style 'c++))))
 
-;; (setq-local treesit-simple-indent-rules
-;; 						(sleepy/c-ts-mode--set-indent-style 'cpp))
 
-;; (setq-local treesit-simple-indent-rules
-;; 						(c-ts-mode--set-indent-style 'cpp))
-	
