@@ -48,17 +48,38 @@
 									"--header-insertion-decorators=0")))
 
 
-(add-hook 'c-mode-hook
-					'(lambda ()
-						 (c-ts-mode)
-						 (setq-local treesit-simple-indent-rules
-												 (sleepy/c-ts-mode--set-indent-style 'c))))
+;;; Currently we only need to guess indent offset in c-c++ modes
+(elpaca-use-package dtrt-indent
+	:hook (((c-mode c++-mode) . dtrt-indent-mode)
+				 ((c-ts-mode c++-ts-mode) . dtrt-indent-mode))
+	:config
+	;; register c-ts-mode and  c++-ts-mode to dtrt-indent
+	(add-to-list 'dtrt-indent-hook-mapping-list
+							 '(c-ts-base-mode c/c++/java c-ts-mode-indent-offset))
+	:custom
+	;; dtrt-indent mode will automatically update the listed variables
+	;; note all modes and variables should be registered in dtrt-indent-hook-mapping-list
+	(dtrt-indent-hook-generic-mapping-list
+	 '((evil-mode evil-shift-width)
+		 (c-ts-base-mode c-ts-mode-indent-offset))))
 
 
-(add-hook 'c++-mode-hook
-					'(lambda ()
-						 (c++-ts-mode)
-						 (setq-local treesit-simple-indent-rules
-												 (sleepy/c-ts-mode--set-indent-style 'c++))))
+
+;; (add-hook 'c-mode-hook
+;; 					'(lambda ()
+;; 						 (c-ts-mode)
+;; 						 ;; (setq-local treesit-simple-indent-rules
+;; 						 ;; 						 (sleepy/c-ts-mode--set-indent-style 'c)
+
+;; 												 ))
+
+
+;; (add-hook 'c++-mode-hook
+;; 					'(lambda ()
+;; 						 (c++-ts-mode)
+;; 						 ;; (setq-local treesit-simple-indent-rules
+;; 						 ;; 						 (sleepy/c-ts-mode--set-indent-style 'c++)
+
+;; 												 ))
 
 
