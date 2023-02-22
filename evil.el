@@ -6,6 +6,8 @@
   (setq evil-undo-system 'undo-fu)
   :config
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  (global-set-key (kbd "C-g") 'keyboard-escape-quit)
+  ;; (global-set-key (kbd "<escape>") 'keyboard-quit)
   (evil-set-command-property 'xref-find-definitions :jump t)
   (evil-set-command-property 'xref-find-references :jump t)
 
