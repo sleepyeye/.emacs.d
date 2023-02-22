@@ -37,3 +37,4 @@
 (set-language-environment "English")    ; Set up multilingual environment
 
 (setq-default tab-width 2)
+(setq make-backup-files nil)
