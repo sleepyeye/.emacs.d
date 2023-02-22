@@ -3,6 +3,7 @@
   :init
   (setq evil-want-integration t) 
   (setq evil-want-keybinding nil)
+  (setq evil-undo-system 'undo-fu)
   :config
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   (evil-set-command-property 'xref-find-definitions :jump t)
@@ -72,3 +73,6 @@
         evil-exchange-cancel-key (kbd "gX"))
   :config
   (evil-exchange-install))
+
+
+(elpaca-use-package undo-fu)
