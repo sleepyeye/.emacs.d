@@ -5,10 +5,10 @@
 	(tempel-trigger-prefix
 	 "<")
 
-	:bind (("M-." . tempel-complete) ;; Alternative tempel-expand
-				 ("s-." . tempel-complete)
-				 ("M-," . tempel-insert)
-				 ("s-," . tempel-insert))
+	;; :bind (("M-." . tempel-complete) ;; Alternative tempel-expand
+	;; 			 ("s-." . tempel-complete)
+	;; 			 ("M-," . tempel-insert)
+	;; 			 ("s-," . tempel-insert))
 	
 	:init
 	;; Setup completion at point
@@ -21,7 +21,7 @@
 		;; `tempel-expand' *before* the main programming mode Capf, such
 		;; that it will be tried first.
 		(setq-local completion-at-point-functions
-								(cons #'tempel-expand
+								(cons #'tempel-complete
 											completion-at-point-functions)))
 	
 	(add-hook 'prog-mode-hook 'tempel-setup-capf)
@@ -35,5 +35,4 @@
 	(defvar sleepy/tempel-templates
 		'((templates "Global template"))
 		"My templates.")
-	(add-to-list 'tempel-template-sources 'sleepy/tempel-templates)
-	)
+	(add-to-list 'tempel-template-sources 'sleepy/tempel-templates))
