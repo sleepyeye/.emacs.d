@@ -69,6 +69,7 @@ NAME and ARGS are in `use-package'."
 												 "/Library/TeX/texbin" path-separator
 												 "~/miniforge3/bin" path-separator
 												 "~/.local/bin" path-separator
+												 "/usr/local/bin" path-separator
 												 (getenv "PATH"))))
  (IS-LINUX
 	(setenv "PATH" (concat "~/.local/bin" path-separator
