@@ -19,11 +19,6 @@
 (global-hl-line-mode +1)
 
 
-;; FIXME
-(add-to-list 'default-frame-alist '(height . 60))
-(add-to-list 'default-frame-alist '(width . 100))
-(set-face-attribute 'default (selected-frame) :height 200)
-
 
 (if IS-MAC
     (setq mac-option-modifier 'super

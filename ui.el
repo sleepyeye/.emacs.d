@@ -1,5 +1,7 @@
 (elpaca-use-package doom-modeline
   :demand t
+	:init
+	(setq doom-modeline-height 25)
   :config
   (column-number-mode 1)
   (doom-modeline-mode)
@@ -21,7 +23,7 @@
   (setq fontaine-presets
 	'((regular
 	   :default-family "Fira Code"
-	   :default-height 200
+	   :default-height 140 
 	   :default-weight regular
 	   :fixed-pitch-family "Fira Code"
 	   :fixed-pitch-serif-family "IBM Plex Serif"
