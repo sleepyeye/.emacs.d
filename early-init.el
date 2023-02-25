@@ -32,4 +32,6 @@
 (add-to-list 'exec-path "/usr/local/bin")
 
 
+(setq ring-bell-function 'ignore)
+
 (provide 'early-init)
