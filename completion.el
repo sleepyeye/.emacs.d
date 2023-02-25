@@ -1,9 +1,9 @@
 (elpaca-use-package vertico
-  :demand t
-  :init
-  (vertico-mode)
-  (setq vertico-count 20
-	vertico-cycle t))
+	:demand t
+	:init
+	(vertico-mode)
+	(setq vertico-count 10
+				vertico-cycle t))
 
 (elpaca-use-package consult
   :demand t
@@ -43,7 +43,7 @@
 
   :config
   (setq xref-show-xrefs-function #'consult-xref
-	xref-show-definitions-function #'consult-xref))
+				xref-show-definitions-function #'consult-xref))
 
 (elpaca-use-package orderless
   :demand t
@@ -68,6 +68,8 @@
   (corfu-auto-prefix 2)
   (corfu-preview-current 'insert)
   (corfu-quit-at-boundary 'separator)
+  (corfu-scroll-margin 5)
+	(corfu-max-width 50)
   :bind
   (:map corfu-map ("M-SPC" . corfu-insert-separator))
   :init
@@ -77,6 +79,10 @@
 (elpaca-use-package cape
   :init
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-keyword))
+	;; FIXME set these cape-XXX as mode local
+  ;; (add-to-list 'completion-at-point-functions #'cape-file)
+  ;; (add-to-list 'completion-at-point-functions #'cape-keyword)
+  ;; (add-to-list 'completion-at-point-functions #'cape-symbol)
+  ;; (add-to-list 'completion-at-point-functions #'cape-tex)
+	)
 
