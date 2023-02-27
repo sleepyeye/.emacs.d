@@ -29,3 +29,11 @@
 (load "~/.emacs.d/cc.el")
 ;; (load "~/.emacs.d/python.el")
 
+(dolist (face '(window-divider
+                window-divider-first-pixel
+                window-divider-last-pixel))
+  (face-spec-reset-face face)
+  (set-face-foreground face (face-attribute 'default :background)))
+(set-face-background 'fringe (face-attribute 'default :background))
+
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))

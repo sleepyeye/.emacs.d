@@ -126,7 +126,7 @@ c-mode :when (re-search-backward "^\\S-*$" (line-beginning-position) 'noerror)
 
 (inc "#include <" (p (concat (file-name-base (or (buffer-file-name) (buffer-name))) ".h")) ">")
 (incc "#include \"" (p (concat (file-name-base (or (buffer-file-name) (buffer-name))) ".h")) "\"")
-(once "#pragma once")
+(once "#pragma once" n)
 
 c++-mode :when (re-search-backward "^\\S-*$" (line-beginning-position) 'noerror)
 
@@ -135,11 +135,11 @@ c++-mode :when (re-search-backward "^\\S-*$" (line-beginning-position) 'noerror)
 (name "namespace " (s name) " {" n "} // " (s name))
 (sp   "std::shared_ptr<" p ">")
 (up   "std::unique_ptr<" p ">")
-(arr   "std::array<" p ", " p ">")
-(vector   "std::vector<" p ">")
-(class "class " p " {" n "};")
-(struct "struct " p " {" n "};")
-(temp "template<" p ">")
+;; (arr   "std::array<" p ", " p ">")
+;; (vector   "std::vector<" p ">")
+;; (class "class " p " {" n "};")
+;; (struct "struct " p " {" n "};")
+;; (temp "template<" p ">" n)
 
 org-mode
 
