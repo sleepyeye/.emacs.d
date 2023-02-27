@@ -21,22 +21,37 @@
 	:hook (cmake-mode . lsp-deferred)
   :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'"))
 
+(use-feature cc-mode)
 (elpaca-use-package cmake-font-lock
-  :after cmake-mode
-  :config (cmake-font-lock-activate))
+  :after (cmake-mode)
+  :hook (cmake-mode . cmake-font-lock-activate))
 
 (elpaca-use-package modern-cpp-font-lock
   :config
   (modern-c++-font-lock-global-mode t))
 
 (elpaca-use-package google-c-style
-	:hook (((c-mode c++-mode) . google-set-c-style)
-				 (c-mode-common . google-make-newline-indent)))
+	:hook ((c-mode c++-mode) . google-set-c-style)
+	:hook ((c-mode c++-mode) . google-make-newline-indent))
 
-(elpaca-use-package clang-format+)
+(elpaca-use-package clang-format+
+	:hook ((c-mode-hook . clang-format+-mode)
+				 (c++-mode-hook . clang-format+-mode)))
 
-(add-hook 'c-mode-hook #'lsp-deferred)
-(add-hook 'c++-mode-hook #'lsp-deferred)
+;;; Currently we only need to guess indent offset in c-c++ modes
+(elpaca-use-package dtrt-indent
+	:hook (((c-mode c++-mode) . dtrt-indent-mode)
+				 ((c-ts-mode c++-ts-mode) . dtrt-indent-mode))
+	:config
+	;; register c-ts-mode and  c++-ts-mode to dtrt-indent
+	(add-to-list 'dtrt-indent-hook-mapping-list
+							 '(c-ts-base-mode c/c++/java c-ts-mode-indent-offset))
+	:custom
+	;; dtrt-indent mode will automatically update the listed variables
+	;; note all modes and variables should be registered in dtrt-indent-hook-mapping-list
+	(dtrt-indent-hook-generic-mapping-list
+	 '((evil-mode evil-shift-width)
+		 (c-ts-base-mode c-ts-mode-indent-offset))))
 
 (with-eval-after-load 'lsp
 	(setq-default lsp-clients-clangd-args
