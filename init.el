@@ -19,6 +19,7 @@
 (load "~/.emacs.d/workspace.el")
 (load "~/.emacs.d/expand-region.el")
 (load "~/.emacs.d/snippet.el")
+(load "~/.emacs.d/search.el")
 
 ;;; setup languages
 (load "~/.emacs.d/ansible.el")
