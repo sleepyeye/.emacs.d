@@ -23,13 +23,46 @@
       frame-resize-pixelwise t)
 
 
-;; add custom exec path
-(add-to-list 'exec-path "/opt/homebrew/bin")
-(add-to-list 'exec-path "~/.cargo/bin")
-(add-to-list 'exec-path "/Library/TeX/texbin")
-(add-to-list 'exec-path "~/miniforge3/bin")
-(add-to-list 'exec-path "~/.local/bin")
-(add-to-list 'exec-path "/usr/local/bin")
+;; From doom emacs
+(defconst IS-MAC      (eq system-type 'darwin))
+(defconst IS-LINUX    (memq system-type '(gnu gnu/linux gnu/kfreebsd berkeley-unix)))
+(defconst IS-WINDOWS  (memq system-type '(cygwin windows-nt ms-dos)))
+(defconst IS-BSD      (memq system-type '(darwin berkeley-unix gnu/kfreebsd)))
+
+
+
+;;; Setup PATH
+(cond 
+ (IS-MAC
+	(setenv "PATH" (concat "/opt/homebrew/bin" path-separator
+												 "~/.cargo/bin" path-separator
+												 "/Library/TeX/texbin" path-separator
+												 "~/miniforge3/bin" path-separator
+												 "~/.local/bin" path-separator
+												 "/usr/local/bin" path-separator
+												 (getenv "PATH"))))
+ (IS-LINUX
+	(setenv "PATH" (concat "~/.local/bin" path-separator
+												 "~/.cargo/bin" path-separator
+												 "/usr/local/bin" path-separator
+												 (getenv "PATH")))))
+
+;;; Setup exec-pat
+
+(cond
+ (IS-MAC
+	(add-to-list 'exec-path "/opt/homebrew/bin")
+	(add-to-list 'exec-path "~/.cargo/bin")
+	(add-to-list 'exec-path "/Library/TeX/texbin")
+	(add-to-list 'exec-path "~/miniforge3/bin")
+	(add-to-list 'exec-path "~/.local/bin")
+	(add-to-list 'exec-path "/usr/local/bin"))
+ (IS-LINUX
+	(add-to-list 'exec-path "~/.cargo/bin")
+	(add-to-list 'exec-path "~/.local/bin")
+	(add-to-list 'exec-path "~/micromamba/bin")
+	(add-to-list 'exec-path "/usr/local/bin")))
+
 
 
 (setq ring-bell-function 'ignore)

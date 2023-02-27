@@ -40,13 +40,6 @@ NAME and ARGS are in `use-package'."
 		 :ensure nil
 		 ,@args)))
 
-
-;; From doom emacs
-(defconst IS-MAC      (eq system-type 'darwin))
-(defconst IS-LINUX    (memq system-type '(gnu gnu/linux gnu/kfreebsd berkeley-unix)))
-(defconst IS-WINDOWS  (memq system-type '(cygwin windows-nt ms-dos)))
-(defconst IS-BSD      (memq system-type '(darwin berkeley-unix gnu/kfreebsd)))
-
 (cond
  (IS-MAC
   ;; mac-* variables are used by the special emacs-mac build of Emacs by
@@ -61,18 +54,3 @@ NAME and ARGS are in `use-package'."
  (IS-WINDOWS
   (setq w32-lwindow-modifier 'super
 	w32-rwindow-modifier 'super)))
-
-(cond 
- (IS-MAC
-	(setenv "PATH" (concat "/opt/homebrew/bin" path-separator
-												 "~/.cargo/bin" path-separator
-												 "/Library/TeX/texbin" path-separator
-												 "~/miniforge3/bin" path-separator
-												 "~/.local/bin" path-separator
-												 "/usr/local/bin" path-separator
-												 (getenv "PATH"))))
- (IS-LINUX
-	(setenv "PATH" (concat "~/.local/bin" path-separator
-												 "~/.cargo/bin" path-separator
-												 (getenv "PATH")))))
-
