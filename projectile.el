@@ -23,7 +23,15 @@
     "S" 'projectile-save-project-buffers
     "v" 'projectile-vc)
   :config
-  (projectile-mode))
+  (projectile-mode)
+	(add-to-list 'projectile-globally-ignored-directories "^\\build$")
+	(add-to-list 'projectile-globally-ignored-directories "^\\elpa$")
+	(add-to-list 'projectile-globally-ignored-directories "^\\url$")
+	(setq projectile-enable-caching t)
+	(setq projectile-require-project-root t)
 
 
-;; (elpaca-use-package consult-projectile)
+	)
+
+
+(elpaca-use-package consult-projectile)
