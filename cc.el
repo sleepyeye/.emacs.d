@@ -64,6 +64,8 @@
 		 (c-ts-base-mode c-ts-mode-indent-offset))))
 
 
+;; TODO Citre (Ctags)
+;; TODO Setup projectile for c/c++ modes
 
 ;; (add-hook 'c-mode-hook
 ;; 					'(lambda ()
