@@ -1,4 +1,4 @@
-(elpaca-use-package osx-trash
+(use-package osx-trash
   :commands osx-trash-move-file-to-trash
   :init
   ;; Delete files to trash on macOS, as an extra layer of precaution against

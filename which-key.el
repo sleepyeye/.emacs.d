@@ -1,5 +1,5 @@
 
-(elpaca-use-package which-key
+(use-package which-key
   :demand t
   :init
   (setq which-key-enable-extended-define-key t)

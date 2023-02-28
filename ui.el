@@ -1,4 +1,4 @@
-(elpaca-use-package doom-modeline
+(use-package doom-modeline
   :demand t
 	:init
 	(setq doom-modeline-height 25)
@@ -9,12 +9,12 @@
   (doom-modeline-icon t "Show icons in the modeline"))
 
 
-(elpaca-use-package modus-themes
+(use-package modus-themes
   :demand t
   :config
   (load-theme 'modus-operandi t))
 
-(elpaca-use-package fontaine
+(use-package fontaine
   :demand t
   :after modus-themes
   :init
@@ -35,7 +35,7 @@
   (fontaine-set-preset 'regular))
 
 
-(elpaca-use-package pulsar
+(use-package pulsar
   :init
   :hook
   ((consult-after-jump-hook . pulsar-recenter-top)
@@ -66,7 +66,7 @@
   (pulsar-face 'pulsar-magenta)
   (pulsar-delay 0.055))
 
-(elpaca-use-package hl-todo
+(use-package hl-todo
   :demand t
   :config
   (global-hl-todo-mode))
@@ -79,7 +79,7 @@
 ;;   (load-theme 'doom-one t)
 ;;   (doom-themes-org-config))
 
-(elpaca-use-package solaire-mode
+(use-package solaire-mode
   :config
   (solaire-global-mode +1)
   (add-hook 'ediff-prepare-buffer-hook #'solaire-mode))

@@ -17,29 +17,29 @@
 				 ))
 		`((,mode ,@style))))
 
-(elpaca-use-package cmake-mode
+(use-package cmake-mode
 	:hook (cmake-mode . lsp-deferred)
   :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'"))
 
 (use-feature cc-mode)
-(elpaca-use-package cmake-font-lock
+(use-package cmake-font-lock
   :after (cmake-mode)
   :hook (cmake-mode . cmake-font-lock-activate))
 
-(elpaca-use-package modern-cpp-font-lock
+(use-package modern-cpp-font-lock
   :config
   (modern-c++-font-lock-global-mode t))
 
-(elpaca-use-package google-c-style
+(use-package google-c-style
 	:hook ((c-mode c++-mode) . google-set-c-style)
 	:hook ((c-mode c++-mode) . google-make-newline-indent))
 
-(elpaca-use-package clang-format+
+(use-package clang-format+
 	:hook ((c-mode-hook . clang-format+-mode)
 				 (c++-mode-hook . clang-format+-mode)))
 
 ;;; Currently we only need to guess indent offset in c-c++ modes
-(elpaca-use-package dtrt-indent
+(use-package dtrt-indent
 	:hook (((c-mode c++-mode) . dtrt-indent-mode)
 				 ((c-ts-mode c++-ts-mode) . dtrt-indent-mode))
 	:config

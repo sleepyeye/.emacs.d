@@ -160,7 +160,7 @@
 	("crefname" "{")))
 
 
-(elpaca-use-package lsp-latex
+(use-package lsp-latex
   :defer t
   :init 
   :config
@@ -168,13 +168,14 @@
   (setq lsp-latex-forward-search-args '("%l" "%p" "%f")))
 
 
-(elpaca-use-package (auctex :files
+(use-package auctex
+	:elpaca (auctex :files
 			    (:defaults "*.el" "*.info" "dir" "doc" "etc" "images" "latex" "style"))
   :defer t
   :config
   (setq-default TeX-master t))
 
-(elpaca-use-package auctex-latexmk
+(use-package auctex-latexmk
   :init 
   (with-eval-after-load 'tex
     (auctex-latexmk-setup)

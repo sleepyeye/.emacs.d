@@ -1,7 +1,7 @@
-(elpaca-use-package projectile
+(use-package projectile
   :demand t
   :after (general)
-  :general
+	:config
 
   ;;; override the keymap
   (sleepy/leader-keys
@@ -34,4 +34,4 @@
 	)
 
 
-(elpaca-use-package consult-projectile)
+(use-package consult-projectile)

@@ -1,4 +1,4 @@
-(elpaca-use-package lsp-mode
+(use-package lsp-mode
 	:init
 	(setq lsp-keymap-prefix "C-c l")
 	(add-hook 'lsp-mode-hook #'evil-normalize-keymaps)
@@ -12,7 +12,7 @@
 				 (cmake-mode . lsp-deferred)
 				 (cmake-ts-mode . lsp-deferred)
 				 (lsp-mode . lsp-enable-which-key-integration))
-	:general
+	:config
 
 	(general-evil-define-key '(normal) lsp-mode-map
 		"gd" #'lsp-find-definition

@@ -1,4 +1,4 @@
-(elpaca-use-package org
+(use-package org
   :mode ("\\.org" . org-mode))
 
 

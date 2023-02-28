@@ -29,29 +29,33 @@
 (require 'elpaca-autoloads)
 (add-hook 'after-init-hook #'elpaca-process-queues)
 (elpaca `(,@elpaca-order))
-(elpaca use-package (require 'use-package))
 
+(elpaca use-package (require 'use-package))
 ;;; for built-in features
 ;;; stolen from @progfolio's emacs config
 (defmacro use-feature (name &rest args)
   "Like `use-package' but accounting for asynchronous installation.
-NAME and ARGS are in `use-package'."
+  NAME and ARGS are in `use-package'."
   (declare (indent defun))
-  `(elpaca nil (use-package ,name
-		 :ensure nil
-		 ,@args)))
+  `(use-package ,name
+     :elpaca nil
+     ,@args))
 
-(cond
- (IS-MAC
-  ;; mac-* variables are used by the special emacs-mac build of Emacs by
-  ;; Yamamoto Mitsuharu, while other builds use ns-*.
-  (setq mac-command-modifier      'super
-	ns-command-modifier       'super
-	mac-option-modifier       'meta
-	ns-option-modifier        'meta
-	;; Free up the right option for character composition
-	mac-right-option-modifier 'none
-	ns-right-option-modifier  'none))
- (IS-WINDOWS
-  (setq w32-lwindow-modifier 'super
-	w32-rwindow-modifier 'super)))
+
+(elpaca elpaca-use-package
+  (elpaca-use-package-mode)
+  (setq elpaca-use-package-by-default t))
+
+(elpaca-wait)
+
+(if debug-on-error
+    (setq use-package-verbose t
+          use-package-expand-minimally nil
+          use-package-compute-statistics t)
+  (setq use-package-verbose nil
+        use-package-expand-minimally t))
+
+
+(with-eval-after-load 'evil
+  (with-eval-after-load 'elpaca-ui (evil-make-intercept-map elpaca-ui-mode-map))
+  (with-eval-after-load 'elpaca-info (evil-make-intercept-map elpaca-info-mode-map)))

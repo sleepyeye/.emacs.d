@@ -1,4 +1,4 @@
-(elpaca-use-package quarto-mode
+(use-package quarto-mode
   :mode (("\\.Rmd" . poly-quarto-mode))
 	:config
 	(setq quarto-preview-display-buffer nil)

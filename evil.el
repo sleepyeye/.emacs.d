@@ -1,4 +1,4 @@
-(elpaca-use-package evil
+(use-package evil
   :demand t
   :init
   (setq evil-want-integration t) 
@@ -19,41 +19,44 @@
   (define-key evil-normal-state-map (kbd "C-a") 'evil-beginning-of-line)
   (define-key evil-normal-state-map (kbd "C-e") 'evil-end-of-line)
 
-  ;; ;; Even with the `evil-collections' (see below), some modes should be Emacs:
-  ;; (dolist (mode '(custom-mode
-  ;;                 eshell-mode
-  ;;                 git-rebase-mode
-  ;;                 vterm-mode))
-  ;;   (add-to-list 'evil-emacs-state-modes mode))
+
+
+  ;; Even with the `evil-collections' (see below), some modes should be Emacs:
+  (dolist (mode '(custom-mode
+                  eshell-mode
+                  git-rebase-mode
+                  vterm-mode
+									elpaca-ui-mode))
+    (add-to-list 'evil-emacs-state-modes mode))
 
   (evil-mode 1))
 
-(elpaca-use-package evil-collection
+(use-package evil-collection
   :after evil
   :demand t
   :config
   (evil-collection-init))
 
-(elpaca-use-package evil-surround
+(use-package evil-surround
   :demand t
   :config
   (global-evil-surround-mode 1))
 
 
-(elpaca-use-package evil-commentary
+(use-package evil-commentary
   :demand t
   :config
   (evil-commentary-mode))
 
-(elpaca-use-package evil-lion
+(use-package evil-lion
   :demand t
   :config
   (evil-lion-mode))
 
-(elpaca-use-package evil-textobj-line
+(use-package evil-textobj-line
   :demand t)
 
-(elpaca-use-package evil-args
+(use-package evil-args
   :demand t
   :config
   ;; bind evil-args text objects
@@ -69,7 +72,7 @@
   ;; bind evil-jump-out-args
   (define-key evil-normal-state-map "K" 'evil-jump-out-args))
 
-(elpaca-use-package evil-exchange
+(use-package evil-exchange
   :init
   (setq evil-exchange-key (kbd "gx")
         evil-exchange-cancel-key (kbd "gX"))
@@ -77,4 +80,4 @@
   (evil-exchange-install))
 
 
-(elpaca-use-package undo-fu)
+(use-package undo-fu)

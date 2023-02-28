@@ -1,7 +1,7 @@
-(elpaca-use-package perspective
+(use-package perspective
   :demand t
   :after consult
-  :general
+  :config
   (sleepy/workspace-keys
     "TAB" #'persp-switch
     "[" #'persp-prev

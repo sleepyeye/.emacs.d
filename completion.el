@@ -1,13 +1,13 @@
-(elpaca-use-package vertico
+(use-package vertico
 	:demand t
 	:init
 	(vertico-mode)
 	(setq vertico-count 10
 				vertico-cycle t))
 
-(elpaca-use-package consult
+(use-package consult
   :demand t
-  :general
+  :config
   (sleepy/buffer-keys
     "d" 'kill-current-buffer
     "r" 'revert-buffer
@@ -45,7 +45,7 @@
   (setq xref-show-xrefs-function #'consult-xref
 				xref-show-definitions-function #'consult-xref))
 
-(elpaca-use-package orderless
+(use-package orderless
   :demand t
   :custom
   (completion-styles '(orderless basic))
@@ -53,13 +53,14 @@
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
-(elpaca-use-package marginalia
+(use-package marginalia
   :demand t
   :init
   (setq marginalia-annotators-heavy t)
   (marginalia-mode))
 
-(elpaca-use-package (corfu :files (:defaults "extensions/*"))
+(use-package corfu
+  :elpaca (corfu :host github :repo "minad/corfu" :files (:defaults "extensions/*"))
   :demand t
   :custom
   (corfu-cycle t)
@@ -76,7 +77,7 @@
   (global-corfu-mode)
   (corfu-history-mode))
 
-(elpaca-use-package cape
+(use-package cape
   :init
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
 	;; FIXME set these cape-XXX as mode local

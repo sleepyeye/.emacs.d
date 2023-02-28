@@ -1,6 +1,6 @@
-(elpaca-use-package magit
+(use-package magit
   :demand t
-  :general
+  :config
   (sleepy/util-keys
    "g" 'magit-status)
   :config
@@ -15,15 +15,15 @@
 
 ;; (setq projectile-switch-project-action 'magit-status)
 
-(elpaca-use-package git-gutter
+(use-package git-gutter
   :demand t
   :config
   (global-git-gutter-mode +1))
 
 
-(elpaca-use-package git-timemachine
+(use-package git-timemachine
   :commands git-timemachine
-  :general
+  :config
   (sleepy/util-keys
    "t" 'git-timemachine))
 

@@ -1,4 +1,4 @@
-(elpaca-use-package rg
+(use-package rg
 	:init
 	(rg-enable-default-bindings)
 	:config

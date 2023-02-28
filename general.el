@@ -2,7 +2,7 @@
 (defconst sleepy/global-leader-key "C-SPC")
 
 
-(elpaca-use-package general
+(use-package general
   :demand t
   :after evil
   :config
