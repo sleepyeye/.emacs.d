@@ -1,9 +1,12 @@
 ;; backup, lock and custom files
 (setq
+ kept-new-versions 6
+ kept-old-versions 2
+ version-control t
  delete-old-versions t
  backup-by-copying t
  backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
-  
+
 (setq create-lockfiles nil
       auto-save-default t
       delete-old-versions t
