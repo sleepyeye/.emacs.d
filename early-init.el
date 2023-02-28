@@ -6,6 +6,7 @@
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
 (setq frame-inhibit-implied-resize t)
+(setq server-client-instructions nil)
 
 
 
@@ -65,7 +66,8 @@
 
 
 
-(setq ring-bell-function 'ignore)
+(setq ring-bell-function 'ignore
+      inhibit-startup-screen t)
 
 
 
@@ -73,5 +75,7 @@
 (add-to-list 'default-frame-alist '(height . 60))
 (add-to-list 'default-frame-alist '(width . 100))
 ;; (set-face-attribute 'default (selected-frame) :height 200)
+
+(advice-add #'x-apply-session-resources :override #'ignore)
 
 (provide 'early-init)
