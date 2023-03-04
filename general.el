@@ -145,3 +145,4 @@
    "l" 'evil-window-right
    "s" 'evil-window-split
    "v" 'evil-window-vsplit))
+(elpaca-wait)
