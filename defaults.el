@@ -25,7 +25,7 @@
 
 (if IS-MAC
     (setq mac-option-modifier 'super
-	  mac-command-modifier 'meta))
+					mac-command-modifier 'meta))
 
 ;; Make utf-8 default from @rougier
 (set-default-coding-systems 'utf-8)     ; Default to utf-8 encoding
@@ -36,3 +36,4 @@
 
 (setq-default tab-width 2)
 (setq make-backup-files nil)
+(setq initial-buffer-choice t)
