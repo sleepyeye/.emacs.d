@@ -7,3 +7,7 @@
 (use-package doct
   :elpaca (doct :branch "development" :protocol ssh :depth nil)
   :commands (doct))
+
+
+(use-package valign
+	:hook (org-mode . valign-mode))
