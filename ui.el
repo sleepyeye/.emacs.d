@@ -23,7 +23,7 @@
   (setq fontaine-presets
 	'((regular
 	   :default-family "Fira Code"
-	   :default-height 140 
+	   :default-height 140  ;; x10 of font size in other programs
 	   :default-weight regular
 	   :fixed-pitch-family "Fira Code"
 	   :fixed-pitch-serif-family "IBM Plex Serif"
