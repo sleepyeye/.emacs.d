@@ -90,3 +90,14 @@
 (global-display-line-numbers-mode)
 (setq text-quoting-style 'curve)
 
+
+
+;; shackle gives you the means to put an end to popped up buffers not behaving they way you’d like them to.
+(use-package shackle
+  :elpaca (shackle :depth nil)
+  :commands (shackle-mode)
+  :custom (shackle-rules '(("*Flycheck errors*"  :align below :size 0.15)
+                           ("\\`\\*Flymake diagnostics.*?\\*\\'" :align below :size 0.15 :regexp t :same nil)
+                           ("*accord*" :align below :size 0.20)
+                           ("*padscape*" :align below :size 0.20)))
+  :hook ((flycheck-mode global-flycheck-mode flymake-mode accord-mode padscape-mode) . shackle-mode))
