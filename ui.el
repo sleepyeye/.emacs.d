@@ -14,27 +14,6 @@
   :config
   (load-theme 'modus-operandi t))
 
-(use-package fontaine
-  :demand t
-  :after modus-themes
-  :init
-  (add-hook 'modus-themes-after-load-theme-hook #'fontaine-apply-current-preset)
-  :config
-  (setq fontaine-presets
-	'((regular
-	   :default-family "Fira Code"
-	   :default-height 140  ;; x10 of font size in other programs
-	   :default-weight regular
-	   :fixed-pitch-family "Fira Code"
-	   :fixed-pitch-serif-family "IBM Plex Serif"
-	   :variable-pitch-family "IBM Plex Sans"
-	   :italic-family "JuliaMono"
-	   :italic-slant italic
-	   :bold-weight bold
-	   :line-spacing 1)))
-  (fontaine-set-preset 'regular))
-
-
 (use-package pulsar
   :init
   :hook
