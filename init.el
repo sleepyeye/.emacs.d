@@ -39,3 +39,19 @@
 
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
+
+
+(use-feature simple
+  :general
+  (+general-global-toggle
+    "f" 'auto-fill-mode)
+  :custom
+  (eval-expression-debug-on-error nil)
+  (fill-column 80 "Wrap at 80 columns."))
+
+(use-feature autorevert
+  :defer 2
+  :custom
+  (auto-revert-interval 0.01 "Instantaneously revert")
+  :config
+  (global-auto-revert-mode t))
