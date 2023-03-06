@@ -17,6 +17,11 @@
 				modus-themes-mixed-fonts t
 				modus-themes-variable-pitch-ui t
 				modus-themes-disable-other-themes t)
+	;; Color customizations
+	(setq modus-themes-prompts '(bold))
+	(setq modus-themes-completions nil)
+	(setq modus-themes-org-blocks 'gray-background)
+
   :config
   (load-theme 'modus-operandi t))
 
