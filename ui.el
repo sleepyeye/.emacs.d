@@ -11,6 +11,12 @@
 
 (use-package modus-themes
   :demand t
+	:init 
+	(setq modus-themes-italic-constructs t
+				modus-themes-bold-constructs t
+				modus-themes-mixed-fonts t
+				modus-themes-variable-pitch-ui t
+				modus-themes-disable-other-themes t)
   :config
   (load-theme 'modus-operandi t))
 
@@ -50,14 +56,6 @@
   :config
   (global-hl-todo-mode))
 
-;; (elpaca-use-package doom-themes
-;;   :demand t
-;;   :config
-;;   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-;;         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-;;   (load-theme 'doom-one t)
-;;   (doom-themes-org-config))
-
 (use-package solaire-mode
   :config
   (solaire-global-mode +1)
@@ -68,7 +66,6 @@
       display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
 (setq text-quoting-style 'curve)
-
 
 
 ;; shackle gives you the means to put an end to popped up buffers not behaving they way you’d like them to.
