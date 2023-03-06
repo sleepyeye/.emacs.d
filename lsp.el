@@ -27,6 +27,11 @@
 		
 	:commands (lsp lsp-deferred)
 	:config
+	(setq lsp-completion-provider :none)
+	(defun corfu-lsp-setup ()
+		(setq-local completion-styles '(orderless)
+								completion-category-defaults nil))
+	(add-hook 'lsp-mode-hook #'corfu-lsp-setup)
 	(setq lsp-diagnostics-provider :none)
 	(setq lsp-ui-sideline-enable nil)
 	(setq lsp-eldoc-enable-hover nil)
