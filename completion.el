@@ -78,13 +78,13 @@
   (global-corfu-mode)
   (corfu-history-mode))
 
-(use-package cape
-  :init
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-	;; FIXME set these cape-XXX as mode local
-  ;; (add-to-list 'completion-at-point-functions #'cape-file)
-  ;; (add-to-list 'completion-at-point-functions #'cape-keyword)
-  ;; (add-to-list 'completion-at-point-functions #'cape-symbol)
-  ;; (add-to-list 'completion-at-point-functions #'cape-tex)
-	)
+;; (use-package cape
+;;   :init
+;;   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+;; 	;; FIXME set these cape-XXX as mode local
+;;   ;; (add-to-list 'completion-at-point-functions #'cape-file)
+;;   ;; (add-to-list 'completion-at-point-functions #'cape-keyword)
+;;   ;; (add-to-list 'completion-at-point-functions #'cape-symbol)
+;;   ;; (add-to-list 'completion-at-point-functions #'cape-tex)
+;; 	)
 
