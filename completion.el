@@ -42,6 +42,13 @@
     "r" 'consult-recent-file)
 
   :config
+	;; Turn off live-preview
+	(consult-customize
+	 consult-theme
+	 consult-recent-file
+	 :preview-key nil)
+
+
   (setq xref-show-xrefs-function #'consult-xref
 				xref-show-definitions-function #'consult-xref))
 
