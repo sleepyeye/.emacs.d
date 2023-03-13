@@ -18,6 +18,7 @@
 (use-package git-gutter
   :demand t
   :config
+	(setq git-gutter:update-interval 0.02)
   (global-git-gutter-mode +1))
 
 
