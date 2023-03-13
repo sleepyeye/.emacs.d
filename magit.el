@@ -21,6 +21,8 @@
 	(setq git-gutter:update-interval 0.02)
   (global-git-gutter-mode +1))
 
+(use-package git-gutter-fringe)
+
 
 (use-package git-timemachine
   :commands git-timemachine
