@@ -1,16 +1,8 @@
-;; backup, lock and custom files
-(setq
- kept-new-versions 6
- kept-old-versions 2
- version-control t
- delete-old-versions t
- backup-by-copying t
- backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
-
+; backup, lock and custom files
 (setq create-lockfiles nil
       auto-save-default t
       delete-old-versions t
-      kept-new-versions 6
+      kept-new-versions 4
       kept-old-versions 2
       version-control t)
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -20,12 +12,6 @@
 
 (recentf-mode 1)
 (global-hl-line-mode +1)
-
-
-
-(if IS-MAC
-    (setq mac-option-modifier 'super
-					mac-command-modifier 'meta))
 
 ;; Make utf-8 default from @rougier
 (set-default-coding-systems 'utf-8)     ; Default to utf-8 encoding
