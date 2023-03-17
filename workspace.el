@@ -2,23 +2,23 @@
   :demand t
   :after consult
   :config
-  (sleepy/workspace-keys
-    "TAB" #'persp-switch
-    "[" #'persp-prev
-    "]" #'persp-next
-    "s" #'persp-save
-    "l" #'persp-load
-    "1" #'(lambda () (interactive) (persp-switch "main"))
-    "2" #'(lambda () (interactive) (persp-switch "2"))
-    "3" #'(lambda () (interactive) (persp-switch "3"))
-    "4" #'(lambda () (interactive) (persp-switch "4"))
-    "5" #'(lambda () (interactive) (persp-switch "5"))
-    "6" #'(lambda () (interactive) (persp-switch "6"))
-    "7" #'(lambda () (interactive) (persp-switch "7"))
-    "8" #'(lambda () (interactive) (persp-switch "8"))
-    "9" #'(lambda () (interactive) (persp-switch "9"))
-    "d" #'persp-kill-buffer*
-    "D" #'persp-kill-others)
+  (sleepy/leader-def
+    "TAB TAB" #'persp-switch
+    "TAB [" #'persp-prev
+    "TAB ]" #'persp-next
+    "TAB s" #'persp-save
+    "TAB l" #'persp-load
+    "TAB 1" #'(lambda () (interactive) (persp-switch "main"))
+    "TAB 2" #'(lambda () (interactive) (persp-switch "2"))
+    "TAB 3" #'(lambda () (interactive) (persp-switch "3"))
+    "TAB 4" #'(lambda () (interactive) (persp-switch "4"))
+    "TAB 5" #'(lambda () (interactive) (persp-switch "5"))
+    "TAB 6" #'(lambda () (interactive) (persp-switch "6"))
+    "TAB 7" #'(lambda () (interactive) (persp-switch "7"))
+    "TAB 8" #'(lambda () (interactive) (persp-switch "8"))
+    "TAB 9" #'(lambda () (interactive) (persp-switch "9"))
+    "TAB d" #'persp-kill-buffer*
+    "TAB D" #'persp-kill-others)
 
 
   :custom

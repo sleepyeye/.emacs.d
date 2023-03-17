@@ -23,7 +23,7 @@
 		"=" #'lsp-format-region)
 
 
-	(sleepy/code-keys "r" #'lsp-rename)
+	(sleepy/leader-def "cr" #'lsp-rename)
 		
 	:commands (lsp lsp-deferred)
 	:config

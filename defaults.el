@@ -5,6 +5,8 @@
       kept-new-versions 4
       kept-old-versions 2
       version-control t)
+
+
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
   (load custom-file))
@@ -20,6 +22,7 @@
 (set-keyboard-coding-system 'utf-8)     ; Set coding system for keyboard input on TERMINAL
 (set-language-environment "English")    ; Set up multilingual environment
 
-(setq-default tab-width 2)
+
+(setq-default tab-width 4)
 (setq make-backup-files nil)
 (setq initial-buffer-choice t)

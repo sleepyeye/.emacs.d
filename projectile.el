@@ -4,24 +4,24 @@
 	:config
 
   ;;; override the keymap
-  (sleepy/leader-keys
+  (sleepy/leader-def
     "SPC" 'projectile-find-file)
 
-  (sleepy/project-keys
-    "!" 'projectile-run-shell-command-in-root
-    "%" 'projectile-replace-regexp
-    "&" 'projectile-run-async-shell-command-in-root
-    "-" 'projectile-dired
-    "f" 'projectile-find-file
-    "s" 'projectile-rg
-    "c" 'projectile-compile-project
-    "C" 'projectile-configure-project
-    "e" 'projectile-edit-dir-locals
-    "I" 'projectile-invalidate-cache
-    "k" 'projectile-kill-buffers
-    "R" 'projectile-replace
-    "S" 'projectile-save-project-buffers
-    "v" 'projectile-vc)
+  (sleepy/leader-def
+    "p!" 'projectile-run-shell-command-in-root
+    "p%" 'projectile-replace-regexp
+    "p&" 'projectile-run-async-shell-command-in-root
+    "p-" 'projectile-dired
+    "pf" 'projectile-find-file
+    "ps" 'projectile-rg
+    "pc" 'projectile-compile-project
+    "pC" 'projectile-configure-project
+    "pe" 'projectile-edit-dir-locals
+    "pI" 'projectile-invalidate-cache
+    "pk" 'projectile-kill-buffers
+    "pR" 'projectile-replace
+    "pS" 'projectile-save-project-buffers
+    "pv" 'projectile-vc)
   :config
   (projectile-mode)
 	(add-to-list 'projectile-globally-ignored-directories "^\\build$")

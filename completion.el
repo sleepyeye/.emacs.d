@@ -8,38 +8,38 @@
 (use-package consult
   :demand t
   :config
-  (sleepy/buffer-keys
-    "d" 'kill-current-buffer
-    "r" 'revert-buffer
-    "b" 'consult-buffer
-    "B" 'consult-buffer-other-window
-    "p" 'consult-project-buffer)
+  (sleepy/leader-def
+    "bd" 'kill-current-buffer
+    "br" 'revert-buffer
+    "bb" 'consult-buffer
+    "bB" 'consult-buffer-other-window
+    "bp" 'consult-project-buffer)
 
   ;; TODO fix name
   (defun consult-ripgrep-current ()
     (interactive)
     (consult-ripgrep default-directory))
 
-  (sleepy/search-keys
-    "i" 'consult-imenu
-    "b" 'consult-line
-    "B" 'consult-line-multi
-    "d" 'consult-ripgrep-current
-    "p" 'consult-ripgrep
-    "g" 'consult-git-grep)
+  (sleepy/leader-def
+    "si" 'consult-imenu
+    "sb" 'consult-line
+    "sB" 'consult-line-multi
+    "sd" 'consult-ripgrep-current
+    "sp" 'consult-ripgrep
+    "sg" 'consult-git-grep)
 
-  (sleepy/jump-keys
-    "i" 'consult-outline
-    "l" 'consult-goto-line
-    "o" 'consult-outline
-    "d" 'consult-ripgrep
-    "g" 'consult-git-grep)
+  (sleepy/leader-def
+    "ji" 'consult-outline
+    "jl" 'consult-goto-line
+    "jo" 'consult-outline
+    "jd" 'consult-ripgrep
+    "jg" 'consult-git-grep)
 
-  (sleepy/util-keys
-    "y" 'consult-yank-pop)
+  (sleepy/leader-def
+    "uy" 'consult-yank-pop)
 
-  (sleepy/file-keys
-    "r" 'consult-recent-file)
+  (sleepy/leader-def
+    "fr" 'consult-recent-file)
 
   :config
 	;; Turn off live-preview

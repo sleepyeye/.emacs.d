@@ -19,6 +19,8 @@
   (define-key evil-normal-state-map (kbd "C-a") 'evil-beginning-of-line)
   (define-key evil-normal-state-map (kbd "C-e") 'evil-end-of-line)
 
+	;; copy current pos to EOL instead copy the whole line.
+	(setq evil-want-Y-yank-to-eol t)
 
 
   ;; Even with the `evil-collections' (see below), some modes should be Emacs:

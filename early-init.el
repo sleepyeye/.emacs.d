@@ -14,7 +14,7 @@
 ;; things up later.
 (setq gc-cons-threshold 1073741824
       gc-cons-percentage 0.6)
-(setq read-process-output-max (* 1024 1024 32)) ;; 32mb
+(setq read-process-output-max (* 1024 1024)) ;; 32mb
 
 
 ;; Resizing the Emacs frame can be a terribly expensive part of changing the
