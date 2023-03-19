@@ -26,52 +26,6 @@
       TeX-save-query nil)
 
 
-
-;; (use-package auctex
-;;   :no-require t
-;;   :mode ("\\.tex\\'" . LaTeX-mode)
-;;   :init
-;;   (setq TeX-parse-self t ; parse on load
-;;         reftex-plug-into-AUCTeX t
-;;         TeX-auto-save t  ; parse on save
-;;         TeX-source-correlate-mode t
-;;         TeX-source-correlate-method 'synctex
-;;       TeX-source-correlate-start-server nil
-;;       TeX-electric-sub-and-superscript t
-;;       TeX-engine 'luatex ;; use lualatex by default
-;;       TeX-save-query nil))
-
-;; (use-package latex
-;;   :straight auctex
-;;   :general
-;;   (patrl/local-leader-keys
-;;     :keymaps 'LaTeX-mode-map
-;;     ;; "TAB" 'TeX-complete-symbol ;; FIXME let's 'TAB' do autocompletion (but it's kind of useless to be honest)
-;;     "=" '(reftex-toc :wk "reftex toc")
-;;     "(" '(reftex-latex :wk "reftex label")
-;;     ")" '(reftex-reference :wk "reftex ref")
-;;     "m" '(LaTeX-macro :wk "insert macro")
-;;     "s" '(LaTeX-section :wk "insert section header")
-;;     "e" '(LaTeX-environment :wk "insert environment")
-;;     "p" '(preview-at-point :wk "preview at point")
-;;     "f" '(TeX-font :wk "font")
-;;     "c" '(TeX-command-run-all :wk "compile"))
-;;   :init
-;;   (setq TeX-electric-math (cons "\\(" "\\)")) ;; '$' inserts an in-line equation '\(...\)'
-;;   ;; (setq preview-scale-function 1.5) ;; too big on vivacia
-;;   :config
-;;   ;; (add-hook 'TeX-mode-hook #'visual-line-mode)
-;;   (add-hook 'TeX-mode-hook #'reftex-mode)
-;;   (add-hook 'TeX-mode-hook #'olivetti-mode)
-;;   (add-hook 'TeX-mode-hook #'turn-on-auto-fill)
-;;   (add-hook 'TeX-mode-hook #'prettify-symbols-mode)
-;;   (add-hook 'TeX-after-compilation-finished-functions
-;;               #'TeX-revert-document-buffer)
-;;   (add-to-list 'TeX-view-program-selection '(output-pdf "PDF Tools"))
-;;   (add-hook 'TeX-mode-hook #'outline-minor-mode)
-;;   ;; (add-hook 'TeX-mode-hook #'flymake-aspell-setup)
-;;   (add-to-list 'TeX-view-program-selection '(output-pdf "Zathura")))
-
 ;; Fontification taken from https://tex.stackexchange.com/a/86119/81279.
 (setq font-latex-match-reference-keywords
       '(;; BibLaTeX.
@@ -183,23 +137,34 @@
     )
   :defer t)
 
-;; (use-package evil-tex
-;;   :hook (LaTeX-mode . evil-tex-mode))
 
-;; (add-to-list 'auto-mode-alist
-;; 	     '("\\.tex\\'" . LaTeX-mode))
+;; ;; This is from @jakebox
+;; (use-package latex ;; This is a weird one. Package is auctex but needs to be managed like this.
+;;   :elpacas nil
+;;   :mode ("\\.tex\\'" . LaTeX-mode)
+;;   :init
+;;   (setq TeX-engine 'xetex ;; Use XeTeX
+;;         latex-run-command "xetex")
+;;   (setq TeX-parse-self t ; parse on load
+;;         TeX-auto-save t  ; parse on save
+;;         TeX-source-correlate-mode t
+;;         TeX-source-correlate-method 'synctex
+;;         TeX-show-compilation nil
+;;         ;; Don't start the Emacs server when correlating sources.
+;;         TeX-source-correlate-start-server nil
+;;         ;; Automatically insert braces after sub/superscript in `LaTeX-math-mode'.
+;;         TeX-electric-sub-and-superscript t
+;;         ;; Just save, don't ask before each compilation.
+;;         TeX-save-query nil)
 
-;; (with-eval-after-load "tex-mode"
-;;   (add-hook 'tex-mode-hook #'lsp-deferred)
-;;   (add-hook 'latex-mode-hook #'lsp-deferred))
-;; (with-eval-after-load "bibtex"
-;;   (add-hook 'bibtex-mode-hook #'lsp-deferred))
-;; (setq font-latex-fontify-sectioning 'color)
+;;   ;; To use pdfview with auctex:
+;;   ;; (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+;;   ;;       TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
+;;   ;;       TeX-source-correlate-start-server t)
 
-
-(add-hook 'LaTeX-mode-hook #'lsp-deferred)
-
+;;   )
 
 ;; Update PDF buffers after successful LaTeX runs
 (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
+;; (add-hook 'LaTeX-mode-hook #'lsp-deferred)
 

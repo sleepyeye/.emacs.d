@@ -21,7 +21,6 @@
 	(setq modus-themes-prompts '(bold))
 	(setq modus-themes-completions nil)
 	(setq modus-themes-org-blocks 'gray-background)
-
   :config
   (load-theme 'modus-operandi t))
 
@@ -89,3 +88,50 @@
 ;;   (face-spec-reset-face face)
 ;;   (set-face-foreground face (face-attribute 'default :background)))
 ;; (set-face-background 'fringe (face-attribute 'default :background))
+(setq-default fringes-outside-margins nil)
+(setq-default indicate-buffer-boundaries nil) ;; Otherwise shows a corner icon on the edge
+(setq-default indicate-empty-lines nil) ;; Otherwise there are weird fringes on blank lines
+
+(set-face-attribute 'fringe nil :background nil)
+(set-face-attribute 'header-line nil :background nil :inherit 'default)
+
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+
+
+(use-package popper
+  :defer 2
+  :bind (("C-`"   . popper-toggle-latest)
+		 ("M-`"   . popper-cycle)
+		 ("C-M-`" . popper-toggle-type))
+  :init
+  (setq popper-group-function #'popper-group-by-projectile) ; projectile projects
+  (setq popper-reference-buffers
+		'("\\*Messages\\*"
+		  "Output\\*$"
+		  "\\*Warnings\\*"
+		  "\\*Async Shell Command\\*"
+		  help-mode
+		  compilation-mode))
+  (popper-mode +1)
+  (popper-echo-mode +1))
+
+
+;; ;; Uses simpleclip
+;; (defun jib/copy-whole-buffer-to-clipboard ()
+;;   "Copy entire buffer to clipboard"
+;;   (interactive)
+;;   (save-excursion
+;; 	(mark-whole-buffer)
+;; 	(simpleclip-copy (point-min) (point-max))
+;; 	(deactivate-mark))
+;;   (message "Copied entire buffer to clipboard"))
+
+;; (defun jib/emacs-clipboard-to-system-clipboard ()
+;;   "Set system clipboard to contents of Emacs kill ring."
+;;   (interactive)
+;;   (simpleclip-set-contents (substring-no-properties (nth 0 kill-ring))))
+
+;; (defun jib/system-clipboard-to-emacs-clipboard ()
+;;   "Set Emacs kill ring to contents of system clipboard."
+;;   (interactive)
+;;   (kill-new (simpleclip-get-contents)))

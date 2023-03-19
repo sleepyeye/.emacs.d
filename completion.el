@@ -83,7 +83,7 @@
   (:map corfu-map ("M-SPC" . corfu-insert-separator))
   :init
   (global-corfu-mode)
-  (corfu-history-mode))
+  (corfu-history-mode 1))
 
 ;; (use-package cape
 ;;   :init
