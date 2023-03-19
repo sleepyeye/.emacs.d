@@ -1,15 +1,15 @@
-
 (use-package which-key
   :demand t
   :init
-  (setq which-key-enable-extended-define-key t)
+  (which-key-mode)
+  (which-key-setup-minibuffer)
   :config
   (which-key-setup-side-window-bottom)
   ;; max width of which-key frame: number of columns (an integer)
   (setq which-key-frame-max-width 60)
   ;; max height of which-key frame: number of lines (an integer)
   (setq which-key-frame-max-height 20)
-  (which-key-mode)
+  (setq which-key-enable-extended-define-key t)
   :custom
   (which-key-side-window-location 'bottom)
   (which-key-sort-order 'which-key-key-order-alpha)

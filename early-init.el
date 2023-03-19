@@ -78,4 +78,21 @@
 
 (advice-add #'x-apply-session-resources :override #'ignore)
 
+
+;; MISC OPTIMIZATIONS ----
+;;; optimizations (froom Doom's core.el). See that file for descriptions.
+(setq idle-update-delay 1.0)
+
+;; Disabling bidi (bidirectional editing stuff)
+(setq-default bidi-display-reordering 'left-to-right 
+              bidi-paragraph-direction 'left-to-right)
+(setq bidi-inhibit-bpa t)  ; emacs 27 only - disables bidirectional parenthesis
+
+(setq-default cursor-in-non-selected-windows nil)
+(setq highlight-nonselected-windows nil)
+(setq fast-but-imprecise-scrolling t)
+(setq inhibit-compacting-font-caches t)
+
+
 (provide 'early-init)
+

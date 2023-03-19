@@ -1,15 +1,15 @@
 (add-to-list 'auto-mode-alist '("\\.tex\\'" . LaTeX-mode))
 ;; https://ogbe.net/emacs/latex
-;; (setq-default TeX-master nil)
-;; (setq-default TeX-command-extra-options "--shell-escape")
-;; (setq TeX-auto-save t)
-;; (setq TeX-parse-self t)
-;; (setq TeX-PDF-mode t)
-;; (setq reftex-plug-into-AUCTeX t)
-;; (setq TeX-save-query nil)
-;; (setq TeX-error-overview-open-after-TeX-run t)
-;; (setq TeX-electric-math '("$" . "$"))
-;; (setq TeX-electric-sub-and-superscript t)
+(setq-default TeX-master nil)
+(setq-default TeX-command-extra-options "--shell-escape")
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq TeX-PDF-mode t)
+(setq reftex-plug-into-AUCTeX t)
+(setq TeX-save-query nil)
+(setq TeX-error-overview-open-after-TeX-run t)
+(setq TeX-electric-math '("$" . "$"))
+(setq TeX-electric-sub-and-superscript t)
 
 (setq TeX-parse-self t ; parse on load
       TeX-auto-save t  ; parse on save

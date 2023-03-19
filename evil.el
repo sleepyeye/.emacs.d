@@ -2,8 +2,11 @@
   :demand t
   :init
   (setq evil-want-integration t) 
+  (setq evil-want-fine-undo t)
   (setq evil-want-keybinding nil)
   (setq evil-undo-system 'undo-fu)
+  ;; copy current pos to EOL instead copy the whole line.
+  (setq evil-want-Y-yank-to-eol t)
   :config
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   (global-set-key (kbd "C-g") 'keyboard-escape-quit)
@@ -19,17 +22,20 @@
   (define-key evil-normal-state-map (kbd "C-a") 'evil-beginning-of-line)
   (define-key evil-normal-state-map (kbd "C-e") 'evil-end-of-line)
 
-	;; copy current pos to EOL instead copy the whole line.
-	(setq evil-want-Y-yank-to-eol t)
 
 
   ;; Even with the `evil-collections' (see below), some modes should be Emacs:
   (dolist (mode '(custom-mode
-                  eshell-mode
-                  git-rebase-mode
-                  vterm-mode
-									elpaca-ui-mode))
-    (add-to-list 'evil-emacs-state-modes mode))
+				  eshell-mode
+				  git-rebase-mode
+				  vterm-mode
+				  elpaca-ui-mode
+				  term-mode
+				  calc-mode
+				  inferior-python-mode))
+	(add-to-list 'evil-emacs-state-modes mode))
+  (evil-set-initial-state 'debugger-mode 'motion)
+  (evil-set-initial-state 'pdf-view-mode 'motion)
 
   (evil-mode 1))
 
@@ -40,7 +46,7 @@
   (evil-collection-init))
 
 (use-package evil-surround
-  :demand t
+  :defer 2
   :config
   (global-evil-surround-mode 1))
 
@@ -77,7 +83,7 @@
 (use-package evil-exchange
   :init
   (setq evil-exchange-key (kbd "gx")
-        evil-exchange-cancel-key (kbd "gX"))
+		evil-exchange-cancel-key (kbd "gX"))
   :config
   (evil-exchange-install))
 

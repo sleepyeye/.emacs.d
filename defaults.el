@@ -1,10 +1,29 @@
 ; backup, lock and custom files
 (setq create-lockfiles nil
+	  make-backup-files nil
+      backup-by-copying t
       auto-save-default t
       delete-old-versions t
       kept-new-versions 4
       kept-old-versions 2
       version-control t)
+
+(setq use-short-answers t) 
+(setq confirm-kill-emacs 'yes-or-no-p) 
+(setq initial-scratch-message ""
+      initial-buffer-choice t)
+
+(setq save-interprogram-paste-before-kill t
+      apropos-do-all t
+      mouse-yank-at-point t)
+
+
+(setq-default display-line-numbers-width 3)
+(setq-default tab-width 4)
+
+(setq dired-kill-when-opening-new-dired-buffer t)
+(setq what-cursor-show-names t) ;; improves C-x =
+
 
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -23,13 +42,13 @@
 (set-language-environment "English")    ; Set up multilingual environment
 
 
-(setq-default tab-width 4)
-(setq make-backup-files nil)
-(setq initial-buffer-choice t)
 
 
 (use-package gcmh
   :demand t
+  :diminish gcmh-mode
   :init
-  (gcmh-mode 1))
+  (gcmh-mode 1)
+  :config
+  (setq gcmh-idle-delay 5))
 (elpaca-wait)
