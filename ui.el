@@ -67,9 +67,9 @@
   (add-hook 'ediff-prepare-buffer-hook #'solaire-mode))
   
 (setq confirm-kill-emacs 'y-or-n-p)
-(setq display-line-numbers t
-      display-line-numbers-type 'relative)
-(global-display-line-numbers-mode)
+;; (setq display-line-numbers t
+;;       display-line-numbers-type 'relative)
+;; (global-display-line-numbers-mode)
 (setq text-quoting-style 'curve)
 
 
@@ -82,3 +82,10 @@
                            ("*accord*" :align below :size 0.20)
                            ("*padscape*" :align below :size 0.20)))
   :hook ((flycheck-mode global-flycheck-mode flymake-mode accord-mode padscape-mode) . shackle-mode))
+
+;; (dolist (face '(window-divider
+;; 				window-divider-first-pixel
+;; 				window-divider-last-pixel))
+;;   (face-spec-reset-face face)
+;;   (set-face-foreground face (face-attribute 'default :background)))
+;; (set-face-background 'fringe (face-attribute 'default :background))

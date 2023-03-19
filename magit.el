@@ -14,15 +14,14 @@
 ;; I combine it with this to get a zen-like full window Git status after switching projects:
 
 ;; (setq projectile-switch-project-action 'magit-status)
-
-;; (use-package git-gutter
-;;   :demand t
-;;   :config
-;;  (setq git-gutter:disabled-modes '(org-mode asm-mode image-mode)
-;;         git-gutter:update-interval 0.1
-;;         git-gutter:window-width 1
-;;         git-gutter:ask-p nil)
-;;   (global-git-gutter-mode +1))
+(use-package git-gutter
+  :demand t
+  :init
+  (setq git-gutter:disabled-modes '(org-mode asm-mode image-mode)
+		git-gutter:window-width 1
+		git-gutter:ask-p nil)
+  :config
+  (global-git-gutter-mode +1))
 
 ;; (use-package git-gutter-fringe
 ;;   :diminish git-gutter-mode

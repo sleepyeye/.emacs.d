@@ -26,3 +26,10 @@
 (setq-default tab-width 4)
 (setq make-backup-files nil)
 (setq initial-buffer-choice t)
+
+
+(use-package gcmh
+  :demand t
+  :init
+  (gcmh-mode 1))
+(elpaca-wait)
