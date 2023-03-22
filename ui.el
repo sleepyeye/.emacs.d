@@ -98,22 +98,22 @@
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 
-(use-package popper
-  :defer 2
-  :bind (("C-`"   . popper-toggle-latest)
-		 ("M-`"   . popper-cycle)
-		 ("C-M-`" . popper-toggle-type))
-  :init
-  (setq popper-group-function #'popper-group-by-projectile) ; projectile projects
-  (setq popper-reference-buffers
-		'("\\*Messages\\*"
-		  "Output\\*$"
-		  "\\*Warnings\\*"
-		  "\\*Async Shell Command\\*"
-		  help-mode
-		  compilation-mode))
-  (popper-mode +1)
-  (popper-echo-mode +1))
+;; (use-package popper
+;;   :defer 2
+;;   :bind (("C-`"   . popper-toggle-latest)
+;; 		 ("M-`"   . popper-cycle)
+;; 		 ("C-M-`" . popper-toggle-type))
+;;   :init
+;;   (setq popper-group-function #'popper-group-by-projectile) ; projectile projects
+;;   (setq popper-reference-buffers
+;; 		'("\\*Messages\\*"
+;; 		  "Output\\*$"
+;; 		  "\\*Warnings\\*"
+;; 		  "\\*Async Shell Command\\*"
+;; 		  help-mode
+;; 		  compilation-mode))
+;;   (popper-mode +1)
+;;   (popper-echo-mode +1))
 
 
 ;; ;; Uses simpleclip
