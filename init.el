@@ -22,6 +22,7 @@
 (load "~/.emacs.d/search.el")
 ;; ;; (load "~/.emacs.d/email.el")
 (load "~/.emacs.d/misc.el")
+(load "~/.emacs.d/tags.el")
 
 ;; ;;; setup languages
 ;; ;;(load "~/.emacs.d/ansible.el")
