@@ -53,14 +53,15 @@
 	 '((evil-mode evil-shift-width)
 		 (c-ts-base-mode c-ts-mode-indent-offset))))
 
-(with-eval-after-load 'lsp
+(with-eval-after-load 'cc-mode
 	(setq-default lsp-clients-clangd-args
 								'("-j=4"
 									"--background-index"
 									;; "--clang-tidy"
 									"--completion-style=detailed"
 									"--header-insertion=never"
-									"--header-insertion-decorators=0")))
+									"--header-insertion-decorators=0"
+									"--pch-storage=memory")))
 
 
 
