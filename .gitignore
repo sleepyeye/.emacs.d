@@ -98,3 +98,5 @@ Temporary Items
 /url/
 /projectile.cache
 /.tags/
+/org-roam.db
+/.org-generic-id-locations
