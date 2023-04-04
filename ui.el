@@ -9,20 +9,38 @@
   (doom-modeline-icon t "Show icons in the modeline"))
 
 
-(use-package modus-themes
-  :demand t
-	:init 
-	(setq modus-themes-italic-constructs t
-				modus-themes-bold-constructs t
-				modus-themes-mixed-fonts t
-				modus-themes-variable-pitch-ui t
-				modus-themes-disable-other-themes t)
-	;; Color customizations
-	(setq modus-themes-prompts '(bold))
-	(setq modus-themes-completions nil)
-	(setq modus-themes-org-blocks 'gray-background)
+;; (use-package modus-themes
+;;   :demand t
+;; 	:init 
+;; 	(setq modus-themes-italic-constructs t
+;; 				modus-themes-bold-constructs t
+;; 				modus-themes-mixed-fonts t
+;; 				modus-themes-variable-pitch-ui t
+;; 				modus-themes-disable-other-themes t)
+;; 	;; Color customizations
+;; 	(setq modus-themes-prompts '(bold))
+;; 	(setq modus-themes-completions nil)
+;; 	(setq modus-themes-org-blocks 'gray-background)
+;;   :config
+;;   (load-theme 'modus-operandi t))
+
+(use-package doom-themes
+  :ensure t
   :config
-  (load-theme 'modus-operandi t))
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-snazzy t)
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  ;; (doom-themes-neotree-config)
+  ;; or for treemacs users
+  ;; (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  ;; (doom-themes-treemacs-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
 
 (use-package pulsar
   :init
@@ -95,7 +113,7 @@
 (set-face-attribute 'fringe nil :background nil)
 (set-face-attribute 'header-line nil :background nil :inherit 'default)
 
-(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+;; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 
 ;; (use-package popper
