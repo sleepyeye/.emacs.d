@@ -5,7 +5,7 @@
   (add-hook 'org-mode-hook (lambda () (setq-local completion-at-point-functions '(cape-file)))))
 
 (use-package org-contrib
-	:defer 10)
+  :defer 10)
 
 (use-package doct
   :elpaca (doct :branch "development" :protocol ssh :depth nil)
@@ -13,32 +13,32 @@
 
 
 (use-package valign
-	:hook (org-mode . valign-mode))
+  :hook (org-mode . valign-mode))
 
 
-;; (use-package org-roam
-;;   :custom
-;;   (org-roam-directory (expand-file-name "~/Dropbox/org/roam/"))
-;;   :general
+(use-package org-roam
+  :custom
+  (org-roam-directory (expand-file-name "~/Dropbox/org/roam/"))
+  :general
 
-;;   (sleepy/leader-def
-;; 	"rf" #'org-roam-node-find
-;; 	"ri" #'org-roam-node-insert 
-;; 	"rc" #'org-roam-capture
-;; 	"r]" #'org-roam-dailies-capture-today
-;; 	"rt" #'org-roam-dailies-goto-today
-;; 	"rT" #'org-roam-dailies-goto-tomorrow
-;; 	"ry" #'org-roam-dailies-goto-yesterday)
+  (sleepy/leader-def
+	"rf" #'org-roam-node-find
+	"ri" #'org-roam-node-insert 
+	"rc" #'org-roam-capture
+	"r]" #'org-roam-dailies-capture-today
+	"rt" #'org-roam-dailies-goto-today
+	"rT" #'org-roam-dailies-goto-tomorrow
+	"ry" #'org-roam-dailies-goto-yesterday)
 
-;;   :config
-;;   (setq org-roam-completion-everywhere t)
-;;   ;; If you're using a vertical completion framework, you might want a more informative completion interface
-;;   (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
-;;   (setq org-roam-database-connector 'sqlite-builtin)
-;;   (setq org-roam-dailies-capture-templates  '(("d" "default" entry "\n\n* %<%H:%M> %?"
-;; 											   :empty-lines 1
-;; 											   :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n\n\n"))))
-;;   (org-roam-db-autosync-mode)
-;;   )
+  :config
+  (setq org-roam-completion-everywhere t)
+  ;; If you're using a vertical completion framework, you might want a more informative completion interface
+  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+  (setq org-roam-database-connector 'sqlite-builtin)
+  (setq org-roam-dailies-capture-templates  '(("d" "default" entry "\n\n* %<%H:%M> %?"
+											   :empty-lines 1
+											   :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n\n\n"))))
+  (org-roam-db-autosync-mode)
+  )
 
 
