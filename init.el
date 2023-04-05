@@ -32,3 +32,5 @@
 (load "~/.emacs.d/quarto.el")
 (load "~/.emacs.d/cc.el")
 (load "~/.emacs.d/python.el")
+(load "~/.emacs.d/citar.el")
+

@@ -1,8 +1,8 @@
 (use-package org
-  :after cape
+  :defer 1
   :mode ("\\.org" . org-mode)
   :init
-  (add-hook 'org-mode-hook (lambda () (setq-local completion-at-point-functions '(cape-file)))))
+  (setq org-cite-global-bibliography '("~/Dropbox/org/ref.bib")))
 
 (use-package org-contrib
   :defer 10)
@@ -17,10 +17,10 @@
 
 
 (use-package org-roam
+  :defer 2
   :custom
   (org-roam-directory (expand-file-name "~/Dropbox/org/roam/"))
   :general
-
   (sleepy/leader-def
 	"rf" #'org-roam-node-find
 	"ri" #'org-roam-node-insert 
@@ -35,10 +35,11 @@
   ;; If you're using a vertical completion framework, you might want a more informative completion interface
   (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
   (setq org-roam-database-connector 'sqlite-builtin)
-  (setq org-roam-dailies-capture-templates  '(("d" "default" entry "\n\n* %<%H:%M> %?"
-											   :empty-lines 1
-											   :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n\n\n"))))
-  (org-roam-db-autosync-mode)
-  )
+  (setq org-roam-dailies-capture-templates
+		'(("d" "default" entry "\n\n* %<%H:%M> %?"
+		   :empty-lines 1
+		   :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n\n\n"))
+		  ))
+  (org-roam-db-autosync-mode))
 
 
