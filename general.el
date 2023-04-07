@@ -29,6 +29,7 @@
 	"f"   '(:ignore t :which-key "File")
 	"g"   '(:ignore t :which-key "Utils")
 	"w"   '(:ignore t :which-key "Window")
+	"r"   '(:ignore t :which-key "Org-roam")
 	"TAB" '(:ignore t :which-key "Workspace"))
 
 

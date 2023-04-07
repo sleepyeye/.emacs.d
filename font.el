@@ -18,7 +18,6 @@
 
 (use-package fontaine
   :demand t
-  :after modus-themes
   :init
   (add-hook 'modus-themes-after-load-theme-hook #'fontaine-apply-current-preset)
   :config

@@ -47,12 +47,12 @@
   (setq lsp-eldoc-hook nil)
   (setq lsp-modeline-code-actions-enable nil)
   (setq lsp-modeline-diagnostics-enable nil)
-  ;; (setq lsp-headerline-breadcrumb-enable nil)
+  (setq lsp-headerline-breadcrumb-enable nil)
   (setq lsp-semantic-tokens-enable nil)
   (setq lsp-enable-folding nil)
   (setq lsp-enable-imenu nil)
   (setq lsp-enable-snippet nil)
-  (setq lsp-idle-delay 0.5))
+  (setq lsp-idle-delay 0.2))
 
 ;; (elpaca-use-package consult-lsp
 ;;   :defer t
