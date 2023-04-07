@@ -32,6 +32,12 @@
   ;; subtle diff indicators in the fringe
   ;; places the git gutter outside the margins.
   (setq-default fringes-outside-margins t)
+
+  ;; Make fringe more modern
+  (setq git-gutter-fr:side 'left-fringe)
+  (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:deleted [224] nil nil '(center repeated))
   )
 
 
