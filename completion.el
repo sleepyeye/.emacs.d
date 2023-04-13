@@ -58,7 +58,11 @@
   (completion-styles '(orderless basic))
   (completion-ignore-case t)
   (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles basic partial-completion)))))
+  ;; (completion-category-overrides '((eglot (styles orderless))
+  ;; 								   (file (styles basic partial-completion))))
+  )
+
+
 
 (use-package marginalia
   :demand t

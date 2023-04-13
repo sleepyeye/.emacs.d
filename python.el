@@ -18,5 +18,3 @@
   (general-evil-define-key '(normal) python-mode-map
 	"=" #'python-black-region))
 
-;; (elpaca-use-package lsp-pyright)
-
