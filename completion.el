@@ -54,12 +54,46 @@
 
 (use-package orderless
   :demand t
-  :custom
-  (completion-styles '(orderless basic))
-  (completion-ignore-case t)
-  (completion-category-defaults nil)
-  ;; (completion-category-overrides '((eglot (styles orderless))
-  ;; 								   (file (styles basic partial-completion))))
+  :config
+  (defun +orderless--consult-suffix ()
+	"Regexp which matches the end of string with Consult tofu support."
+	(if (and (boundp 'consult--tofu-char) (boundp 'consult--tofu-range))
+		(format "[%c-%c]*$"
+				consult--tofu-char
+				(+ consult--tofu-char consult--tofu-range -1))
+	  "$"))
+
+  ;; Recognizes the following patterns:
+  ;; * .ext (file extension)
+  ;; * regexp$ (regexp matching at end)
+  (defun +orderless-consult-dispatch (word _index _total)
+	(cond
+	 ;; Ensure that $ works with Consult commands, which add disambiguation suffixes
+	 ((string-suffix-p "$" word)
+	  `(orderless-regexp . ,(concat (substring word 0 -1) (+orderless--consult-suffix))))
+	 ;; File extensions
+	 ((and (or minibuffer-completing-file-name
+			   (derived-mode-p 'eshell-mode))
+		   (string-match-p "\\`\\.." word))
+	  `(orderless-regexp . ,(concat "\\." (substring word 1) (+orderless--consult-suffix))))))
+
+  ;; Define orderless style with initialism by default
+  (orderless-define-completion-style +orderless-with-initialism
+	(orderless-matching-styles '(orderless-initialism orderless-literal orderless-regexp)))
+
+
+  (setq completion-styles '(orderless basic)
+		completion-ignore-case t
+		completion-category-defaults nil
+		completion-category-overrides '((file (styles partial-completion)) ;; partial-completion is tried first
+										;; enable initialism by default for symbols
+										;; stolen from @minad's config
+										(command (styles +orderless-with-initialism))
+										(variable (styles +orderless-with-initialism))
+										(symbol (styles +orderless-with-initialism))
+										(eglot (styles orderless)))
+		)
+
   )
 
 
