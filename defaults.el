@@ -46,3 +46,13 @@
   (setq gcmh-idle-delay 5))
 
 (elpaca-wait)
+
+
+
+(cond
+ (IS-MAC
+  ;; make title bar transparent and apply dark color
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  (add-to-list 'default-frame-alist '(ns-appearance . dark)))
+ )
+
