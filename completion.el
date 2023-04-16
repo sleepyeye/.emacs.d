@@ -124,6 +124,7 @@
   (corfu-history-mode 1))
 
 (use-package cape
+  :demand t
   :init
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   ;; FIXME set these cape-XXX as mode local

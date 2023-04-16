@@ -24,6 +24,7 @@
 ;; ;; (load "~/.emacs.d/email.el")
 (load "~/.emacs.d/misc.el")
 (load "~/.emacs.d/tags.el")
+(elpaca-wait)
 
 ;; ;;; setup languages
 ;; ;;(load "~/.emacs.d/ansible.el")
@@ -33,5 +34,6 @@
 ;; (load "~/.emacs.d/quarto.el")
 (load "~/.emacs.d/cc.el")
 (load "~/.emacs.d/python.el")
+(load "~/.emacs.d/elisp.el")
 ;; (load "~/.emacs.d/citar.el")
 
