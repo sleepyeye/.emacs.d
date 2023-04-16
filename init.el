@@ -10,7 +10,6 @@
 (load "~/.emacs.d/general.el")
 (load "~/.emacs.d/projectile.el")
 (load "~/.emacs.d/completion.el")
-;; (load "~/.emacs.d/lsp.el")
 (load "~/.emacs.d/eglot.el")
 (load "~/.emacs.d/font.el")
 (load "~/.emacs.d/ui.el")
