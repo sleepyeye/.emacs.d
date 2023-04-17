@@ -1,7 +1,7 @@
 (use-package doom-modeline
   :demand t
-	:init
-	(setq doom-modeline-height 25)
+  :init
+  (setq doom-modeline-height 25)
   :config
   (column-number-mode 1)
   (doom-modeline-mode)
@@ -29,7 +29,7 @@
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+		doom-themes-enable-italic t) ; if nil, italics is universally disabled
   (load-theme 'doom-snazzy t)
 
   ;; Enable flashing mode-line on errors
@@ -56,20 +56,20 @@
   (pulsar-global-mode 1)
   :custom
   (pulsar-pulse-functions '(recenter-top-bottom
-			    move-to-window-line-top-bottom
-			    reposition-window
-			    bookmark-jump
-			    other-window
-			    delete-window
-			    delete-other-windows
-			    forward-page
-			    backward-page
-			    scroll-up-command
-			    scroll-down-command
-			    evil-window-right
-			    evil-window-left
-			    evil-window-up
-			    evil-window-down))
+							move-to-window-line-top-bottom
+							reposition-window
+							bookmark-jump
+							other-window
+							delete-window
+							delete-other-windows
+							forward-page
+							backward-page
+							scroll-up-command
+							scroll-down-command
+							evil-window-right
+							evil-window-left
+							evil-window-up
+							evil-window-down))
   (pulsar-face 'pulsar-magenta)
   (pulsar-delay 0.055))
 
@@ -82,7 +82,7 @@
   :config
   (solaire-global-mode +1)
   (add-hook 'ediff-prepare-buffer-hook #'solaire-mode))
-  
+
 (setq confirm-kill-emacs 'y-or-n-p)
 ;; (setq display-line-numbers t
 ;;       display-line-numbers-type 'relative)
@@ -95,9 +95,9 @@
   :elpaca (shackle :depth nil)
   :commands (shackle-mode)
   :custom (shackle-rules '(("*Flycheck errors*"  :align below :size 0.15)
-                           ("\\`\\*Flymake diagnostics.*?\\*\\'" :align below :size 0.15 :regexp t :same nil)
-                           ("*accord*" :align below :size 0.20)
-                           ("*padscape*" :align below :size 0.20)))
+						   ("\\`\\*Flymake diagnostics.*?\\*\\'" :align below :size 0.15 :regexp t :same nil)
+						   ("*accord*" :align below :size 0.20)
+						   ("*padscape*" :align below :size 0.20)))
   :hook ((flycheck-mode global-flycheck-mode flymake-mode accord-mode padscape-mode) . shackle-mode))
 
 ;; (dolist (face '(window-divider
@@ -153,3 +153,40 @@
 ;;   "Set Emacs kill ring to contents of system clipboard."
 ;;   (interactive)
 ;;   (kill-new (simpleclip-get-contents)))
+
+;; FIXME
+;; Stolen from @xenodium's config
+(defun ar/show-welcome-buffer ()
+  "Show *Welcome* buffer."
+  (with-current-buffer (get-buffer-create "*Welcome*")
+	(setq truncate-lines t)
+	(let* ((buffer-read-only)
+		   (image-path "~/.emacs.d/emacs.png")
+		   (image (create-image image-path))
+		   (size (image-size image))
+		   (height (cdr size))
+		   (width (car size))
+		   (top-margin (floor (/ (- (window-height) height) 2)))
+		   (left-margin (floor (/ (- (window-width) width) 2)))
+		   (prompt-title "Welcome to Emacs!"))
+	  (erase-buffer)
+	  (setq mode-line-format nil)
+	  (goto-char (point-min))
+	  (insert (make-string top-margin ?\n ))
+	  (insert (make-string left-margin ?\ ))
+	  (insert-image image)
+	  (insert "\n\n\n")
+	  (insert (make-string (floor (/ (- (window-width) (string-width prompt-title)) 2)) ?\ ))
+	  (insert prompt-title))
+	(setq cursor-type nil)
+	(read-only-mode +1)
+	(switch-to-buffer (current-buffer))
+	(local-set-key (kbd "q") 'kill-this-buffer)))
+
+(setq initial-scratch-message nil)
+(setq inhibit-startup-screen t)
+
+(when (< (length command-line-args) 2)
+  (add-hook 'emacs-startup-hook (lambda ()
+								  (when (display-graphic-p)
+									(ar/show-welcome-buffer)))))
