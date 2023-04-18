@@ -83,22 +83,16 @@
   (solaire-global-mode +1)
   (add-hook 'ediff-prepare-buffer-hook #'solaire-mode))
 
-(setq confirm-kill-emacs 'y-or-n-p)
-;; (setq display-line-numbers t
-;;       display-line-numbers-type 'relative)
-;; (global-display-line-numbers-mode)
-(setq text-quoting-style 'curve)
 
-
-;; shackle gives you the means to put an end to popped up buffers not behaving they way you’d like them to.
-(use-package shackle
-  :elpaca (shackle :depth nil)
-  :commands (shackle-mode)
-  :custom (shackle-rules '(("*Flycheck errors*"  :align below :size 0.15)
-						   ("\\`\\*Flymake diagnostics.*?\\*\\'" :align below :size 0.15 :regexp t :same nil)
-						   ("*accord*" :align below :size 0.20)
-						   ("*padscape*" :align below :size 0.20)))
-  :hook ((flycheck-mode global-flycheck-mode flymake-mode accord-mode padscape-mode) . shackle-mode))
+;; ;; shackle gives you the means to put an end to popped up buffers not behaving they way you’d like them to.
+;; (use-package shackle
+;;   :elpaca (shackle :depth nil)
+;;   :commands (shackle-mode)
+;;   :custom (shackle-rules '(("*Flycheck errors*"  :align below :size 0.15)
+;; 						   ("\\`\\*Flymake diagnostics.*?\\*\\'" :align below :size 0.15 :regexp t :same nil)
+;; 						   ("*accord*" :align below :size 0.20)
+;; 						   ("*padscape*" :align below :size 0.20)))
+;;   :hook ((flycheck-mode global-flycheck-mode flymake-mode accord-mode padscape-mode) . shackle-mode))
 
 ;; (dolist (face '(window-divider
 ;; 				window-divider-first-pixel
@@ -116,22 +110,30 @@
 ;; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 
-;; (use-package popper
-;;   :defer 2
-;;   :bind (("C-`"   . popper-toggle-latest)
-;; 		 ("M-`"   . popper-cycle)
-;; 		 ("C-M-`" . popper-toggle-type))
-;;   :init
-;;   (setq popper-group-function #'popper-group-by-projectile) ; projectile projects
-;;   (setq popper-reference-buffers
-;; 		'("\\*Messages\\*"
-;; 		  "Output\\*$"
-;; 		  "\\*Warnings\\*"
-;; 		  "\\*Async Shell Command\\*"
-;; 		  help-mode
-;; 		  compilation-mode))
-;;   (popper-mode +1)
-;;   (popper-echo-mode +1))
+(use-package popper
+  :defer 2
+  :after perspective
+  :config
+  (setq popper-group-function #'popper-group-by-perspective) ; projectile projects
+  :init
+  (setq popper-reference-buffers
+		'("\\*Messages\\*"
+		  "Output\\*$"
+		  "\\*Warnings\\*"
+		  "\\*Async Shell Command\\*"
+		  help-mode
+		  compilation-mode
+		  "^\\*vterm.*\\*$"  vterm-mode  ;vterm as a popup
+		  "^\\*eshell.*\\*$" eshell-mode ;eshell as a popup
+		  ))
+  (setq popper-window-height 0.37)
+  (popper-mode +1)
+  (popper-echo-mode +1)
+
+  :config
+  (general-define-key
+   "C-;" #'popper-toggle-latest
+   "C-'" #'popper-cycle))
 
 
 ;; ;; Uses simpleclip
