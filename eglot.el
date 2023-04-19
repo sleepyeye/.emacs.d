@@ -3,6 +3,7 @@
   :elpaca nil
   :commands (eglot eglot-ensure)
   :config
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
   (setq completion-category-defaults nil)
   (setq eglot-extend-to-xref t)
   (add-to-list 'eglot-server-programs

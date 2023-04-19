@@ -1,3 +1,23 @@
+(defun sleepy/cc-capf ()
+  (setq-local completion-at-point-functions
+			  (list (cape-super-capf
+					 #'eglot-completion-at-point
+					 #'cape-keyword
+					 #'tempel-expand
+					 ;; #'cape-dabbrev
+					 ))))
+
+
+(with-eval-after-load 'c-mode
+  (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf))
+
+(with-eval-after-load 'c++-mode
+  (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf))
+
+(with-eval-after-load 'cc-mode
+  (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf))
+
+
 ;;;###autoload
 (defconst sleepy/c++-ts-mode--override-indent-styles
   '((((node-is "access_specifier") parent-bol 0)
