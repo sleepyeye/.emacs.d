@@ -72,3 +72,7 @@
   (setq cursor-in-non-selected-windows nil)
   ;; Avoid native dialogs.
   (setq use-dialog-box nil))
+
+
+;; eat up all whitespace
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
