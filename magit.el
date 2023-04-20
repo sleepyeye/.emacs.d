@@ -5,9 +5,8 @@
 	"gg" 'magit-status)
   :config
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
-		magit-diff-hide-trailing-cr-characters t
-		magit-save-window-configuration 'dontask)
-  )
+		magit-diff-hide-trailing-cr-characters t)
+  (setq magit-bury-buffer-function #'magit-mode-quit-window))
 
 
 
