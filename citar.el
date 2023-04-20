@@ -2,8 +2,8 @@
   :demand t
   :commands (citar-open org-roam-capture org-roam-dailies-capture-today)
   :custom
-  (citar-library-paths '("~/Dropbox/org/citar-lib/"))
-  (citar-notes-paths '("~/Dropbox/org/roam/note/"))
+  (citar-library-paths '("~/Dropbox/roam/citar-lib/"))
+  (citar-notes-paths '("~/Dropbox/roam/note/"))
   (org-cite-insert-processor 'citar)
   (org-cite-follow-processor 'citar)
   (org-cite-activate-processor 'citar)

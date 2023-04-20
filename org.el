@@ -2,7 +2,7 @@
   :defer 1
   :mode ("\\.org" . org-mode)
   :init
-  (setq org-cite-global-bibliography '("~/Dropbox/org/ref.bib")))
+  (setq org-cite-global-bibliography '("~/Dropbox/roam/ref.bib")))
 
 (use-package org-contrib
   :defer 10)
@@ -19,7 +19,7 @@
 (use-package org-roam
   :defer 2
   :custom
-  (org-roam-directory (expand-file-name "~/Dropbox/org/roam/"))
+  (org-roam-directory (expand-file-name "~/Dropbox/roam"))
   :general
   (sleepy/leader-def
 	"rf" #'org-roam-node-find
