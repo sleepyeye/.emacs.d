@@ -17,6 +17,33 @@
 		 ))
 	`((,mode ,@style))))
 
+(defun sleepy/cmake-configure-project ()
+  (interactive)
+  (let ((root-dir (projectile-project-root))
+		(export-compile-command-option "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON")
+		(surppress-werror-option "--compile-no-warning-as-error")
+		(build-options '(("Release" . "-DCMAKE_BUILD_TYPE=Release")
+						 ("Debug" . "-DCMAKE_BUILD_TYPE=Debug")
+						 ("RelWithDebInfo" . "-DCMAKE_BUILD_TYPE=RelWithDebInfo")
+						 ("MinSizeRel" . "-DCMAKE_BUILD_TYPE=MinSizeRel")))
+		(generator-options '(("Ninja" . "-G \"Ninja\"")
+							 ("Make" . "-G \"Unix Makefiles\""))))
+	(let* ((selected-build-option (completing-read "Select build type: " build-options nil t))
+		   (selected-generator-option (completing-read "Select generator type: " generator-options nil t))
+		   (build-type (cdr (assoc selected-build-option build-options)))
+		   (generator (cdr (assoc selected-generator-option generator-options)))
+		   (build-dir (expand-file-name "build" root-dir))
+		   (command (format "cmake -B %s -S %s %s %s %s" build-dir root-dir build-type generator export-compile-command-option)))
+	  (shell-command command))))
+
+(defun sleepy/cmake-build-project ()
+  (interactive)
+  (let* ((root-dir (projectile-project-root))
+		 (build-dir (expand-file-name "build" root-dir)))
+	;; FIXME replace 10 to the number of maximum threads
+	(shell-command (format "cmake --build %s --parallel 10" build-dir)))) 
+
+
 (use-package cmake-mode
   :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'"))
 
