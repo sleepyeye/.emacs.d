@@ -35,5 +35,6 @@
 (load "~/.emacs.d/python.el")
 (load "~/.emacs.d/elisp.el")
 (load "~/.emacs.d/dwim-shell-command.el")
+(load "~/.emacs.d/shell.el")
 ;; (load "~/.emacs.d/citar.el")
 
