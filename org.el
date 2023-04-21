@@ -1,6 +1,13 @@
+(defun sleepy/org-capf ()
+  (setq-local completion-at-point-functions
+			  (list (cape-super-capf
+					 #'tempel-complete
+					 #'cape-file
+					 #'cape-dabbrev))))
 (use-package org
   :defer 1
   :mode ("\\.org" . org-mode)
+  :hook (org-mode . sleepy/org-capf)
   :init
   (setq org-cite-global-bibliography '("~/Dropbox/roam/ref.bib")))
 

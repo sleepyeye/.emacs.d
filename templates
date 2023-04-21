@@ -135,11 +135,12 @@ c++-mode :when (re-search-backward "^\\S-*$" (line-beginning-position) 'noerror)
 (name "namespace " (s name) " {" n "} // " (s name))
 (sp   "std::shared_ptr<" p ">")
 (up   "std::unique_ptr<" p ">")
-;; (arr   "std::array<" p ", " p ">")
-;; (vector   "std::vector<" p ">")
-;; (class "class " p " {" n "};")
-;; (struct "struct " p " {" n "};")
-;; (temp "template<" p ">" n)
+(arr  "std::array<" p ", " p ">")
+(vec   "std::vector<" p ">")
+(cls "class " p " {" n "};")
+(str "struct " p " {" n "};")
+(tmp "template<typename " p ">" n)
+
 
 org-mode
 
@@ -157,10 +158,11 @@ org-mode
 (comment "#+begin_comment" n> r> n "#+end_comment")
 (verse "#+begin_verse" n> r> n "#+end_verse")
 (src "#+begin_src " q n> r> n "#+end_src")
+(s "#+begin_src " q n> r> n "#+end_src")
 (gnuplot "#+begin_src gnuplot :var data=" (p "table") " :file " (p "plot.png") n> r> n "#+end_src" :post (org-edit-src-code))
 (elisp "#+begin_src emacs-lisp" n> r> n "#+end_src" :post (org-edit-src-code))
 (inlsrc "src_" p "{" q "}")
-(title "#+title: " p n "#+author: Daniel Mendler" n "#+language: en")
+(title "#+title: " p n "#+author: sleepyeye" n "#+email: wonjunlee.0729@gmail.com")
 
 ;; Local Variables:
 ;; mode: lisp-data
