@@ -134,3 +134,12 @@
   ;; (add-to-list 'completion-at-point-functions #'cape-tex)
   )
 
+;; Use Dabbrev with Corfu!
+(use-package dabbrev
+  :elpaca nil
+  ;; Swap M-/ and C-M-/
+  :bind (("M-/" . dabbrev-completion)
+		 ("C-M-/" . dabbrev-expand))
+  ;; Other useful Dabbrev configurations.
+  :custom
+  (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
