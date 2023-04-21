@@ -23,7 +23,7 @@
   :general
   (sleepy/leader-def
 	"rf" #'org-roam-node-find
-	"ri" #'org-roam-node-insert 
+	"ri" #'org-roam-node-insert
 	"rc" #'org-roam-capture
 	"r]" #'org-roam-dailies-capture-today
 	"rt" #'org-roam-dailies-goto-today
@@ -43,3 +43,10 @@
   (org-roam-db-autosync-mode))
 
 
+(use-package evil-org
+  :ensure t
+  :after org
+  :hook (org-mode . (lambda () evil-org-mode))
+  :config
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))

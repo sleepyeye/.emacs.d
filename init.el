@@ -19,23 +19,24 @@
 (load "~/.emacs.d/dired.el")
 (load "~/.emacs.d/workspace.el")
 (load "~/.emacs.d/expand-region.el")
-;; ;; (load "~/.emacs.d/snippet.el")
+(load "~/.emacs.d/snippet.el")
 (load "~/.emacs.d/search.el")
 ;; ;; (load "~/.emacs.d/email.el")
 (load "~/.emacs.d/misc.el")
 (load "~/.emacs.d/tags.el")
+;; TODO popper.el
+;; TODO perspective
 (elpaca-wait)
 
 ;; ;;; setup languages
 ;; ;;(load "~/.emacs.d/ansible.el")
 ;; ;;(load "~/.emacs.d/yaml.el")
 ;; (load "~/.emacs.d/tex.el")
-;; (load "~/.emacs.d/org.el")
+(load "~/.emacs.d/org.el")
 ;; (load "~/.emacs.d/quarto.el")
 (load "~/.emacs.d/cc.el")
 (load "~/.emacs.d/python.el")
 (load "~/.emacs.d/elisp.el")
 (load "~/.emacs.d/dwim-shell-command.el")
 (load "~/.emacs.d/shell.el")
-;; (load "~/.emacs.d/citar.el")
-
+(load "~/.emacs.d/citar.el")
