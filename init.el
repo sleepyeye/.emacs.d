@@ -24,6 +24,7 @@
 ;; ;; (load "~/.emacs.d/email.el")
 (load "~/.emacs.d/misc.el")
 (load "~/.emacs.d/tags.el")
+(load "~/.emacs.d/spell-check.el")
 ;; TODO popper.el
 ;; TODO perspective
 (elpaca-wait)
