@@ -76,3 +76,10 @@
 
 ;; eat up all whitespace
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; prefer rg and fd over grep and find
+(when (executable-find "rg")
+  (setq grep-program "rg"))
+
+(when (executable-find "fd")
+  (setq find-program "fd"))
