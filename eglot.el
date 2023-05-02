@@ -21,8 +21,8 @@
 					"--header-insertion-decorators=0")))
 
   (general-evil-define-key '(normal) eglot-mode-map
-	"gd" #'xref-find-definitions
-	"gD" #'xref-find-references
+	;; "gd" #'xref-find-definitions
+	;; "gD" #'xref-find-references
 	"ga" #'eglot-code-actions
 	"g=" #'eglot-format-buffer)
   (general-evil-define-key '(normal visual motion) eglot-mode-map
@@ -38,4 +38,3 @@
    (c++-mode . eglot-ensure)
    (c-ts-mode . eglot-ensure)
    (c++-ts-mode . eglot-ensure)))
-
