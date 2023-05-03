@@ -41,12 +41,20 @@
   (IS-LINUX
     (setenv "PATH" (concat "~/.local/bin" path-separator
                            "~/.cargo/bin" path-separator
+                           "~/micromamba/bin" path-separator
                            "/usr/local/bin" path-separator
+                           "/usr/local/sbin" path-separator
+                           "/usr/sbin" path-separator
+                           "/sbin" path-separator
                            (getenv "PATH")))
     (add-to-list 'exec-path "~/.cargo/bin")
     (add-to-list 'exec-path "~/.local/bin")
     (add-to-list 'exec-path "~/micromamba/bin")
-    (add-to-list 'exec-path "/usr/local/bin")))
+    (add-to-list 'exec-path "/usr/local/bin")
+    (add-to-list 'exec-path "/usr/local/sbin")
+    (add-to-list 'exec-path "/usr/sbin")
+    (add-to-list 'exec-path "/sbin")))
+
 
 ;; Miscellaneous optimizations
 (setq idle-update-delay 1.0
