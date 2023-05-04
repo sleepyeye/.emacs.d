@@ -31,6 +31,8 @@
   :hook
   ((python-mode . eglot-ensure)
    (python-ts-mode . eglot-ensure)
+   (latex-mode . eglot-ensure)
+   (tex-mode . eglot-ensure)
    (cmake-mode . eglot-ensure)
    (cmake-ts-mode . eglot-ensure)
    (markdown-mode . eglot-ensure)
