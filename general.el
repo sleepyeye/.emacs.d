@@ -20,6 +20,7 @@
 	:global-prefix "S-SPC"
 
 	;; define menus
+	"a"   '(:ignore t :which-key "AI")
 	"h"   '(:ignore t :which-key "Help")
 	"c"   '(:ignore t :which-key "Code")
 	"p"   '(:ignore t :which-key "Project")
@@ -48,7 +49,7 @@
 	"." 'repeat)
 
   (sleepy/leader-def
-	"ff" 'find-file             
+	"ff" 'find-file
 	"fF" 'find-file-other-window)
 
   (sleepy/leader-def
