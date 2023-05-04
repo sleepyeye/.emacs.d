@@ -4,9 +4,18 @@
   (sleepy/leader-def
 	"gg" 'magit-status)
   :config
+
+  ;; See https://github.com/magit/magit/issues/2124
+  (defun mu-magit-kill-buffers (param)
+	"Restore window configuration and kill all Magit buffers."
+	(let ((buffers (magit-mode-get-buffers)))
+	  (magit-restore-window-configuration)
+	  (mapc #'kill-buffer buffers)))
+
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
 		magit-diff-hide-trailing-cr-characters t)
-  (setq magit-bury-buffer-function #'magit-mode-quit-window))
+  (setq-default magit-bury-buffer-function #'mu-magit-kill-buffers)
+  )
 
 
 
@@ -45,4 +54,3 @@
   :config
   (sleepy/leader-def
 	"gt" 'git-timemachine))
-
