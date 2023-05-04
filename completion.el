@@ -8,6 +8,12 @@
 (use-package consult
   :demand t
   :config
+  (add-to-list 'consult-buffer-filter ".*roam.org$")
+  (add-to-list 'consult-buffer-filter "\\`\\*Messages\\*\\'")
+  (add-to-list 'consult-buffer-filter "\\`\\*Completions\\*\\'")
+  (add-to-list 'consult-buffer-filter "\\`\\*Welcome\\*\\'")
+  (add-to-list 'consult-buffer-filter "magit*")
+
   (sleepy/leader-def
 	"bd" 'kill-current-buffer
 	"br" 'revert-buffer
