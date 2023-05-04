@@ -100,3 +100,7 @@ Temporary Items
 /.tags/
 /org-roam.db
 /.org-generic-id-locations
+/chatgpt/
+/image-dired/
+/persist/
+/request/
