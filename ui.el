@@ -11,7 +11,7 @@
 
 ;; (use-package modus-themes
 ;;   :demand t
-;; 	:init 
+;; 	:init
 ;; 	(setq modus-themes-italic-constructs t
 ;; 				modus-themes-bold-constructs t
 ;; 				modus-themes-mixed-fonts t
@@ -125,6 +125,7 @@
 		  compilation-mode
 		  "^\\*vterm.*\\*$"  vterm-mode  ;vterm as a popup
 		  "^\\*eshell.*\\*$" eshell-mode ;eshell as a popup
+		  "^\\*chatgpt.*\\*$" chatgpt-shell-mode ;chatgpt-shell as a popup
 		  ))
   (setq popper-window-height 0.37)
   (popper-mode +1)
