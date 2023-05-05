@@ -22,11 +22,5 @@
   (general-define-key
    "M-o" #'chatgpt-shell)
   :config
-
-  (general-define-key
-   :keymaps 'shell-maker-mode-map
-   "C-[" #'chatgpt-shell-previous-item
-   "C-]" #'chatgpt-shell-next-item)
-
   (setq chatgpt-shell-insert-queries-inline nil)
   (setq chatgpt-shell-openai-key (sleepy/get-openai-api-key)))
