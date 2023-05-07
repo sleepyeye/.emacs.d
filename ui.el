@@ -193,3 +193,15 @@
   (add-hook 'emacs-startup-hook (lambda ()
 								  (when (display-graphic-p)
 									(ar/show-welcome-buffer)))))
+
+(use-feature frame
+  :defer
+  :config
+  (setq frame-resize-pixelwise t)
+  (set-frame-parameter nil 'internal-border-width 0)
+  (set-frame-position (selected-frame) 30 60)
+  (set-frame-size (selected-frame)
+                  (- (display-pixel-width) 60 29)
+                  (- (display-pixel-height) 60 60 30)
+                  t)
+  )
