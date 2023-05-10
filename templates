@@ -164,6 +164,13 @@ org-mode
 (inlsrc "src_" p "{" q "}")
 (title "#+title: " p n "#+author: sleepyeye" n "#+email: wonjunlee.0729@gmail.com")
 
+python-base-mode
+
+(for "for " p " in " p ":" n> q)
+(tr "import " p "; " p ".set_trace()" q)
+(ig "# type: ignore" q)
+
+
 ;; Local Variables:
 ;; mode: lisp-data
 ;; outline-regexp: "[a-z]"
