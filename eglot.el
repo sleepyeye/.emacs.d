@@ -1,6 +1,4 @@
-
-(use-package eglot
-  :elpaca nil
+(use-feature eglot
   :commands (eglot eglot-ensure)
   :config
   (setq completion-category-defaults nil)
