@@ -18,6 +18,9 @@
 					"--header-insertion=never"
 					"--header-insertion-decorators=0")))
 
+  (add-to-list 'eglot-server-programs
+			   '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
+
   (general-evil-define-key '(normal) eglot-mode-map
 	;; "gd" #'xref-find-definitions
 	;; "gD" #'xref-find-references
