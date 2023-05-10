@@ -1,7 +1,7 @@
 (use-package evil
   :demand t
   :init
-  (setq evil-want-integration t) 
+  (setq evil-want-integration t)
   (setq evil-want-fine-undo t)
   (setq evil-want-keybinding nil)
   (setq evil-undo-system 'undo-fu)
@@ -46,7 +46,7 @@
   (evil-collection-init))
 
 (use-package evil-surround
-  :defer 2
+  :demand t
   :config
   (global-evil-surround-mode 1))
 
