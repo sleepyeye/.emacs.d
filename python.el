@@ -1,5 +1,21 @@
+(defun sleepy/python-capf ()
+  (setq-local completion-at-point-functions
+			  (list (cape-super-capf
+					 #'tempel-expand
+					 #'eglot-completion-at-point
+					 #'cape-keyword
+					 #'cape-dabbrev
+					 ))))
+
+
+(with-eval-after-load 'python-mode
+  (add-hook 'eglot-managed-mode-hook #'sleepy/python-capf))
+
+(with-eval-after-load 'python-ts-mode
+  (add-hook 'eglot-managed-mode-hook #'sleepy/python-capf))
+
 (use-package python
-  :after projectile 
+  :after projectile
   :init
   (setq python-indent-guess-indent-offset-verbose nil)
   :config
@@ -17,4 +33,3 @@
 
   (general-evil-define-key '(normal) python-mode-map
 	"=" #'python-black-region))
-
