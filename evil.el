@@ -94,3 +94,14 @@
 
 
 (use-package undo-fu)
+
+(use-package evil-mc
+  :after evil
+  :config
+  (define-key evil-normal-state-map (kbd "M-n") #'evil-mc-make-and-goto-next-match)
+  (define-key evil-normal-state-map "Q" #'evil-mc-undo-all-cursors)
+  (define-key evil-visual-state-map "A" #'evil-mc-make-cursor-in-visual-selection-end)
+  (define-key evil-visual-state-map "I" #'evil-mc-make-cursor-in-visual-selection-beg)
+  :config
+  (global-evil-mc-mode 1)
+  )
