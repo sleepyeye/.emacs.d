@@ -10,4 +10,6 @@
    "M-h" #'drag-stuff-left
    "M-l" #'drag-stuff-right))
 
+(use-package iedit)
+
 (use-package ialign)
