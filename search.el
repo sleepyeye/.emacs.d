@@ -13,3 +13,7 @@
 	"e" #'wgrep-change-to-wgrep-mode
 	"g" #'rg-recompile
 	"t" #'rg-rerun-change-literal))
+
+(use-package wgrep
+  :config
+  (setq wgrep-auto-save-buffer t))
