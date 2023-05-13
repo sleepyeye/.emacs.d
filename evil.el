@@ -49,7 +49,11 @@
 (use-package evil-surround
   :demand t
   :config
-  (global-evil-surround-mode 1))
+  (global-evil-surround-mode 1)
+  (define-key evil-operator-state-map "S" #'evil-Surround-edit)
+  (define-key evil-operator-state-map "s" #'evil-Surround-edit)
+  (define-key evil-visual-state-map "S" #'evil-Surround-region)
+  (define-key evil-visual-state-map "s" #'evil-Surround-region))
 
 
 (use-package evil-commentary
