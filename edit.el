@@ -16,4 +16,5 @@
 
 (use-package wgrep
   :config
+  (setq wgrep-change-readonly-file t)
   (setq wgrep-auto-save-buffer t))
