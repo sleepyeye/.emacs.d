@@ -122,7 +122,7 @@
   (corfu-quit-at-boundary 'separator)
   (corfu-quit-no-match t)
   (corfu-scroll-margin 5)
-  (corfu-max-width 50)
+  (corfu-max-width 80)
   :bind
   (:map corfu-map ("M-SPC" . corfu-insert-separator))
   :init
