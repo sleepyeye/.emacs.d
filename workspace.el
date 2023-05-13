@@ -3,7 +3,7 @@
   :after consult
   :init
   (setq persp-state-default-file (expand-file-name ".persp" user-emacs-directory))
-
+  (setq persp-suppress-no-prefix-key-warning t)
   :config
   (sleepy/leader-def
     "TAB TAB" #'persp-switch
