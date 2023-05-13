@@ -13,3 +13,7 @@
 (use-package iedit)
 
 (use-package ialign)
+
+(use-package wgrep
+  :config
+  (setq wgrep-auto-save-buffer t))
