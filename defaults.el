@@ -83,3 +83,6 @@
 
 (when (executable-find "fd")
   (setq find-program "fd"))
+
+;; scroll compile output
+(setq compilation-scroll-output t)
