@@ -9,3 +9,5 @@
    "M-k" #'drag-stuff-up
    "M-h" #'drag-stuff-left
    "M-l" #'drag-stuff-right))
+
+(use-package ialign)
