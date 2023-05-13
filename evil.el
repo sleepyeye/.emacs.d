@@ -8,8 +8,8 @@
   ;; copy current pos to EOL instead copy the whole line.
   (setq evil-want-Y-yank-to-eol t)
   :config
-  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-  (global-set-key (kbd "C-g") 'keyboard-escape-quit)
+  ;; (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  ;; (global-set-key (kbd "C-g") 'keyboard-escape-quit)
   ;; (global-set-key (kbd "<escape>") 'keyboard-quit)
   (evil-set-command-property 'xref-find-definitions :jump t)
   (evil-set-command-property 'xref-find-references :jump t)
@@ -21,7 +21,8 @@
   (define-key evil-normal-state-map (kbd "C-p") 'evil-previous-line)
   (define-key evil-normal-state-map (kbd "C-a") 'evil-beginning-of-line)
   (define-key evil-normal-state-map (kbd "C-e") 'evil-end-of-line)
-
+  (define-key evil-motion-state-map "_" 'evil-end-of-line)
+  (define-key evil-motion-state-map "0" 'evil-beginning-of-line)
 
 
   ;; Even with the `evil-collections' (see below), some modes should be Emacs:
