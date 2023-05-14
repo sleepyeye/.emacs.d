@@ -26,17 +26,17 @@
 (cond
   (IS-MAC
     (setenv "PATH" (concat "/opt/homebrew/bin" path-separator
-                           "~/.cargo/bin" path-separator
+                           (expand-file-name "~/.cargo/bin") path-separator
                            "/Library/TeX/texbin" path-separator
-                           "~/miniforge3/bin" path-separator
-                           "~/.local/bin" path-separator
+                           (expand-file-name "~/miniforge3/bin") path-separator
+                           (expand-file-name "~/.local/bin") path-separator
                            "/usr/local/bin" path-separator
                            (getenv "PATH")))
     (add-to-list 'exec-path "/opt/homebrew/bin")
-    (add-to-list 'exec-path "~/.cargo/bin")
+    (add-to-list 'exec-path (expand-file-name "~/.cargo/bin"))
     (add-to-list 'exec-path "/Library/TeX/texbin")
-    (add-to-list 'exec-path "~/miniforge3/bin")
-    (add-to-list 'exec-path "~/.local/bin")
+    (add-to-list 'exec-path (expand-file-name "~/miniforge3/bin"))
+    (add-to-list 'exec-path (expand-file-name "~/.local/bin"))
     (add-to-list 'exec-path "/usr/local/bin"))
   (IS-LINUX
     (setenv "PATH" (concat "~/.local/bin" path-separator
