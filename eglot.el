@@ -4,8 +4,8 @@
   (setq completion-category-defaults nil)
   (setq eglot-extend-to-xref t)
 
-  (add-to-list 'eglot-server-programs
-			   '((c-mode c-ts-mode c++-mode c++-ts-mode) . ("ccls")))
+  ;; (add-to-list 'eglot-server-programs
+  ;; 			   '((c-mode c-ts-mode c++-mode c++-ts-mode) . ("ccls")))
 
   ;; (add-to-list 'eglot-server-programs
   ;; 			   '((c-mode c-ts-mode c++-mode c++-ts-mode)
@@ -41,7 +41,8 @@
    (cmake-mode . eglot-ensure)
    (cmake-ts-mode . eglot-ensure)
    (markdown-mode . eglot-ensure)
-   (c-mode . eglot-ensure)
-   (c++-mode . eglot-ensure)
-   (c-ts-mode . eglot-ensure)
-   (c++-ts-mode . eglot-ensure)))
+   ;; (c-mode . eglot-ensure)
+   ;; (c++-mode . eglot-ensure)
+   ;; (c-ts-mode . eglot-ensure)
+   ;; (c++-ts-mode . eglot-ensure)
+   ))
