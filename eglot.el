@@ -3,20 +3,24 @@
   :config
   (setq completion-category-defaults nil)
   (setq eglot-extend-to-xref t)
+
   (add-to-list 'eglot-server-programs
-			   '((c-mode c-ts-mode c++-mode c++-ts-mode)
-				 . ("clangd"
-					"-j=8"
-					"--log=error"
-					;; cause crash in macos
-					;; "--malloc-trim"
-					"--background-index"
-					"--clang-tidy"
-					"--cross-file-rename"
-					"--completion-style=detailed"
-					"--pch-storage=memory"
-					"--header-insertion=never"
-					"--header-insertion-decorators=0")))
+			   '((c-mode c-ts-mode c++-mode c++-ts-mode) . ("ccls")))
+
+  ;; (add-to-list 'eglot-server-programs
+  ;; 			   '((c-mode c-ts-mode c++-mode c++-ts-mode)
+  ;; 				 . ("clangd"
+  ;; 					"-j=8"
+  ;; 					"--log=error"
+  ;; 					;; cause crash in macos
+  ;; 					;; "--malloc-trim"
+  ;; 					"--background-index"
+  ;; 					"--clang-tidy"
+  ;; 					"--cross-file-rename"
+  ;; 					"--completion-style=detailed"
+  ;; 					"--pch-storage=memory"
+  ;; 					"--header-insertion=never"
+  ;; 					"--header-insertion-decorators=0")))
 
   (add-to-list 'eglot-server-programs
 			   '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
