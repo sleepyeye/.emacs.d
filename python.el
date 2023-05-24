@@ -33,3 +33,6 @@
 
   (general-evil-define-key '(normal) python-mode-map
 	"=" #'python-black-region))
+
+
+(use-package conda)
