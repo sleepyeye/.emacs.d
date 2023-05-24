@@ -41,7 +41,7 @@
   (IS-LINUX
     (setenv "PATH" (concat "~/.local/bin" path-separator
                            "~/.cargo/bin" path-separator
-                           "~/micromamba/bin" path-separator
+                           (expand-file-name "~/miniconda3/bin") path-separator
                            "/usr/local/bin" path-separator
                            "/usr/local/sbin" path-separator
                            "/usr/sbin" path-separator
@@ -49,6 +49,7 @@
                            (getenv "PATH")))
     (add-to-list 'exec-path (expand-file-name "~/.cargo/bin"))
     (add-to-list 'exec-path (expand-file-name"~/.local/bin"))
+    (add-to-list 'exec-path (expand-file-name"~/miniconda3/bin"))
     (add-to-list 'exec-path "/usr/local/bin")
     (add-to-list 'exec-path "/usr/local/sbin")
     (add-to-list 'exec-path "/usr/sbin")
