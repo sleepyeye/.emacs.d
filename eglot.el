@@ -1,6 +1,7 @@
 (use-feature eglot
   :commands (eglot eglot-ensure)
   :config
+  (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1)))
   (setq completion-category-defaults nil)
   (setq eglot-extend-to-xref t)
 
