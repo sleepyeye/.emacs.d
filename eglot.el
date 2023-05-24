@@ -5,8 +5,8 @@
   (setq completion-category-defaults nil)
   (setq eglot-extend-to-xref t)
 
-  ;; (add-to-list 'eglot-server-programs
-  ;; 			   '((c-mode c-ts-mode c++-mode c++-ts-mode) . ("ccls")))
+  (add-to-list 'eglot-server-programs
+			   '((c-mode c-ts-mode c++-mode c++-ts-mode) . ("ccls")))
 
   ;; (add-to-list 'eglot-server-programs
   ;; 			   '((c-mode c-ts-mode c++-mode c++-ts-mode)
@@ -27,8 +27,8 @@
 			   '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
 
   (general-evil-define-key '(normal) eglot-mode-map
-	;; "gd" #'xref-find-definitions
-	;; "gD" #'xref-find-references
+	"gd" #'xref-find-definitions
+	"gr" #'xref-find-references
 	"ga" #'eglot-code-actions
 	"g=" #'eglot-format-buffer)
   (general-evil-define-key '(normal visual motion) eglot-mode-map
@@ -42,8 +42,8 @@
    (cmake-mode . eglot-ensure)
    (cmake-ts-mode . eglot-ensure)
    (markdown-mode . eglot-ensure)
-   ;; (c-mode . eglot-ensure)
-   ;; (c++-mode . eglot-ensure)
-   ;; (c-ts-mode . eglot-ensure)
-   ;; (c++-ts-mode . eglot-ensure)
+   (c-mode . eglot-ensure)
+   (c++-mode . eglot-ensure)
+   (c-ts-mode . eglot-ensure)
+   (c++-ts-mode . eglot-ensure)
    ))

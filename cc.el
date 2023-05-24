@@ -1,21 +1,21 @@
-;; (defun sleepy/cc-capf ()
-;;   (setq-local completion-at-point-functions
-;; 			  (list (cape-super-capf
-;; 					 #'eglot-completion-at-point
-;; 					 #'cape-keyword
-;; 					 #'tempel-expand
-;; 					 ;; #'cape-dabbrev
-;; 					 ))))
+(defun sleepy/cc-capf ()
+  (setq-local completion-at-point-functions
+			  (list (cape-super-capf
+					 #'eglot-completion-at-point
+					 #'cape-keyword
+					 #'tempel-expand
+					 ;; #'cape-dabbrev
+					 ))))
 
 
-;; (with-eval-after-load 'c-mode
-;;   (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf))
+(with-eval-after-load 'c-mode
+  (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf))
 
-;; (with-eval-after-load 'c++-mode
-;;   (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf))
+(with-eval-after-load 'c++-mode
+  (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf))
 
-;; (with-eval-after-load 'cc-mode
-;;   (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf))
+(with-eval-after-load 'cc-mode
+  (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf))
 
 
 
