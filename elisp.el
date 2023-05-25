@@ -8,4 +8,4 @@
 					 #'cape-file
 					 ))))
 
-(add-hook 'emacs-lisp-mode-hook #'sleepy/elisp-capf))
+(add-hook 'emacs-lisp-mode-hook #'sleepy/elisp-capf)
