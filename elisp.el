@@ -8,5 +8,4 @@
 					 #'cape-file
 					 ))))
 
-(with-eval-after-load 'emacs-lisp-mode
-  (add-hook 'eglot-managed-mode-hook #'sleepy/elisp-capf))
+(add-hook 'emacs-lisp-mode-hook #'sleepy/elisp-capf))
