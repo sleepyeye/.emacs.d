@@ -84,5 +84,9 @@
 	"ws" 'evil-window-split
 	"wv" 'evil-window-vsplit)
 
+  (general-evil-define-key 'normal prog-mode-map
+	"gd" #'xref-find-definitions
+	"gr" #'xref-find-references)
+
   )
 (elpaca-wait)

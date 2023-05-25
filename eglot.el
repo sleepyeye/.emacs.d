@@ -27,14 +27,13 @@
   (add-to-list 'eglot-server-programs
 			   '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
 
-  (general-evil-define-key '(normal) eglot-mode-map
-	"gd" #'xref-find-definitions
-	"gr" #'xref-find-references
+  (general-evil-define-key 'normal eglot-mode-map
 	"ga" #'eglot-code-actions
 	"g=" #'eglot-format-buffer)
   (general-evil-define-key '(normal visual motion) eglot-mode-map
 	"=" #'eglot-format)
   (sleepy/leader-def "cr" #'eglot-rename)
+
   :hook
   ((python-mode . eglot-ensure)
    (python-ts-mode . eglot-ensure)

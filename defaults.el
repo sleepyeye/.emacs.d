@@ -86,3 +86,5 @@
 
 ;; scroll compile output
 (setq compilation-scroll-output t)
+
+(require 'xref)
