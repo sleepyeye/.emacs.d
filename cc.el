@@ -8,15 +8,9 @@
 					 ))))
 
 
-(with-eval-after-load 'c-mode
-  (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf))
-
-(with-eval-after-load 'c++-mode
-  (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf))
-
-(with-eval-after-load 'cc-mode
-  (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf))
-
+(add-hook 'c-mode-hook #'sleepy/cc-capf)
+(add-hook 'c++-mode-hook #'sleepy/cc-capf)
+(add-hook 'cc-mode-hook #'sleepy/cc-capf)
 
 
 
