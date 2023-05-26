@@ -2,7 +2,6 @@
   :commands (eglot eglot-ensure)
   :config
   (add-to-list 'eglot-stay-out-of 'flymake)
-  (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1)))
   (setq completion-category-defaults nil)
   (setq eglot-extend-to-xref t)
 
