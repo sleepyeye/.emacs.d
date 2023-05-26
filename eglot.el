@@ -1,30 +1,21 @@
 (use-feature eglot
   :commands (eglot eglot-ensure)
   :config
-  (add-to-list 'eglot-stay-out-of 'flymake)
+  ;; (add-to-list 'eglot-stay-out-of 'flymake)
   (setq completion-category-defaults nil)
   (setq eglot-extend-to-xref t)
 
+  ;; setup language servers for each language
   (add-to-list 'eglot-server-programs
 			   '((c-mode c-ts-mode c++-mode c++-ts-mode) . ("ccls")))
-
-  ;; (add-to-list 'eglot-server-programs
-  ;; 			   '((c-mode c-ts-mode c++-mode c++-ts-mode)
-  ;; 				 . ("clangd"
-  ;; 					"-j=8"
-  ;; 					"--log=error"
-  ;; 					;; cause crash in macos
-  ;; 					;; "--malloc-trim"
-  ;; 					"--background-index"
-  ;; 					"--clang-tidy"
-  ;; 					"--cross-file-rename"
-  ;; 					"--completion-style=detailed"
-  ;; 					"--pch-storage=memory"
-  ;; 					"--header-insertion=never"
-  ;; 					"--header-insertion-decorators=0")))
-
   (add-to-list 'eglot-server-programs
 			   '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
+
+  (setq-default eglot-workspace-configuration
+				'((:python .
+						   (:venvPath (expand-file-name "~/miniforge3/envs/") :pythonPath (expand-file-name "~/miniforge3/bin/python")))
+				  (:pyright .
+							(:analysis (:useLibraryCodeForTypes t :autoImportCompletions t :typeCheckingMode "basic")))))
 
   (general-evil-define-key 'normal eglot-mode-map
 	"ga" #'eglot-code-actions
