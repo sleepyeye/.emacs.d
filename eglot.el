@@ -11,12 +11,6 @@
   (add-to-list 'eglot-server-programs
 			   '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
 
-  (setq-default eglot-workspace-configuration
-				'((:python .
-						   (:venvPath (expand-file-name "~/miniforge3/envs/") :pythonPath (expand-file-name "~/miniforge3/bin/python")))
-				  (:pyright .
-							(:analysis (:useLibraryCodeForTypes t :autoImportCompletions t :typeCheckingMode "basic")))))
-
   (general-evil-define-key 'normal eglot-mode-map
 	"ga" #'eglot-code-actions
 	"g=" #'eglot-format-buffer)

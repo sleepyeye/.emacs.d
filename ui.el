@@ -9,21 +9,6 @@
   (doom-modeline-icon t "Show icons in the modeline"))
 
 
-;; (use-package modus-themes
-;;   :demand t
-;; 	:init
-;; 	(setq modus-themes-italic-constructs t
-;; 				modus-themes-bold-constructs t
-;; 				modus-themes-mixed-fonts t
-;; 				modus-themes-variable-pitch-ui t
-;; 				modus-themes-disable-other-themes t)
-;; 	;; Color customizations
-;; 	(setq modus-themes-prompts '(bold))
-;; 	(setq modus-themes-completions nil)
-;; 	(setq modus-themes-org-blocks 'gray-background)
-;;   :config
-;;   (load-theme 'modus-operandi t))
-
 (use-package doom-themes
   :ensure t
   :config
@@ -135,27 +120,6 @@
   (general-define-key
    "C-;" #'popper-toggle-latest
    "C-'" #'popper-cycle))
-
-
-;; ;; Uses simpleclip
-;; (defun jib/copy-whole-buffer-to-clipboard ()
-;;   "Copy entire buffer to clipboard"
-;;   (interactive)
-;;   (save-excursion
-;; 	(mark-whole-buffer)
-;; 	(simpleclip-copy (point-min) (point-max))
-;; 	(deactivate-mark))
-;;   (message "Copied entire buffer to clipboard"))
-
-;; (defun jib/emacs-clipboard-to-system-clipboard ()
-;;   "Set system clipboard to contents of Emacs kill ring."
-;;   (interactive)
-;;   (simpleclip-set-contents (substring-no-properties (nth 0 kill-ring))))
-
-;; (defun jib/system-clipboard-to-emacs-clipboard ()
-;;   "Set Emacs kill ring to contents of system clipboard."
-;;   (interactive)
-;;   (kill-new (simpleclip-get-contents)))
 
 ;; FIXME
 ;; Stolen from @xenodium's config

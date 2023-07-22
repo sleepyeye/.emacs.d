@@ -103,5 +103,4 @@
   (define-key evil-visual-state-map "A" #'evil-mc-make-cursor-in-visual-selection-end)
   (define-key evil-visual-state-map "I" #'evil-mc-make-cursor-in-visual-selection-beg)
   :config
-  (global-evil-mc-mode 1)
-  )
+  (global-evil-mc-mode 1))
