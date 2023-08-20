@@ -50,15 +50,7 @@
 (elpaca elpaca-use-package
   (elpaca-use-package-mode)
   (setq elpaca-use-package-by-default t))
-
 (elpaca-wait)
-
-(if debug-on-error
-    (setq use-package-verbose t
-          use-package-expand-minimally nil
-          use-package-compute-statistics t)
-  (setq use-package-verbose nil
-        use-package-expand-minimally t))
 
 
 (with-eval-after-load 'evil
