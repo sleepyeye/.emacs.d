@@ -168,3 +168,12 @@
 				  (- (nth 3 (assq 'geometry (car (display-monitor-attributes-list)))) 60 29)
 				  (- (nth 4 (assq 'geometry (car (display-monitor-attributes-list)))) 60 60 30)
 				  t))
+
+(use-feature dired
+  :commands (dired)
+  :custom
+  (dired-listing-switches "-alhgo" "Human friendly file sizes.")
+  (dired-kill-when-opening-new-dired-buffer t))
+
+(use-package diredfl
+  :hook (dired-mode . diredfl-mode))
