@@ -20,7 +20,6 @@
 (load "~/.emacs.d/workspace.el")
 (load "~/.emacs.d/snippet.el")
 (load "~/.emacs.d/search.el")
-;; ;; (load "~/.emacs.d/email.el")
 (load "~/.emacs.d/misc.el")
 (load "~/.emacs.d/tags.el")
 (load "~/.emacs.d/secret.el")
