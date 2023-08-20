@@ -30,6 +30,6 @@
   ;; (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
   ;;       TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
   ;;       TeX-source-correlate-start-server t)
-;; (setq-default TeX-master nil)
-;; (setq-default TeX-command-extra-options "--shell-escape")
+  ;; (setq-default TeX-master nil)
+  (setq-default TeX-command-extra-options "--shell-escape")
   )
