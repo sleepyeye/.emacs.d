@@ -13,7 +13,6 @@
   (add-to-list 'load-path (if (file-exists-p build) build repo))
   (unless (file-exists-p repo)
     (make-directory repo t)
-    (when (< emacs-major-version 28) (require 'subr-x))
     (condition-case-unless-debug err
         (if-let ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
                  ((zerop (call-process "git" nil buffer t "clone"
@@ -25,7 +24,7 @@
                                        "--eval" "(byte-recompile-directory \".\" 0 'force)")))
                  ((require 'elpaca))
                  ((elpaca-generate-autoloads "elpaca" repo)))
-            (progn (message "%s" (buffer-string)) (kill-buffer buffer))
+            (kill-buffer buffer)
           (error "%s" (with-current-buffer buffer (buffer-string))))
       ((error) (warn "%s" err) (delete-directory repo 'recursive))))
   (unless (require 'elpaca-autoloads nil t)
@@ -35,20 +34,11 @@
 (add-hook 'after-init-hook #'elpaca-process-queues)
 (elpaca `(,@elpaca-order))
 
-(elpaca use-package (require 'use-package))
-;;; for built-in features
-;;; stolen from @progfolio's emacs config
-(defmacro use-feature (name &rest args)
-  "Like `use-package' but accounting for asynchronous installation.
-  NAME and ARGS are in `use-package'."
-  (declare (indent defun))
-  `(use-package ,name
-     :elpaca nil
-     ,@args))
-
-
+;; Install use-package support
 (elpaca elpaca-use-package
+  ;; Enable :elpaca use-package keyword.
   (elpaca-use-package-mode)
+  ;; Assume :elpaca t unless otherwise specified.
   (setq elpaca-use-package-by-default t))
 (elpaca-wait)
 
