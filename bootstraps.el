@@ -40,9 +40,13 @@
   (elpaca-use-package-mode)
   ;; Assume :elpaca t unless otherwise specified.
   (setq elpaca-use-package-by-default t))
-(elpaca-wait)
 
-
-(with-eval-after-load 'evil
-  (with-eval-after-load 'elpaca-ui (evil-make-intercept-map elpaca-ui-mode-map))
-  (with-eval-after-load 'elpaca-info (evil-make-intercept-map elpaca-info-mode-map)))
+;;; for built-in features
+;;; stolen from @progfolio's emacs config
+(defmacro use-feature (name &rest args)
+  "Like `use-package' but accounting for asynchronous installation.
+  NAME and ARGS are in `use-package'."
+  (declare (indent defun))
+  `(use-package ,name
+     :elpaca nil
+     ,@args))

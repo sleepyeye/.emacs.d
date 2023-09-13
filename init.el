@@ -1,8 +1,5 @@
-(defvar user-emacs-directory "~/.emacs.d")
 ;; setup built-in emacs features
-(load "~/.emacs.d/bootstraps.el")
 (load "~/.emacs.d/defaults.el")
-
 
 ;;; load core packages
 (load "~/.emacs.d/which-key.el")

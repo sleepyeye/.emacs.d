@@ -72,3 +72,13 @@
 
 ;; Disable x-apply-session-resources
 (advice-add #'x-apply-session-resources :override #'ignore)
+
+
+;; Load elpaca
+(defvar user-emacs-directory "~/.emacs.d")
+(load (concat user-emacs-directory "bootstraps"))
+(elpaca-wait)
+
+(with-eval-after-load 'evil
+  (with-eval-after-load 'elpaca-ui (evil-make-intercept-map elpaca-ui-mode-map))
+  (with-eval-after-load 'elpaca-info (evil-make-intercept-map elpaca-info-mode-map)))
