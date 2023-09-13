@@ -72,5 +72,3 @@
 
 ;; Disable x-apply-session-resources
 (advice-add #'x-apply-session-resources :override #'ignore)
-
-(provide 'early-init)
