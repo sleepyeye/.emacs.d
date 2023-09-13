@@ -2,8 +2,8 @@
 (load "~/.emacs.d/defaults.el")
 
 ;;; load core packages
-(load "~/.emacs.d/evil.el")
 (load "~/.emacs.d/general.el")
+(load "~/.emacs.d/evil.el")
 (load "~/.emacs.d/edit.el")
 (load "~/.emacs.d/projectile.el")
 (load "~/.emacs.d/completion.el")
