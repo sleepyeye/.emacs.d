@@ -56,6 +56,12 @@
     (add-to-list 'exec-path "/sbin")))
 
 
+(cond
+ (IS-MAC
+  ;; make title bar transparent and apply dark color
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  (add-to-list 'default-frame-alist '(ns-appearance . dark))))
+
 ;; Miscellaneous optimizations
 (setq idle-update-delay 1.0
       bidi-display-reordering 'left-to-right
