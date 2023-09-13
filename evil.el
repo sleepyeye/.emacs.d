@@ -7,6 +7,7 @@
   (setq evil-undo-system 'undo-fu)
   ;; copy current pos to EOL instead copy the whole line.
   (setq evil-want-Y-yank-to-eol t)
+  (setq evil-respect-visual-line-mode t)
   :config
   ;; (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   ;; (global-set-key (kbd "C-g") 'keyboard-escape-quit)
@@ -37,12 +38,14 @@
 	(add-to-list 'evil-emacs-state-modes mode))
   (evil-set-initial-state 'debugger-mode 'motion)
   (evil-set-initial-state 'pdf-view-mode 'motion)
+  (evil-set-initial-state 'git-commit-mode 'insert)
 
   (evil-mode 1))
 
 (use-package evil-collection
   :after evil
   :demand t
+  :diminish evil-collection-unimpaired-mode
   :config
   (evil-collection-init))
 
@@ -50,11 +53,12 @@
   :demand t
   :config
   (global-evil-surround-mode 1)
-  (define-key evil-operator-state-map "S" #'evil-Surround-edit)
-  (define-key evil-operator-state-map "s" #'evil-Surround-edit)
-  (define-key evil-visual-state-map "S" #'evil-Surround-region)
-  (define-key evil-visual-state-map "s" #'evil-Surround-region))
-
+  :general
+  (:states 'visual
+           "s" 'evil-surround-region
+           "S" 'evil-Surround-region)
+  (:states 'operator
+            "s" 'evil-surround-edit))
 
 (use-package evil-commentary
   :demand t
@@ -97,10 +101,12 @@
 
 (use-package evil-mc
   :after evil
-  :config
-  (define-key evil-normal-state-map (kbd "M-n") #'evil-mc-make-and-goto-next-match)
-  (define-key evil-normal-state-map "Q" #'evil-mc-undo-all-cursors)
-  (define-key evil-visual-state-map "A" #'evil-mc-make-cursor-in-visual-selection-end)
-  (define-key evil-visual-state-map "I" #'evil-mc-make-cursor-in-visual-selection-beg)
+  :general
+  (:states 'visual
+		   "A" #'evil-mc-make-cursor-in-visual-selection-end
+		   "I" #'evil-mc-make-cursor-in-visual-selection-beg)
+  (:states 'normal
+		   "M-n" #'evil-mc-make-and-goto-next-match
+		   "Q"   #'evil-mc-undo-all-cursors)
   :config
   (global-evil-mc-mode 1))

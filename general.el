@@ -4,22 +4,22 @@
 
 (use-package general
   :demand t
-  :after evil
   :config
 
-  (general-override-mode)
   (general-auto-unbind-keys)
-  (general-evil-setup)
+  (general-evil-setup t)
+  (general-override-mode)
 
-	;;; create definers
+  ;;; create definers
   (general-create-definer sleepy/leader-def
 	:wk-full-keys nil
 	:keymaps       'override
-	:states        '(insert normal hybrid motion visual operator emacs)
+	:states        '(normal visual insert emacs)
 	:prefix        "SPC"
-	:global-prefix "S-SPC"
+	:global-prefix "S-SPC")
 
-	;; define menus
+  ;;; define menus
+  (sleepy/leader-def
 	"a"   '(:ignore t :which-key "AI")
 	"h"   '(:ignore t :which-key "Help")
 	"c"   '(:ignore t :which-key "Code")
@@ -34,19 +34,22 @@
 	"TAB" '(:ignore t :which-key "Workspace"))
 
 
+  ;;; setup global keybindings
   (general-define-key
    "s-x" 'execute-extended-command
    "C-=" 'text-scale-increase
    "C--" 'text-scale-decrease)
 
 
-	;;; setup leader keybindings
+   ;;; setup leader keybindings
   (sleepy/leader-def
 	"SPC" 'find-file
 	"-" 'dired-jump
 	"!" 'shell-command
 	":" 'eval-expression
-	"." 'repeat)
+	"." 'repeat
+    "!" 'shell-command
+    "&" 'async-shell-command)
 
   (sleepy/leader-def
 	"ff" 'find-file
