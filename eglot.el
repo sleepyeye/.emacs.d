@@ -12,6 +12,9 @@
 			   '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
 
   :general
+  (sleepy/leader-def
+	"ca" #'eglot-code-action)
+
   (:keymaps 'eglot-mode-map :states 'normal
 			"ga" #'eglot-code-action
 			"ga" #'eglot-format-buffer
