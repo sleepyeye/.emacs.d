@@ -7,15 +7,18 @@
 
   ;; setup language servers for each language
   (add-to-list 'eglot-server-programs
-			   '((c-mode c-ts-mode c++-mode c++-ts-mode) . ("ccls")))
+			   '((c-mode c-ts-mode c++-mode c++-ts-mode) . ("clangd")))
   (add-to-list 'eglot-server-programs
 			   '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
 
-  (general-evil-define-key 'normal eglot-mode-map
-	"ga" #'eglot-code-actions
-	"g=" #'eglot-format-buffer)
-  (general-evil-define-key '(normal visual motion) eglot-mode-map
-	"=" #'eglot-format)
+  :general
+  (:keymaps 'eglot-mode-map :states 'normal
+			"ga" #'eglot-code-action
+			"ga" #'eglot-format-buffer
+			"g=" #'eglot-format)
+  (:keymaps 'eglot-mode-map :states 'visual
+			"g=" #'eglot-format)
+
   (sleepy/leader-def "cr" #'eglot-rename)
 
   :hook
@@ -29,5 +32,10 @@
    (c-mode . eglot-ensure)
    (c++-mode . eglot-ensure)
    (c-ts-mode . eglot-ensure)
-   (c++-ts-mode . eglot-ensure)
-   ))
+   (c++-ts-mode . eglot-ensure)))
+
+(use-package consult-eglot
+  :after eglot
+  :general
+  (sleepy/leader-def
+    "cs" 'consult-eglot-symbols))
