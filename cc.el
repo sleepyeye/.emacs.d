@@ -1,12 +1,11 @@
 (defun sleepy/cc-capf ()
   (setq-local completion-at-point-functions
 			  (list (cape-super-capf
+					 #'tempel-expand
 					 #'eglot-completion-at-point
 					 #'cape-keyword
-					 #'tempel-expand
-					 ;; #'cape-dabbrev
+					 #'cape-dabbrev
 					 ))))
-
 
 (add-hook 'c-mode-hook #'sleepy/cc-capf)
 (add-hook 'c++-mode-hook #'sleepy/cc-capf)
@@ -38,9 +37,10 @@
 (use-package cmake-mode
   :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'"))
 
-(use-feature compile)
+(use-package compile :elpaca nil)
 
-(use-feature cc-mode
+(use-package cc-mode
+  :elpaca nil
   :after projectile
   :config
   (defun sleepy/cmake-configure-project ()
@@ -66,12 +66,12 @@
 	(interactive)
 	(let* ((root-dir (projectile-project-root))
 		   (build-dir (expand-file-name "build" root-dir))
-		   (command (format "cmake --build %s --parallel 10" build-dir)))
+		   (command (format "cmake --build %s" build-dir)))
 	  (compile command)))
 
   (setq-default projectile-project-compilation-cmd #'sleepy/cmake-build-project)
-  (setq-default projectile-project-configure-cmd #'sleepy/cmake-configure-project)
-  )
+  (setq-default projectile-project-configure-cmd #'sleepy/cmake-configure-project))
+
 (use-package cmake-font-lock
   :after (cmake-mode)
   :hook (cmake-mode . cmake-font-lock-activate))
@@ -79,7 +79,6 @@
 (use-package modern-cpp-font-lock
   :config
   (modern-c++-font-lock-global-mode t))
-
 
 (use-package clang-format+
   :hook ((c-mode-hook . clang-format+-mode)
