@@ -13,3 +13,9 @@
 	"e" #'wgrep-change-to-wgrep-mode
 	"g" #'rg-recompile
 	"t" #'rg-rerun-change-literal))
+
+(use-package dumb-jump
+  :demand t
+  :config
+  ;; (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
