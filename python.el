@@ -8,6 +8,9 @@
 					 ))))
 
 
+;; Open python files in tree-sitter mode.
+(add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
+
 (add-hook 'python-mode #'sleepy/python-capf)
 (add-hook 'python-ts-mode #'sleepy/python-capf)
 
@@ -23,15 +26,12 @@
 (use-package python-black
   :after python
   :general
-  (:keymaps 'python-mode-map :states 'normal "=" #'python-black-region))
+  (:keymaps 'python-mode-map :states 'normal "=" #'python-black-region)
+  (:keymaps 'python-ts-mode-map :states 'normal "=" #'python-black-region))
 
 
 (use-package conda
   :defer t
   :config
   (conda-env-initialize-interactive-shells)
-  (conda-env-initialize-eshell)
-
-  :init
-  (setq conda-anaconda-home (expand-file-name "~/miniforge3"))
-  (setq conda-env-home-directory (expand-file-name "~/miniforge3")))
+  (conda-env-initialize-eshell))

@@ -11,7 +11,7 @@
 (load "~/.emacs.d/font.el")
 (load "~/.emacs.d/ui.el")
 (load "~/.emacs.d/magit.el")
-;; ;;(load "~/.emacs.d/tree-sitter.el")
+(load "~/.emacs.d/tree-sitter.el")
 (load "~/.emacs.d/workspace.el")
 (load "~/.emacs.d/search.el")
 (load "~/.emacs.d/misc.el")
