@@ -30,8 +30,21 @@
   (:keymaps 'python-ts-mode-map :states 'normal "=" #'python-black-region))
 
 
+;;; TODO Currently conda auto activation depends on following dir-local script.
+;;; Make following as file template or make it general somehow
+;; ((python-ts-mode
+;;   . ((conda-project-env-name . "deno")
+;;      (eval . (setq conda-project-env-path
+;;                    (expand-file-name "envs/deno" conda-anaconda-home)))))
+;;  (python-mode
+;;   . ((conda-project-env-name . "deno")
+;;      (eval . (setq conda-project-env-path
+;;                    (expand-file-name "envs/deno" conda-anaconda-home))))))
 (use-package conda
-  :defer t
   :config
+  (setq conda-anaconda-home (expand-file-name "~/miniforge3/"))
   (conda-env-initialize-interactive-shells)
-  (conda-env-initialize-eshell))
+  (conda-env-initialize-eshell)
+  (conda-env-autoactivate-mode t)
+  (add-hook 'find-file-hook (lambda () (when (bound-and-true-p conda-project-env-path)
+										 (conda-env-activate-for-buffer)))))
