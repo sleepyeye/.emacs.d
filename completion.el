@@ -28,6 +28,7 @@
 
   (sleepy/leader-def
 	"si" 'consult-imenu
+	"sI" 'consult-imenu-multi
 	"sb" 'consult-line
 	"sB" 'consult-line-multi
 	"sd" 'consult-ripgrep-current
