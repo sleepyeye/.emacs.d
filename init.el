@@ -15,7 +15,6 @@
 (load "~/.emacs.d/workspace.el")
 (load "~/.emacs.d/search.el")
 (load "~/.emacs.d/misc.el")
-(load "~/.emacs.d/tags.el")
 (load "~/.emacs.d/secret.el")
 (load "~/.emacs.d/ai.el")
 ;; TODO popper.el
