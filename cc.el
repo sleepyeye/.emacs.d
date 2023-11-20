@@ -69,8 +69,8 @@
 		   (command (format "cmake --build %s" build-dir)))
 	  (compile command)))
 
-  (setq-default projectile-project-compilation-cmd #'sleepy/cmake-build-project)
-  (setq-default projectile-project-configure-cmd #'sleepy/cmake-configure-project))
+  (setq-local projectile-project-compilation-cmd #'sleepy/cmake-build-project)
+  (setq-local projectile-project-configure-cmd #'sleepy/cmake-configure-project))
 
 (use-package cmake-font-lock
   :after (cmake-mode)
