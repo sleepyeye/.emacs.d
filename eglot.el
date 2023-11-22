@@ -10,7 +10,8 @@
 			   '((c-mode c-ts-mode c++-mode c++-ts-mode) . ("clangd")))
   (add-to-list 'eglot-server-programs
 			   '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
-
+  (add-to-list 'eglot-server-programs
+			   '((tex-mode latex-mode LaTex-mode) . ("texlab")))
   :general
   (sleepy/leader-def
 	"ca" #'eglot-code-action)
@@ -29,9 +30,10 @@
    (python-ts-mode . eglot-ensure)
    (latex-mode . eglot-ensure)
    (tex-mode . eglot-ensure)
+   (LaTeX-mode . eglot-ensure)
    (cmake-mode . eglot-ensure)
    (cmake-ts-mode . eglot-ensure)
-   (markdown-mode . eglot-ensure)
+   ;; (markdown-mode . eglot-ensure)
    (c-mode . eglot-ensure)
    (c++-mode . eglot-ensure)
    (c-ts-mode . eglot-ensure)
