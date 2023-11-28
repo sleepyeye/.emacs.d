@@ -26,7 +26,10 @@
 ;; (setq projectile-switch-project-action 'magit-status)
 (use-package git-gutter
   :demand t
-  :hook (prog-mode . git-gutter-mode)
+  :hook ((prog-mode . git-gutter-mode)
+		 (TeX-mode . git-gutter-mode)
+		 (LaTeX-mode . git-gutter-mode)
+		 (tex-mode . git-gutter-mode))
   :init
   (setq git-gutter:disabled-modes '(org-mode asm-mode image-mode)
 		git-gutter:window-width 1
