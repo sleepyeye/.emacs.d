@@ -1,14 +1,15 @@
 (use-package auctex
-	:elpaca (auctex :files
-			    (:defaults "*.el" "*.info" "dir" "doc" "etc" "images" "latex" "style"))
-  :defer t
-  :config
-  (setq-default TeX-master t))
+  :elpaca (auctex :files
+				  (:defaults "*.el" "*.info" "dir" "doc" "etc" "images" "latex" "style"))
+  :defer t)
+
+
 
 ;; This is from @jakebox
-(use-feature latex ;; This is a weird one. Package is auctex but needs to be managed like this.
+(use-package latex ;; This is a weird one. Package is auctex but needs to be managed like this.
+  :elpaca nil
   :mode ("\\.tex\\'" . latex-mode)
-  :init
+  :config
   ;; (setq TeX-engine 'xetex ;; Use XeTeX
   ;; 		latex-run-command "xetex")
   (setq TeX-parse-self t ; parse on load
@@ -26,10 +27,20 @@
 		TeX-electric-math '("$" . "$")
 		)
 
-  ;; To use pdfview with auctex:
-  ;; (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
-  ;;       TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
-  ;;       TeX-source-correlate-start-server t)
-  ;; (setq-default TeX-master nil)
-  (setq-default TeX-command-extra-options "--shell-escape")
-  )
+  (add-to-list 'TeX-view-program-list
+			   `("Sioyek"
+				 ("sioyek ",
+				  ;;; TODO inverse search
+				  ;;; FIXME, reuse-instance blocks break synctex
+				  ;;; check https://github.com/ahrm/sioyek/issues/768#issuecomment-1640564592
+				  ;; "--reuse-instance "
+				  "--forward-search-file "
+				  "%b "
+				  "--forward-search-line "
+				  "%n "
+				  "%o")))
+
+  (add-to-list 'TeX-view-program-selection '(output-pdf "Sioyek"))
+
+  (setq-default TeX-master nil)
+  (setq-default TeX-command-extra-options "--shell-escape"))
