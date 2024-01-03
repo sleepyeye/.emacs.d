@@ -22,6 +22,8 @@
   (define-key evil-normal-state-map (kbd "C-p") 'evil-previous-line)
   (define-key evil-normal-state-map (kbd "C-a") 'evil-beginning-of-line)
   (define-key evil-normal-state-map (kbd "C-e") 'evil-end-of-line)
+  (define-key evil-normal-state-map (kbd "C-A") 'evil-beginning-of-visual-line)
+  (define-key evil-normal-state-map (kbd "C-E") 'evil-end-of-visual-line)
   (define-key evil-motion-state-map "_" 'evil-end-of-line)
   (define-key evil-motion-state-map "0" 'evil-beginning-of-line)
 
