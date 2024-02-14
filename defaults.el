@@ -1,6 +1,6 @@
 ;; User Information
 (setq user-full-name "sleepyeye"
-      user-mail-address "wonjunlee.0729@gmaio.com")
+      user-mail-address "wonjunlee.0729@gmail.com")
 
 ;; Backup and Lock Files
 (setq create-lockfiles nil
