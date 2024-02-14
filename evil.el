@@ -67,11 +67,6 @@
   :config
   (evil-commentary-mode))
 
-(use-package evil-lion
-  :demand t
-  :config
-  (evil-lion-mode))
-
 (use-package evil-textobj-line
   :demand t)
 
@@ -100,15 +95,3 @@
 
 
 (use-package undo-fu)
-
-(use-package evil-mc
-  :after evil
-  :general
-  (:states 'visual
-		   "A" #'evil-mc-make-cursor-in-visual-selection-end
-		   "I" #'evil-mc-make-cursor-in-visual-selection-beg)
-  (:states 'normal
-		   "M-n" #'evil-mc-make-and-goto-next-match
-		   "Q"   #'evil-mc-undo-all-cursors)
-  :config
-  (global-evil-mc-mode 1))
