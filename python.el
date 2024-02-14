@@ -15,7 +15,7 @@
 (add-hook 'python-ts-mode #'sleepy/python-capf)
 
 (use-package python
-  :elpaca nil
+  :ensure nil
   :init
   (setq python-indent-guess-indent-offset-verbose nil)
   :config

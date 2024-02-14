@@ -37,10 +37,10 @@
 (use-package cmake-mode
   :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'"))
 
-(use-package compile :elpaca nil)
+(use-package compile :ensure nil)
 
 (use-package cc-mode
-  :elpaca nil
+  :ensure nil
   :after projectile
   :config
   (defun sleepy/cmake-configure-project ()

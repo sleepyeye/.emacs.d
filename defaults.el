@@ -61,12 +61,3 @@
 
 ;; Required Packages
 (require 'xref)
-
-;; Garbage Collection
-(use-package gcmh
-  :demand t
-  :diminish gcmh-mode
-  :init
-  (gcmh-mode 1)
-  :config
-  (setq gcmh-idle-delay 5))

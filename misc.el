@@ -1,9 +1,10 @@
 (use-package explain-pause-mode
-  :elpaca (explain-pause-mode :host github :repo "lastquestion/explain-pause-mode")
+  :ensure (explain-pause-mode :host github :repo "lastquestion/explain-pause-mode")
   :defer t)
 
 
-(use-feature simple
+(use-package simple
+  :ensure nil
   :general
   (+general-global-toggle
     "f" 'auto-fill-mode)
@@ -11,7 +12,8 @@
   (eval-expression-debug-on-error nil)
   (fill-column 80 "Wrap at 80 columns."))
 
-(use-feature autorevert
+(use-package autorevert
+  :ensure nil
   :defer 2
   :custom
   (auto-revert-interval 0.01 "Instantaneously revert")

@@ -1,4 +1,5 @@
-(use-feature eglot
+(use-package eglot
+  :ensure nil
   :commands (eglot eglot-ensure)
   :config
   ;; (add-to-list 'eglot-stay-out-of 'flymake)

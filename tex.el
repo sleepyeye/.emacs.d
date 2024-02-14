@@ -1,13 +1,7 @@
-(use-package auctex
-  :elpaca (auctex :files
-				  (:defaults "*.el" "*.info" "dir" "doc" "etc" "images" "latex" "style"))
-  :defer t)
-
-
 
 ;; This is from @jakebox
 (use-package latex ;; This is a weird one. Package is auctex but needs to be managed like this.
-  :elpaca nil
+  :ensure nil
   :mode ("\\.tex\\'" . latex-mode)
   :config
   ;; (setq TeX-engine 'xetex ;; Use XeTeX

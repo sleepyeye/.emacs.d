@@ -183,7 +183,8 @@
 								  (when (display-graphic-p)
 									(ar/show-welcome-buffer)))))
 
-(use-feature frame
+(use-package frame
+  :ensure nil
   :defer
   :config
   (setq frame-resize-pixelwise t)
@@ -194,7 +195,8 @@
 				  (- (nth 4 (assq 'geometry (car (display-monitor-attributes-list)))) 60 60 30)
 				  t))
 
-(use-feature dired
+(use-package dired
+  :ensure nil
   :commands (dired)
   :custom
   (dired-listing-switches "-alhgo" "Human friendly file sizes.")

@@ -15,7 +15,7 @@
   :defer 10)
 
 (use-package doct
-  :elpaca (doct :branch "development" :protocol ssh :depth nil)
+  :ensure (doct :branch "development" :protocol ssh :depth nil)
   :commands (doct))
 
 
@@ -31,7 +31,8 @@
   (evil-org-agenda-set-keys))
 
 
-(use-feature org-indent
+(use-package org-indent
+  :ensure t
   :hook (org-mode . org-indent-mode))
 
 (use-package org-starless

@@ -112,7 +112,7 @@
   (marginalia-mode))
 
 (use-package corfu
-  :elpaca (corfu :host github :repo "minad/corfu" :files (:defaults "extensions/*"))
+  :ensure (corfu :host github :repo "minad/corfu" :files (:defaults "extensions/*"))
   :demand t
   :custom
   (corfu-cycle t)
@@ -143,7 +143,7 @@
 
 ;; Use Dabbrev with Corfu!
 (use-package dabbrev
-  :elpaca nil
+  :ensure nil
   ;; Swap M-/ and C-M-/
   :bind (("M-/" . dabbrev-completion)
 		 ("C-M-/" . dabbrev-expand))
