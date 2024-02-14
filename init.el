@@ -11,22 +11,14 @@
 (load "~/.emacs.d/font.el")
 (load "~/.emacs.d/ui.el")
 (load "~/.emacs.d/magit.el")
-(load "~/.emacs.d/tree-sitter.el")
 (load "~/.emacs.d/workspace.el")
 (load "~/.emacs.d/search.el")
 (load "~/.emacs.d/misc.el")
-(load "~/.emacs.d/secret.el")
-(load "~/.emacs.d/ai.el")
-;; TODO popper.el
-;; TODO perspectide
-(elpaca-wait)
 
-;; ;;; setup languages
-;; ;;(load "~/.emacs.d/ansible.el")
-;; ;;(load "~/.emacs.d/yaml.el")
+;;; setup languages
+(load "~/.emacs.d/yaml.el")
 (load "~/.emacs.d/tex.el")
-(load "~/.emacs.d/org.el")
-;; (load "~/.emacs.d/quarto.el")
+(load "~/.emacs.d/quarto.el")
 (load "~/.emacs.d/cc.el")
 (load "~/.emacs.d/python.el")
 (load "~/.emacs.d/elisp.el")
