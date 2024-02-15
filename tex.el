@@ -1,8 +1,15 @@
-
-;; This is from @jakebox
-(use-package latex ;; This is a weird one. Package is auctex but needs to be managed like this.
-  :ensure nil
-  :mode ("\\.tex\\'" . latex-mode)
+(use-package auctex
+  :ensure
+  (auctex :pre-build (("./autogen.sh")
+					  ("./configure"
+					   "--without-texmf-dir"
+					   "--with-packagelispdir=./"
+					   "--with-packagedatadir=./")
+					  ("make"))
+		  :build (:not elpaca--compile-info) ;; Make will take care of this step
+		  :files ("*.el" "doc/*.info*" "etc" "images" "latex" "style")
+		  :version (lambda (_) (require 'tex-site) AUCTeX-version))
+  :hook ((latex-mode . LaTeX-mode))
   :config
   ;; (setq TeX-engine 'xetex ;; Use XeTeX
   ;; 		latex-run-command "xetex")
@@ -35,6 +42,5 @@
 				  "%o")))
 
   (add-to-list 'TeX-view-program-selection '(output-pdf "Sioyek"))
-
-  (setq-default TeX-master nil)
-  (setq-default TeX-command-extra-options "--shell-escape"))
+  (setq-default TeX-command-extra-options "--shell-escape")
+  (setq-default TeX-master t))
