@@ -137,7 +137,7 @@
   ;; FIXME set these cape-XXX as mode local
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
-  (add-to-list 'completion-at-point-functions #'cape-symbol)
+  (add-to-list 'completion-at-point-functions #'cape-elisp-symbol)
   ;; (add-to-list 'completion-at-point-functions #'cape-tex)
   )
 

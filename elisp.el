@@ -4,7 +4,7 @@
 					 #'tempel-complete
 					 ;; for emacs-lisp symbols
 					 #'elisp-completion-at-point
-					 #'cape-symbol
+					 #'cape-elisp-symbol
 					 #'cape-file
 					 ))))
 
