@@ -40,11 +40,11 @@
 ;;   . ((conda-project-env-name . "deno")
 ;;      (eval . (setq conda-project-env-path
 ;;                    (expand-file-name "envs/deno" conda-anaconda-home))))))
-(use-package conda
-  :config
-  (setq conda-anaconda-home (expand-file-name "~/miniforge3/"))
-  (conda-env-initialize-interactive-shells)
-  (conda-env-initialize-eshell)
-  (conda-env-autoactivate-mode t)
-  (add-hook 'find-file-hook (lambda () (when (bound-and-true-p conda-project-env-path)
-										 (conda-env-activate-for-buffer)))))
+;; (use-package conda
+;;   :config
+;;   (setq conda-anaconda-home (expand-file-name "~/miniforge3/"))
+;;   (conda-env-initialize-interactive-shells)
+;;   (conda-env-initialize-eshell)
+;;   (conda-env-autoactivate-mode t)
+;;   (add-hook 'find-file-hook (lambda () (when (bound-and-true-p conda-project-env-path)
+;; 										 (conda-env-activate-for-buffer)))))

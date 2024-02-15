@@ -29,6 +29,17 @@
     "TAB d" #'persp-kill-buffer*
     "TAB D" #'persp-kill-others)
 
+  ;;; see https://github.com/minad/consult/wiki#perspective
+  (consult-customize consult--source-buffer :hidden t :default nil)
+  (defvar consult--source-perspective
+	(list :name     "Perspective"
+          :narrow   ?s
+          :category 'buffer
+          :state    #'consult--buffer-state
+          :default  t
+          :items    #'persp-get-buffer-names))
+  (push consult--source-perspective consult-buffer-sources)
+
   :init
   (persp-mode)
   (add-hook 'kill-emacs-hook #'persp-state-save))

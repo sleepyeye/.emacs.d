@@ -94,4 +94,7 @@
   (evil-exchange-install))
 
 
-(use-package undo-fu)
+(use-package evil-multiedit
+  :after evil
+  :config
+  (evil-multiedit-default-keybinds))

@@ -61,3 +61,5 @@
 
 ;; Required Packages
 (require 'xref)
+
+(use-package undo-fu)
