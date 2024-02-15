@@ -1,6 +1,6 @@
 (defun sleepy/cc-capf ()
   (setq-local completion-at-point-functions
-			  (list (cape-super-capf
+			  (list (cape-capf-super
 					 #'tempel-expand
 					 #'eglot-completion-at-point
 					 #'cape-keyword

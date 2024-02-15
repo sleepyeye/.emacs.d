@@ -1,6 +1,6 @@
 (defun sleepy/org-capf ()
   (setq-local completion-at-point-functions
-			  (list (cape-super-capf
+			  (list (cape-capf-super
 					 #'tempel-complete
 					 #'cape-file
 					 #'cape-dabbrev))))
