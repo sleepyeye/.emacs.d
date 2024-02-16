@@ -12,7 +12,7 @@
   (add-to-list 'eglot-server-programs
 			   '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
   (add-to-list 'eglot-server-programs
-			   '((tex-mode latex-mode LaTex-mode) . ("texlab")))
+			   '((LaTeX-mode) . ("texlab")))
   :general
   (sleepy/leader-def
 	"ca" #'eglot-code-action)
