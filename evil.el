@@ -31,12 +31,15 @@
   ;; Even with the `evil-collections' (see below), some modes should be Emacs:
   (dolist (mode '(custom-mode
 				  eshell-mode
-				  git-rebase-mode
+				  shell-mode
+				  term-mode
 				  vterm-mode
 				  elpaca-ui-mode
 				  term-mode
 				  calc-mode
-				  inferior-python-mode))
+				  inferior-python-mode
+				  wdired-mode
+				  log-edit-mode))
 	(add-to-list 'evil-emacs-state-modes mode))
   (evil-set-initial-state 'debugger-mode 'motion)
   (evil-set-initial-state 'pdf-view-mode 'motion)
