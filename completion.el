@@ -62,47 +62,65 @@
 (use-package orderless
   :demand t
   :config
-  (defun +orderless--consult-suffix ()
-	"Regexp which matches the end of string with Consult tofu support."
-	(if (and (boundp 'consult--tofu-char) (boundp 'consult--tofu-range))
-		(format "[%c-%c]*$"
-				consult--tofu-char
-				(+ consult--tofu-char consult--tofu-range -1))
-	  "$"))
+  ;;; I found list of completion categories from port's config
+  ;;; For more details, see
+  ;;; https://github.com/protesilaos/dotfiles/blob/master/emacs/.emacs.d/prot-emacs.org
+  ;; A list of known completion categories:
+  ;;; - `bookmark'
+  ;;; - `buffer'
+  ;;; - `charset'
+  ;;; - `coding-system'
+  ;;; - `color'
+  ;;; - `command' (e.g. `M-x')
+  ;;; - `customize-group'
+  ;;; - `environment-variable'
+  ;;; - `expression'
+  ;;; - `face'
+  ;;; - `file'
+  ;;; - `function' (the `describe-function' command bound to `C-h f')
+  ;;; - `info-menu'
+  ;;; - `imenu'
+  ;;; - `input-method'
+  ;;; - `kill-ring'
+  ;;; - `library'
+  ;;; - `minor-mode'
+  ;;; - `multi-category'
+  ;;; - `package'
+  ;;; - `project-file'
+  ;;; - `symbol' (the `describe-symbol' command bound to `C-h o')
+  ;;; - `theme'
+  ;;; - `unicode-name' (the `insert-char' command bound to `C-x 8 RET')
+  ;;; - `variable' (the `describe-variable' command bound to `C-h v')
+  ;;; - `consult-grep'
+  ;;; - `consult-isearch'
+  ;;; - `consult-kmacro'
+  ;;; - `consult-location'
+  ;;; - `embark-keybinding'
 
-  ;; Recognizes the following patterns:
-  ;; * .ext (file extension)
-  ;; * regexp$ (regexp matching at end)
-  (defun +orderless-consult-dispatch (word _index _total)
-	(cond
-	 ;; Ensure that $ works with Consult commands, which add disambiguation suffixes
-	 ((string-suffix-p "$" word)
-	  `(orderless-regexp . ,(concat (substring word 0 -1) (+orderless--consult-suffix))))
-	 ;; File extensions
-	 ((and (or minibuffer-completing-file-name
-			   (derived-mode-p 'eshell-mode))
-		   (string-match-p "\\`\\.." word))
-	  `(orderless-regexp . ,(concat "\\." (substring word 1) (+orderless--consult-suffix))))))
-
-  ;; Define orderless style with initialism by default
-  (orderless-define-completion-style +orderless-with-initialism
-	(orderless-matching-styles '(orderless-initialism orderless-literal orderless-regexp)))
-
-
-  (setq completion-styles '(orderless basic)
+  ;;; Not only that he summarized completion styles
+  ;;; emacs22
+  ;;; Prefix completion that only operates on the text before point. If we are in prefix|suffix, with | representing the cursor, it will consider everything that expands prefix and then add back to it the suffix.
+  ;;; basic
+  ;;; Prefix completion that also accounts for the text after point. Using the above example, this one will consider patterns that match all of emacs22 as well as anything that completes suffix.
+  ;;; partial-completion
+  ;;; This is used for file navigation. Instead of typing out a full path like ~/.local/share/fonts, we do ~/.l/s/f or variants thereof to make the matches unique such as ~/.l/sh/fon. It is a joy to navigate the file system in this way.
+  ;;; substring
+  ;;; Matches the given sequence of characters literally regardless of where it is in a word. So pro will match professional as well as reproduce.
+  ;;; flex
+  ;;; Completion of an in-order subset of characters. It does not matter where the charactes are in the word, so long as they are encountered in the given order. The input lad will thus match list-faces-display as well as pulsar-highlight-dwim.
+  ;;; initials
+  ;;; Completion of acronyms and initialisms. Typing lfd will thus match list-faces-display. This completion style can also be used for file system navigation, though I prefer to only have partial-completion handle that task.
+  ;;; orderless
+  ;;; This is the only completion style I use which is not built into Emacs. It matches patterns out-of-order. Patterns are typically words separated by spaces, though they can also be regular expressions, and even styles that are the same as the aforementioned flex and initials.
+  (setq completion-styles '(basic substring initials flex orderless)
 		completion-ignore-case t
 		completion-category-defaults nil
-		completion-category-overrides '((file (styles partial-completion)) ;; partial-completion is tried first
-										;; enable initialism by default for symbols
-										;; stolen from @minad's config
-										(command (styles +orderless-with-initialism))
-										(variable (styles +orderless-with-initialism))
-										(symbol (styles +orderless-with-initialism))
-										(eglot (styles orderless)))
-		)
-
+		completion-category-overrides '((file (styles . (basic partial-completion orderless)))
+										(command (styles . (basic substring orderless)))
+										(variable (styles . (basic substring orderless)))
+										(symbol (styles . (basic substring orderless)))
+										(eglot (styles . (substring orderless)))))
   )
-
 
 
 (use-package marginalia
