@@ -168,3 +168,34 @@
   ;; Other useful Dabbrev configurations.
   :custom
   (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
+
+
+;;; Completion candidate sorting with prescient.
+;;;
+;;; Corfu/Vertico/Consult provides really nice completion systems.
+;;; But it is quite annoying without candidate sorting methods.
+;;; For instance, I want to type use-package and I partially typed
+;;; (use-pa|
+;;;   candidate-1
+;;;   candidate-2
+;;;   candidate-3
+;;;   candidate-4
+;;; where '|' cursor.
+;;; If you don't use appropriate sorting method candidate-1 would not be 'use-package'.
+;;; I confused this concept with 'orderless' package.
+;;; 'orderless' support fancy filtering algorithm's for completion candidates.
+;;; However it is nothing related to sorting the result of them.
+;;; The package 'prescient' provides methods for sorting these results
+(use-package prescient
+  :ensure t
+  :init
+  (setq prescient-sort-full-matches-first t))
+
+(use-package corfu-prescient
+  :ensure t
+  :after (corfu prescient)
+  :hook (corfu-mode . corfu-prescient-mode)
+  :init
+  (setq corfu-prescient-enable-filtering nil
+		corfu-prescient-override-sorting t
+		corfu-prescient-enable-sorting t))
