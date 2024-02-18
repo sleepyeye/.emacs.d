@@ -61,7 +61,7 @@
 
 (use-package orderless
   :demand t
-  :config
+  :init
   ;;; I found list of completion categories from port's config
   ;;; For more details, see
   ;;; https://github.com/protesilaos/dotfiles/blob/master/emacs/.emacs.d/prot-emacs.org
