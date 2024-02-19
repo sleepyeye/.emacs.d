@@ -53,8 +53,11 @@
   (require 'dwim-shell-commands))
 
 
-;; (use-package jinx
-;;   :hook ((latex-mode . jinx-mode)
-;; 		 (LaTeX-mode . jinx-mode)
-;; 		 (org-mode . jinx-mode))
-;;   :bind ([remap ispell-word] . jinx-correct))
+(use-package jinx
+  :after (latex auctex)
+  :demand t
+  :bind ([remap ispell-word] . jinx-correct)
+  :hook (emacs-startup . global-jinx-mode)
+  :config
+  (setq jinx-languages "en")
+  (set-face-attribute 'jinx-misspelled nil :underline '(:color "#ffcc00" :style wave)))
