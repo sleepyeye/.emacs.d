@@ -1,4 +1,5 @@
-(use-package latex
+(use-package auctex
+  :demand t
   :ensure (auctex :pre-build (("./autogen.sh")
 							  ("./configure"
 							   "--without-texmf-dir"
@@ -7,9 +8,12 @@
 							  ("make"))
 				  :build (:not elpaca--compile-info) ;; Make will take care of this step
 				  :files ("*.el" "doc/*.info*" "etc" "images" "latex" "style")
-				  :version (lambda (_) (require 'tex-site) AUCTeX-version))
-  :demand t
+				  :version (lambda (_) (require 'tex-site) AUCTeX-version)))
+
+(use-package latex
+  :ensure nil
   :mode ("\\.tex\\'" . LaTeX-mode)
+  :after auctex
   :config
   ;; (setq TeX-engine 'xetex ;; Use XeTeX
   ;; 		latex-run-command "xetex")
@@ -27,7 +31,6 @@
 		TeX-electric-sub-and-superscript t
 		TeX-electric-math '("$" . "$")
 		)
-
   (add-to-list 'TeX-view-program-list
 			   `("Sioyek"
 				 ("sioyek ",
@@ -44,3 +47,10 @@
   (add-to-list 'TeX-view-program-selection '(output-pdf "Sioyek"))
   (setq-default TeX-master nil)
   (setq-default TeX-command-extra-options "--shell-escape"))
+
+
+;; ;; CDLatex settings
+;; (use-package cdlatex
+;;   :hook (LaTeX-mode . turn-on-cdlatex)
+;;   :bind (:map cdlatex-mode-map
+;;               ("<tab>" . cdlatex-tab)))
