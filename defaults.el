@@ -63,3 +63,11 @@
 (require 'xref)
 
 (use-package undo-fu)
+
+(when (eq system-type 'darwin)
+  (require 'ls-lisp)
+  ;; date format setting
+  (setq ls-lisp-format-time-list
+		'("%Y-%m-%d %H:%M"
+		  "%Y-%m-%d      "))
+  (setq ls-lisp-use-insert-directory-program nil))
