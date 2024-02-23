@@ -197,10 +197,19 @@
 
 (use-package dired
   :ensure nil
-  :commands (dired)
-  :custom
-  (dired-listing-switches "-alhgo" "Human friendly file sizes.")
-  (dired-kill-when-opening-new-dired-buffer t))
+  :commands dired
+  :config
+  (setq dired-recursive-copies 'always)
+  (setq dired-recursive-deletes 'always)
+  (setq delete-by-moving-to-trash t)
+  (setq dired-dwim-target t)
+  (setq dired-kill-when-opening-new-dired-buffer t)
+  (setq dired-free-space nil) ; Emacs 29.1
+  (setq dired-mouse-drag-files t) ; Emacs 29.1
+  (setq dired-listing-switches
+        "-AGFhlv --group-directories-first --time-style=long-iso")
+  :hook
+  (dired-mode . dired-hide-details-mode))
 
 (use-package diredfl
   :hook (dired-mode . diredfl-mode))
