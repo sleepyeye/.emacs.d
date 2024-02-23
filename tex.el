@@ -1,3 +1,16 @@
+(defun sleepy/tex-capf ()
+  (setq-local completion-at-point-functions
+			  (list (cape-capf-super
+					 #'tempel-complete
+					 #'eglot-completion-at-point
+					 #'cape-dabbrev
+					 #'cape-keyword
+					 #'cape-file))))
+
+
+(add-hook 'latex-mode-hook #'sleepy/tex-capf)
+(add-hook 'LaTeX-mode-hook #'sleepy/tex-capf)
+
 (use-package auctex
   :demand t
   :ensure (auctex :pre-build (("./autogen.sh")
