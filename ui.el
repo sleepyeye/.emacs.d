@@ -231,3 +231,8 @@
   ; (kind-icon-default-face 'corfu-default) ; only needed with blend-background
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+
+(use-package spacious-padding
+  :config
+  (spacious-padding-mode 1))
