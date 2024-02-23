@@ -117,6 +117,7 @@
 		completion-category-defaults nil
 		completion-category-overrides '((file (styles . (basic partial-completion orderless)))
 										(command (styles . (basic substring orderless)))
+										(theme (styles . (substring orderless)))
 										(variable (styles . (basic substring orderless)))
 										(symbol (styles . (basic substring orderless)))
 										(eglot (styles . (substring orderless)))))
