@@ -204,3 +204,7 @@
 
 (use-package diredfl
   :hook (dired-mode . diredfl-mode))
+
+(use-package nerd-icons-completion
+  :config
+  (nerd-icons-completion-mode))
