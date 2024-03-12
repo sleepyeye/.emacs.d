@@ -71,3 +71,6 @@
 		'("%Y-%m-%d %H:%M"
 		  "%Y-%m-%d      "))
   (setq ls-lisp-use-insert-directory-program nil))
+
+;; Use year/month/day
+(setq calendar-date-style 'iso)
