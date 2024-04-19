@@ -88,6 +88,9 @@
 								 delete-other-windows
 								 forward-page
 								 backward-page
+								 xref-find-references
+								 xref-find-definitions
+								 evil-jump-backward
 								 scroll-up-command
 								 scroll-down-command
 								 evil-forward-paragraph
@@ -149,6 +152,7 @@
 
 ;; FIXME
 ;; Stolen from @xenodium's config
+;; Welcome buffer
 (defun ar/show-welcome-buffer ()
   "Show *Welcome* buffer."
   (with-current-buffer (get-buffer-create "*Welcome*")
@@ -175,10 +179,8 @@
 	(read-only-mode +1)
 	(switch-to-buffer (current-buffer))
 	(local-set-key (kbd "q") 'kill-this-buffer)))
-
 (setq initial-scratch-message nil)
 (setq inhibit-startup-screen t)
-
 (when (< (length command-line-args) 2)
   (add-hook 'emacs-startup-hook (lambda ()
 								  (when (display-graphic-p)
