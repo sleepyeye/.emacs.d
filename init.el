@@ -1,5 +1,6 @@
  ;; setup built-in emacs features
 (load "~/.emacs.d/defaults.el")
+(load "~/.emacs.d/built-in.el")
 
 ;;; load core packages
 (load "~/.emacs.d/general.el")
