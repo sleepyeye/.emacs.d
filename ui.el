@@ -26,7 +26,7 @@
 (use-package doom-modeline
   :demand t
   :init
-  (setq doom-modeline-height 25)
+  (setq doom-modeline-height 15)
   :config
   (column-number-mode 1)
   (doom-modeline-mode)
@@ -35,6 +35,7 @@
 
 
 (use-package doom-themes
+  :disabled t
   :ensure t
   :config
   ;; Global settings (defaults)
