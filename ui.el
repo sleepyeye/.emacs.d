@@ -70,35 +70,36 @@
 
 
 (use-package pulsar
-  :init
   :hook
   ((consult-after-jump-hook . pulsar-recenter-top)
    (consult-after-jump-hook . pulsar-reveal-entry))
-  :config
+  :init
   (setq pulsar-pulse t)
   (setq pulsar-delay 0.055)
   (setq pulsar-iterations 10)
   (setq pulsar-face 'pulsar-magenta)
   (setq pulsar-highlight-face 'pulsar-yellow)
-  (pulsar-global-mode 1)
-  :custom
-  (pulsar-pulse-functions '(recenter-top-bottom
-							move-to-window-line-top-bottom
-							reposition-window
-							bookmark-jump
-							other-window
-							delete-window
-							delete-other-windows
-							forward-page
-							backward-page
-							scroll-up-command
-							scroll-down-command
-							evil-window-right
-							evil-window-left
-							evil-window-up
-							evil-window-down))
-  (pulsar-face 'pulsar-magenta)
-  (pulsar-delay 0.055))
+  (setq pulsar-pulse-functions '(recenter-top-bottom
+								 move-to-window-line-top-bottom
+								 reposition-window
+								 bookmark-jump
+								 other-window
+								 delete-window
+								 delete-other-windows
+								 forward-page
+								 backward-page
+								 scroll-up-command
+								 scroll-down-command
+								 evil-forward-paragraph
+								 evil-backward-paragraph
+								 evil-scroll-up
+								 evil-scroll-down
+								 evil-window-right
+								 evil-window-left
+								 evil-window-up
+								 evil-window-down))
+  :config
+  (pulsar-global-mode 1))
 
 (use-package hl-todo
   :demand t
