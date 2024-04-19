@@ -117,30 +117,34 @@
 
 
 (use-package popper
-  :defer 2
   :after perspective
   :config
-  (setq popper-group-function #'popper-group-by-perspective) ; projectile projects
+  ;; Group by projects
+  (setq popper-group-function #'popper-group-by-projectile)
+  (setq popper-mode-line nil)
+  (setq popper-display-control t)
+  (general-define-key
+   "C-;" #'popper-toggle
+   "C-'" #'popper-cycle)
   :init
   (setq popper-reference-buffers
-		'("\\*Messages\\*"
-		  "Output\\*$"
-		  "\\*Warnings\\*"
-		  "\\*Async Shell Command\\*"
-		  help-mode
+		'(help-mode
 		  compilation-mode
+		  messages-mode
+		  occur-mode
+		  "\\*Messages\\*"
+		  "^\\*Warnings\\*"
+		  "^\\*Compile-Log\\*"
+		  "^\\*Backtrace\\*"
+		  "\\*Shell Command Output\\*"
+		  "\\*Async Shell Command\\*"
 		  "^\\*vterm.*\\*$"  vterm-mode  ;vterm as a popup
 		  "^\\*eshell.*\\*$" eshell-mode ;eshell as a popup
-		  "^\\*chatgpt.*\\*$" chatgpt-shell-mode ;chatgpt-shell as a popup
+		  "Output\\*$"
 		  ))
   (setq popper-window-height 0.37)
   (popper-mode +1)
-  (popper-echo-mode +1)
-
-  :config
-  (general-define-key
-   "C-;" #'popper-toggle-latest
-   "C-'" #'popper-cycle))
+  (popper-echo-mode +1))
 
 ;; FIXME
 ;; Stolen from @xenodium's config
