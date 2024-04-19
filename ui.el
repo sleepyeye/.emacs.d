@@ -111,29 +111,8 @@
   (add-hook 'ediff-prepare-buffer-hook #'solaire-mode))
 
 
-;; ;; shackle gives you the means to put an end to popped up buffers not behaving they way you’d like them to.
-;; (use-package shackle
-;;   :elpaca (shackle :depth nil)
-;;   :commands (shackle-mode)
-;;   :custom (shackle-rules '(("*Flycheck errors*"  :align below :size 0.15)
-;; 						   ("\\`\\*Flymake diagnostics.*?\\*\\'" :align below :size 0.15 :regexp t :same nil)
-;; 						   ("*accord*" :align below :size 0.20)
-;; 						   ("*padscape*" :align below :size 0.20)))
-;;   :hook ((flycheck-mode global-flycheck-mode flymake-mode accord-mode padscape-mode) . shackle-mode))
-
-;; (dolist (face '(window-divider
-;; 				window-divider-first-pixel
-;; 				window-divider-last-pixel))
-;;   (face-spec-reset-face face)
-;;   (set-face-foreground face (face-attribute 'default :background)))
-;; (set-face-background 'fringe (face-attribute 'default :background))
-(setq-default fringes-outside-margins nil)
-(setq-default indicate-buffer-boundaries nil) ;; Otherwise shows a corner icon on the edge
-(setq-default indicate-empty-lines nil) ;; Otherwise there are weird fringes on blank lines
-
-(set-face-attribute 'fringe nil :background nil)
-(set-face-attribute 'header-line nil :background nil :inherit 'default)
-
+;; (set-face-attribute 'fringe nil :background nil)
+;; (set-face-attribute 'header-line nil :background nil :inherit 'default)
 ;; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 
