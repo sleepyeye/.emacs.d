@@ -1,25 +1,3 @@
-(use-package explain-pause-mode
-  :ensure (explain-pause-mode :host github :repo "lastquestion/explain-pause-mode")
-  :defer t)
-
-
-(use-package simple
-  :ensure nil
-  :general
-  (+general-global-toggle
-    "f" 'auto-fill-mode)
-  :custom
-  (eval-expression-debug-on-error nil)
-  (fill-column 80 "Wrap at 80 columns."))
-
-(use-package autorevert
-  :ensure nil
-  :defer 2
-  :custom
-  (auto-revert-interval 0.01 "Instantaneously revert")
-  :config
-  (global-auto-revert-mode t))
-
 (use-package default-text-scale
   :commands ( default-text-scale-increase
               default-text-scale-decrease
