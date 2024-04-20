@@ -2,9 +2,8 @@
   (setq-local completion-at-point-functions
 			  (list (cape-capf-super
 					 #'tempel-complete
-					 #'eglot-completion-at-point
 					 #'cape-keyword
-					 #'cape-dabbrev))))
+					 #'eglot-completion-at-point))))
 
 ;;; Why not (add-hook 'c-mode-hook #'sleepy/cc-capf)?
 ;;; I realized when I turn on eglot, it automatically prepend 'eglot-completion-at-point to completion-at-point-functions
