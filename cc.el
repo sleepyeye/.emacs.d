@@ -4,12 +4,15 @@
 					 #'tempel-complete
 					 #'eglot-completion-at-point
 					 #'cape-keyword
-					 #'cape-dabbrev
-					 ))))
+					 #'cape-dabbrev))))
 
-(add-hook 'c-mode-hook #'sleepy/cc-capf)
-(add-hook 'c++-mode-hook #'sleepy/cc-capf)
-(add-hook 'cc-mode-hook #'sleepy/cc-capf)
+;;; Why not (add-hook 'c-mode-hook #'sleepy/cc-capf)?
+;;; I realized when I turn on eglot, it automatically prepend 'eglot-completion-at-point to completion-at-point-functions
+;;; I want to manage my capf per mode explicitly.
+;;; Hence I ends-up this ugly implementation
+(add-hook 'c-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf)))
+(add-hook 'c++-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf)))
+(add-hook 'cc-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf)))
 
 
 

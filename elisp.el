@@ -8,4 +8,5 @@
 					 #'cape-file
 					 ))))
 
+;; elisp mode do not use eglot.
 (add-hook 'emacs-lisp-mode-hook #'sleepy/elisp-capf)

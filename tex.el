@@ -8,8 +8,8 @@
 					 #'cape-file))))
 
 
-(add-hook 'latex-mode-hook #'sleepy/tex-capf)
-(add-hook 'LaTeX-mode-hook #'sleepy/tex-capf)
+(add-hook 'latex-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/tex-capf)))
+(add-hook 'LaTeX-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/tex-capf)))
 
 (use-package auctex
   :demand t
