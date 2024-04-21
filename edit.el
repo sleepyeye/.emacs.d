@@ -30,4 +30,12 @@
   :defer 2
   ;; Require trigger prefix before template name when completing.
   :config
-  (setq tempel-trigger-prefix "<"))
+  (setq tempel-trigger-prefix "<")
+  ;; setup keymaps
+  :bind (:map tempel-map
+		 ("<tab>"     . #'tempel-next)
+		 ("<backtap>" . #'tempel-previous)
+		 ("C-["       . #'tempel-next)
+		 ("C-]"       . #'tempel-previous)
+		 ("C-g"       . #'tempel-abort)
+		 ("C-k"       . #'tempel-kill)))
