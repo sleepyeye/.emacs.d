@@ -1,6 +1,9 @@
 fundamental-mode ;; Available everywhere
 
 (today (format-time-string "%Y-%m-%d"))
+(now (format-time-string "<%Y-%0m-%0d %a %H:%0M>"))
+(yesterday (format-time-string "<%Y-%0m-%0d %a>" (time-subtract nil (* 24 60 60))))
+(tomorrow (format-time-string "<%Y-%0m-%0d %a>" (time-add nil (* 24 60 60))))
 
 prog-mode
 
@@ -122,14 +125,16 @@ java-mode
 
 (class "public class " (p (file-name-base (or (buffer-file-name) (buffer-name)))) " {" n> r> n "}")
 
-c-mode :when (re-search-backward "^\\S-*$" (line-beginning-position) 'noerror)
+c-mode
 
 (inc "#include <" (p (concat (file-name-base (or (buffer-file-name) (buffer-name))) ".h")) ">")
 (incc "#include \"" (p (concat (file-name-base (or (buffer-file-name) (buffer-name))) ".h")) "\"")
 (once "#pragma once" n)
 
-c++-mode :when (re-search-backward "^\\S-*$" (line-beginning-position) 'noerror)
+c++-mode
 
+(inc "#include <" (p (concat (file-name-base (or (buffer-file-name) (buffer-name))) ".h")) ">")
+(incc "#include \"" (p (concat (file-name-base (or (buffer-file-name) (buffer-name))) ".h")) "\"")
 (main "int main(int argc, char* argv[]) {" n> r> n> "return 0;" n "}")
 (once "#pragma once")
 (name "namespace " (s name) " {" n "} // " (s name))
@@ -140,6 +145,9 @@ c++-mode :when (re-search-backward "^\\S-*$" (line-beginning-position) 'noerror)
 (cls "class " p " {" n "};")
 (str "struct " p " {" n "};")
 (tmp "template<typename " p ">" n)
+(while "while(" p ") {" n> q r> n "}")
+(if "if(" p ") {" n> q r> n "}")
+(for "for(int " (p "var" t) " = " p "; "  (p "var" t) " < " p "; ++" (p "var" t) ") {" n> q r> n "}")
 
 
 org-mode
