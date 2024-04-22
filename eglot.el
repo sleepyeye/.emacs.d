@@ -5,10 +5,18 @@
   ;; (add-to-list 'eglot-stay-out-of 'flymake)
   (setq completion-category-defaults nil)
   (setq eglot-extend-to-xref t)
+  (setq eglot-ignored-server-capabilities '(:inlayHintProvider :foldingRangeProvider))
 
   ;; setup language servers for each language
   (add-to-list 'eglot-server-programs
-			   '((c-mode c-ts-mode c++-mode c++-ts-mode) . ("clangd")))
+			   '((c-mode c-ts-mode c++-mode c++-ts-mode) . ("clangd"
+															"-j=8"
+															"--log=error"
+															;; "--completion-style=detailed"
+															"--completion-style=bundled" ;; more simpler style
+															"--background-index"
+															"--header-insertion=never"
+															"--header-insertion-decorators=0")))
   (add-to-list 'eglot-server-programs
 			   '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
   (add-to-list 'eglot-server-programs
