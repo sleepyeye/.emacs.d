@@ -148,6 +148,8 @@ c++-mode
 (while "while(" p ") {" n> q r> n "}")
 (if "if(" p ") {" n> q r> n "}")
 (for "for(int " (p "var" t) " = " p "; "  (p "var" t) " < " p "; ++" (p "var" t) ") {" n> q r> n "}")
+(rc "std::reinterpret_cast<" p ">" "(" p ");")
+(sc "std::static_cast<" p ">" "(" p ");")
 
 
 org-mode
@@ -177,6 +179,7 @@ python-base-mode
 (for "for " p " in " p ":" n> q)
 (tr "import " p "; " p ".set_trace()" q)
 (ig "# type: ignore" q)
+(main "if __name__ == \"__main__\":" n> r>)
 
 
 ;; Local Variables:
