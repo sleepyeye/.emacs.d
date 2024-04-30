@@ -3,9 +3,7 @@
 			  (list (cape-capf-super
 					 #'tempel-complete
 					 #'eglot-completion-at-point
-					 #'cape-keyword
-					 #'cape-dabbrev
-					 ))))
+					 #'cape-keyword))))
 
 
 ;; Open python files in tree-sitter mode.
@@ -17,6 +15,8 @@
 (use-package python
   :ensure nil
   :init
+  (setq python-indent-offset standard-indent)
+  (setq python-indent-guess-indent-offset t)
   (setq python-indent-guess-indent-offset-verbose nil)
   :config
   (when (and (executable-find "python3")
@@ -28,23 +28,3 @@
   :general
   (:keymaps 'python-mode-map :states 'normal "=" #'python-black-region)
   (:keymaps 'python-ts-mode-map :states 'normal "=" #'python-black-region))
-
-
-;;; TODO Currently conda auto activation depends on following dir-local script.
-;;; Make following as file template or make it general somehow
-;; ((python-ts-mode
-;;   . ((conda-project-env-name . "deno")
-;;      (eval . (setq conda-project-env-path
-;;                    (expand-file-name "envs/deno" conda-anaconda-home)))))
-;;  (python-mode
-;;   . ((conda-project-env-name . "deno")
-;;      (eval . (setq conda-project-env-path
-;;                    (expand-file-name "envs/deno" conda-anaconda-home))))))
-;; (use-package conda
-;;   :config
-;;   (setq conda-anaconda-home (expand-file-name "~/miniforge3/"))
-;;   (conda-env-initialize-interactive-shells)
-;;   (conda-env-initialize-eshell)
-;;   (conda-env-autoactivate-mode t)
-;;   (add-hook 'find-file-hook (lambda () (when (bound-and-true-p conda-project-env-path)
-;; 										 (conda-env-activate-for-buffer)))))
