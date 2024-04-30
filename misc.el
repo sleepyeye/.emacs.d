@@ -39,3 +39,12 @@
   :config
   (setq jinx-languages "en")
   (set-face-attribute 'jinx-misspelled nil :underline '(:color "#ffcc00" :style wave)))
+
+
+(use-package gcmh
+  :demand t
+  :diminish gcmh-mode
+  :init
+  (gcmh-mode 1)
+  :config
+  (setq gcmh-idle-delay 5))
