@@ -14,7 +14,6 @@
 	"p&" 'projectile-run-async-shell-command-in-root
 	"p-" 'projectile-dired
 	"pf" 'projectile-find-file
-	"ps" 'projectile-rg
 	"pc" 'projectile-compile-project
 	"pC" 'projectile-configure-project
 	"pe" 'projectile-edit-dir-locals
