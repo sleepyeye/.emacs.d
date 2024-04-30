@@ -112,7 +112,7 @@
   ;;; Completion of acronyms and initialisms. Typing lfd will thus match list-faces-display. This completion style can also be used for file system navigation, though I prefer to only have partial-completion handle that task.
   ;;; orderless
   ;;; This is the only completion style I use which is not built into Emacs. It matches patterns out-of-order. Patterns are typically words separated by spaces, though they can also be regular expressions, and even styles that are the same as the aforementioned flex and initials.
-  (setq completion-styles '(basic substring initials flex orderless)
+  (setq completion-styles '(orderless partial-completion basic)
 		completion-ignore-case t
 		completion-category-defaults nil
 		completion-category-overrides '((file (styles . (basic partial-completion orderless)))
@@ -120,7 +120,7 @@
 										(theme (styles . (substring orderless)))
 										(variable (styles . (basic substring orderless)))
 										(symbol (styles . (basic substring orderless)))
-										(eglot (styles . (substring orderless)))))
+										(eglot (styles . (orderless partial-completion basic)))))
   )
 
 
@@ -152,19 +152,8 @@
 (use-package cape
   :demand t
   :init
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-keyword))
-
-;; Use Dabbrev with Corfu!
-(use-package dabbrev
-  :ensure nil
-  ;; Swap M-/ and C-M-/
-  :bind (("M-/" . dabbrev-completion)
-		 ("C-M-/" . dabbrev-expand))
-  ;; Other useful Dabbrev configurations.
-  :custom
-  (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
 
 
 ;;; Completion candidate sorting with prescient.
