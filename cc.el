@@ -19,10 +19,12 @@
 
 (use-package cc-mode
   :ensure nil
-  ;;; override the keymap
-  (sleepy/leader-def
-	"SPC" 'projectile-find-other-file)
   :config
+  (sleepy/leader-def
+	:keymaps 'c-mode-base-map
+	"SPC" #'projectile-find-other-file
+	"pc"  #'projectile-compile-project
+	"pC"  #'projectile-configure-project)
 	;;; from emacs wiki
   (c-add-style "microsoft"
 			   '("stroustrup"

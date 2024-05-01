@@ -14,8 +14,6 @@
 	"p&" 'projectile-run-async-shell-command-in-root
 	"p-" 'projectile-dired
 	"pf" 'projectile-find-file
-	"pc" 'projectile-compile-project
-	"pC" 'projectile-configure-project
 	"pe" 'projectile-edit-dir-locals
 	"pI" 'projectile-invalidate-cache
 	"pk" 'projectile-kill-buffers
