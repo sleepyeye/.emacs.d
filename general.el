@@ -13,7 +13,6 @@
   ;;; create definers
   (general-create-definer sleepy/leader-def
 	:wk-full-keys nil
-	:keymaps       'override
 	:states        '(normal visual insert emacs)
 	:prefix        "SPC"
 	:global-prefix "S-SPC")
