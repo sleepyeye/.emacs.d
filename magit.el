@@ -12,41 +12,19 @@
 
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
 		magit-diff-hide-trailing-cr-characters t)
-  (setq-default magit-bury-buffer-function #'mu-magit-kill-buffers)
-  )
+  (setq-default magit-bury-buffer-function #'mu-magit-kill-buffers))
 
-;; ;; I combine it with this to get a zen-like full window Git status after switching projects:
-(use-package git-gutter
-  :disabled t
-  :demand t
-  :ensure t
-  :hook ((prog-mode . git-gutter-mode)
-		 ;; (TeX-mode . git-gutter-mode)
-		 (LaTeX-mode . git-gutter-mode)
-		 ;; (tex-mode . git-gutter-mode)
-		 )
+(use-package diff-hl
   :init
-  (setq git-gutter:update-interval 0.2)
-  (setq git-gutter:disabled-modes '(org-mode asm-mode image-mode)
-		git-gutter:window-width 1
-		git-gutter:ask-p nil))
-
-(use-package git-gutter-fringe
-  :disabled t
-  :demand fringe-helper
-  :diminish git-gutter-mode
-  :after git-gutter
-  :commands fringe-helper
+  ;; Better looking colours for diff indicators /w spacemacs-light theme
+  (custom-set-faces
+  '(diff-hl-change ((t (:foreground "#553d00"))))
+  '(diff-hl-insert ((t (:foreground "#005000"))))
+  '(diff-hl-delete ((t (:foreground "#8f1313")))))
   :config
-  ;; subtle diff indicators in the fringe
-  ;; places the git gutter outside the margins.
-  (setq-default fringes-outside-margins t)
-
-  ;; Make fringe more modern
-  (setq git-gutter-fr:side 'left-fringe)
-  (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:deleted [224] nil nil '(center repeated)))
+  (global-diff-hl-mode)
+  (setq diff-hl-draw-borders nil)
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
 
 
 (use-package git-timemachine
