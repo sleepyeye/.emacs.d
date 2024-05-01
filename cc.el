@@ -19,16 +19,19 @@
 
 (use-package cc-mode
   :ensure nil
-	:config
+  ;;; override the keymap
+  (sleepy/leader-def
+	"SPC" 'projectile-find-other-file)
+  :config
 	;;; from emacs wiki
-	(c-add-style "microsoft"
-							 '("stroustrup"
-								 (c-offsets-alist
-									(innamespace . -)
-									(inline-open . 0)
-									(inher-cont . c-lineup-multi-inher)
-									(arglist-cont-nonempty . +)
-									(template-args-cont . +)))))
+  (c-add-style "microsoft"
+			   '("stroustrup"
+				 (c-offsets-alist
+				  (innamespace . -)
+				  (inline-open . 0)
+				  (inher-cont . c-lineup-multi-inher)
+				  (arglist-cont-nonempty . +)
+				  (template-args-cont . +)))))
 
 (use-package google-c-style
   :hook ((c-mode c++-mode c-ts-mode c++-ts-mode) . (lambda ()
