@@ -12,6 +12,8 @@
 
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
 		magit-diff-hide-trailing-cr-characters t)
+  (magit-auto-revert-mode t)
+  (global-auto-revert-mode t)
   (setq-default magit-bury-buffer-function #'mu-magit-kill-buffers))
 
 (use-package diff-hl
