@@ -1,3 +1,8 @@
+(use-package transient
+  :demand t
+  :config
+  (transient-bind-q-to-quit))
+
 (use-package magit
   :ensure t
   :demand t
