@@ -1,7 +1,11 @@
 (use-package eglot
   :ensure nil
   :commands (eglot eglot-ensure)
+  :custom
+  (eglot-report-progress nil)  ; Prevent minibuffer spam
   :config
+  (fset #'jsonrpc--log-event #'ignore)
+  (setq jsonrpc-event-hook nil)
   ;; (add-to-list 'eglot-stay-out-of 'flymake)
   (setq completion-category-defaults nil)
   (setq eglot-extend-to-xref t)

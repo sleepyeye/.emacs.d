@@ -39,3 +39,10 @@
   :config
   (setq jinx-languages "en")
   (set-face-attribute 'jinx-misspelled nil :underline '(:color "#ffcc00" :style wave)))
+
+(use-package gcmh
+  :hook (after-init . gcmh-mode)
+  :custom
+  (gcmh-idle-delay 'auto)
+  (gcmh-auto-idle-delay-factor 10)
+  (gcmh-low-cons-threshold minimal-emacs-gc-cons-threshold))

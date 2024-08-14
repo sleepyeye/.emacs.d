@@ -1,7 +1,8 @@
 (use-package vertico
-  :demand t
+  :defer t
+  :commands vertico-mode
+  :hook (after-init . vertico-mode)
   :init
-  (vertico-mode)
   (setq vertico-count 10
 		vertico-cycle t))
 
@@ -115,20 +116,20 @@
   (setq completion-styles '(orderless partial-completion basic)
 		completion-ignore-case t
 		completion-category-defaults nil
-		completion-category-overrides '((file (styles . (basic partial-completion orderless)))
+		completion-category-overrides '((file (styles . (partial-completion orderless)))
 										(command (styles . (substring orderless)))
 										(theme (styles . (substring orderless)))
-										(variable (styles . (basic substring orderless)))
+										(variable (styles . (partial-completion orderless)))
 										(symbol (styles . (basic substring orderless)))
 										(eglot (styles . (orderless partial-completion basic)))))
   )
 
 
 (use-package marginalia
-  :demand t
+  :hook (after-init . marginalia-mode)
+  :commands (marginalia-mode marginalia-cycle)
   :init
-  (setq marginalia-annotators-heavy t)
-  (marginalia-mode))
+  (setq marginalia-annotators-heavy t))
 
 (use-package corfu
   :ensure (corfu :host github :repo "minad/corfu" :files (:defaults "extensions/*"))

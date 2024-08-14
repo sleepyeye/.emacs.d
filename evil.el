@@ -9,6 +9,8 @@
   (setq evil-want-Y-yank-to-eol t)
   (setq evil-respect-visual-line-mode t)
   :config
+  (evil-select-search-module 'evil-search-module 'evil-search)
+
   ;; (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   ;; (global-set-key (kbd "C-g") 'keyboard-escape-quit)
   ;; (global-set-key (kbd "<escape>") 'keyboard-quit)
@@ -101,3 +103,10 @@
   :after evil
   :config
   (evil-multiedit-default-keybinds))
+
+(use-package evil-visualstar
+  :after evil
+  :ensure t
+  :defer t
+  :commands global-evil-visualstar-mode
+  :hook (after-init . global-evil-visualstar-mode))
