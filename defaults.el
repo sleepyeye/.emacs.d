@@ -74,3 +74,17 @@
 
 ;; Use year/month/day
 (setq calendar-date-style 'iso)
+
+
+(add-hook 'after-init-hook #'global-auto-revert-mode)
+(add-hook 'after-init-hook #'recentf-mode)
+(add-hook 'after-init-hook #'savehist-mode)
+(add-hook 'after-init-hook #'save-place-mode)
+
+(use-package gcmh
+  :ensure t
+  :hook (after-init . gcmh-mode)
+  :custom
+  (gcmh-idle-delay 'auto)
+  (gcmh-auto-idle-delay-factor 10)
+  (gcmh-low-cons-threshold minimal-emacs-gc-cons-threshold))
