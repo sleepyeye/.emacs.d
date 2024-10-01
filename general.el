@@ -36,6 +36,7 @@
   ;;; setup global keybindings
   (general-define-key
    "s-x" 'execute-extended-command
+   "C-," 'duplicate-line
    "C-=" 'text-scale-increase
    "C--" 'text-scale-decrease)
 
