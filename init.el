@@ -16,6 +16,7 @@
 (load "~/.emacs.d/workspace.el")
 (load "~/.emacs.d/search.el")
 (load "~/.emacs.d/misc.el")
+(load "~/.emacs.d/tree-sitter.el")
 
 ;;; setup languages
 (load "~/.emacs.d/yaml.el")

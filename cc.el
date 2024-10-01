@@ -28,6 +28,8 @@
   (add-to-list 'major-mode-remap-alist '(c-mode . simpc-mode))
   (add-to-list 'major-mode-remap-alist '(c++-mode . simpc-mode))
   (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf)
+  (add-hook 'simpc-mode-hook #'tree-sitter-hl-mode)
+
   :load-path local-package-directory)
 
 (use-package cmake-font-lock
@@ -36,6 +38,7 @@
 
 (use-package modern-cpp-font-lock
   :load-path local-package-directory
+  :disabled t
   :config
   (modern-c++-font-lock-global-mode))
 
