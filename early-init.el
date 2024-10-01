@@ -83,6 +83,7 @@
 ;; Load elpaca
 (defvar user-emacs-directory "~/.emacs.d")
 (load (concat user-emacs-directory "bootstraps"))
+(defvar local-package-directory (expand-file-name "~/.emacs.d/local-packages/"))
 (elpaca-wait)
 
 (with-eval-after-load 'evil
