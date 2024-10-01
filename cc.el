@@ -1,7 +1,7 @@
 (defun sleepy/cc-capf ()
   (setq-local completion-at-point-functions
 			  (list (cape-capf-super
-					 #'tempel-complete
+					 ;; #'tempel-complete
 					 ;; #'cape-keyword
 					 #'eglot-completion-at-point))))
 
@@ -13,7 +13,7 @@
 (add-hook 'c-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf)))
 (add-hook 'c++-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf)))
 (add-hook 'cc-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf)))
-(add-hook 'simpc-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf)))
+;; (add-hook 'simpc-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf)))
 
 
 (use-package cmake-mode
@@ -27,6 +27,7 @@
   :init
   (add-to-list 'major-mode-remap-alist '(c-mode . simpc-mode))
   (add-to-list 'major-mode-remap-alist '(c++-mode . simpc-mode))
+  (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf)
   :load-path local-package-directory)
 
 (use-package cmake-font-lock

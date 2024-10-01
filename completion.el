@@ -113,15 +113,15 @@
   ;;; Completion of acronyms and initialisms. Typing lfd will thus match list-faces-display. This completion style can also be used for file system navigation, though I prefer to only have partial-completion handle that task.
   ;;; orderless
   ;;; This is the only completion style I use which is not built into Emacs. It matches patterns out-of-order. Patterns are typically words separated by spaces, though they can also be regular expressions, and even styles that are the same as the aforementioned flex and initials.
-  (setq completion-styles '(orderless partial-completion basic)
+  (setq completion-styles '(basic substring orderless partial-completion)
 		completion-ignore-case t
 		completion-category-defaults nil
 		completion-category-overrides '((file (styles . (partial-completion orderless)))
 										(command (styles . (substring orderless)))
 										(theme (styles . (substring orderless)))
-										(variable (styles . (partial-completion orderless)))
-										(symbol (styles . (basic substring orderless)))
-										(eglot (styles . (orderless partial-completion basic)))))
+										(variable (styles . (basic substring orderless)))
+										(symbol (styles . (substring flex basic)))
+										(eglot (styles . (substring flex basic)))))
   )
 
 
@@ -176,13 +176,13 @@
 (use-package prescient
   :ensure t
   :init
-  (setq prescient-sort-full-matches-first t))
+  (setq prescient-sort-full-matches-first nil))
 
 (use-package corfu-prescient
   :ensure t
   :after (corfu prescient)
   :hook (corfu-mode . corfu-prescient-mode)
   :init
-  (setq corfu-prescient-enable-filtering nil
+  (setq corfu-prescient-enable-filtering t
 		corfu-prescient-override-sorting t
 		corfu-prescient-enable-sorting t))
