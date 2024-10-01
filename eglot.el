@@ -13,7 +13,7 @@
 
   ;; setup language servers for each language
   (add-to-list 'eglot-server-programs
-			   '((c-mode c-ts-mode c++-mode c++-ts-mode) . ("clangd"
+			   '((simpc-mode c-mode c-ts-mode c++-mode c++-ts-mode) . ("clangd"
 																	   "-j=2"
 																	   "--log=error"
 																	   ;; "--completion-style=detailed"
@@ -51,7 +51,7 @@
    ;; (c++-mode . eglot-ensure)
    ;; (c-ts-mode . eglot-ensure)
    ;; (c++-ts-mode . eglot-ensure)
-   ;; (simpc-mode . eglot-ensure))
+   (simpc-mode . eglot-ensure)
   ))
 
 (use-package consult-eglot

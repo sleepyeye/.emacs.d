@@ -60,8 +60,6 @@
 (use-package modern-cpp-font-lock
   :load-path local-package-directory
   :config
-  ;; (setq modern-c++-font-lock-keywords t)
-  ;; (setq modern-c++-font-lock-stl-cstdint nil)
   (modern-c++-font-lock-global-mode t))
 
 (use-package clang-format+
