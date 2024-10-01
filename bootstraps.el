@@ -52,14 +52,3 @@
 ;;       use-package-expand-minimally t	; minimal expanded macro
 ;; 	  )
 ;;       ;; use-package-always-defer t)	; always defer, don't "require", except when :demand
-
-
-;; built-in features
-;;; stolen from @progfolio's emacs config
-(defmacro use-feature (name &rest args)
-  "Like `use-package' but accounting for asynchronous installation.
-  NAME and ARGS are in `use-package'."
-  (declare (indent defun))
-  `(use-package ,name
-     :elpaca nil
-     ,@args))
