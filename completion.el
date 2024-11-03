@@ -1,10 +1,10 @@
 (use-package vertico
   :defer t
-  :commands vertico-mode
-  :hook (after-init . vertico-mode)
   :init
+  (vertico-mode)
   (setq vertico-count 12
 		vertico-cycle t))
+
 
 (use-package consult
   :demand t
