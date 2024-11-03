@@ -1,8 +1,6 @@
 (use-package projectile
   :demand t
-  :after (general)
-  :config
-  ;;; override the keymap
+  :general
   (sleepy/leader-def
 	"SPC" 'projectile-find-file)
 

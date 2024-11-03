@@ -68,6 +68,7 @@
 
 
 (use-package pulsar
+  :defer 2
   :hook
   ((consult-after-jump-hook . pulsar-recenter-top)
    (consult-after-jump-hook . pulsar-reveal-entry))
@@ -103,7 +104,7 @@
   (pulsar-global-mode 1))
 
 (use-package hl-todo
-  :defer t
+  :defer 2
   :config
   (global-hl-todo-mode))
 
@@ -119,6 +120,7 @@
 
 
 (use-package popper
+  :defer 2
   :after perspective
   :config
   ;; Group by projects
