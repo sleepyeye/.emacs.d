@@ -1,11 +1,6 @@
 (use-package eglot
   :ensure nil
-  :defer t
-  :commands (eglot
-			 eglot-rename
-			 eglot-ensure
-			 eglot-rename
-			 eglot-format-buffer)
+  :commands (eglot eglot-ensure)
   :custom
   (eglot-report-progress nil)  ; Prevent minibuffer spam
   :config

@@ -21,10 +21,6 @@
   (magit-auto-revert-mode t)
   (setq-default magit-bury-buffer-function #'mu-magit-kill-buffers)
 
-  ;; Don't use a unicode ellipsis character when truncating author names in the git log view. It screws up
-  ;; the line height with my current font (Inconsolata).
-  (setq magit-ellipsis (get-byte 0 "."))
-
   ;; Disable Emacs' built-in VC package for git repositories. This prevents it from doing unnecessary work when
   ;; Magit is performing git operations. This was recommended by the Magit manual. Empirically, I've noticed
   ;; this greatly speeds up git rebasing with Magit.
@@ -34,6 +30,7 @@
   (setq magit-refresh-status-buffer nil))
 
 (use-package diff-hl
+  :demand t
   :init
   ;; Better looking colours for diff indicators /w spacemacs-light theme
   (custom-set-faces

@@ -27,7 +27,6 @@
 (use-package c++-mode :elpaca nil :disabled t)
 
 (use-package simpc-mode
-  :defer t
   :mode ("\\.c\\'" "\\.h\\'" "\\.cpp\\'")
   :init
   (add-to-list 'major-mode-remap-alist '(c-mode . simpc-mode))

@@ -42,7 +42,8 @@
       what-cursor-show-names t)
 
 ;; Load Custom File
-(setq custom-file null-device)
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(add-hook 'elpaca-after-init-hook (lambda () (load custom-file 'noerror)))
 
 ;; Appearance Settings
 (setq-default display-line-numbers-width 3
