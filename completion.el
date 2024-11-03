@@ -3,7 +3,7 @@
   :commands vertico-mode
   :hook (after-init . vertico-mode)
   :init
-  (setq vertico-count 20
+  (setq vertico-count 15
 		vertico-cycle t))
 
 (use-package consult
