@@ -7,6 +7,7 @@
       ring-bell-function 'ignore
       inhibit-startup-screen t)
 
+;; Adjust ui stuffs
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
@@ -14,7 +15,7 @@
       frame-resize-pixelwise t)
 
 ;; Garbage Collection
-(setq gc-cons-threshold 1073741824
+(setq gc-cons-threshold (* 64 1024 1024)
       gc-cons-percentage 0.6
       read-process-output-max (* 1024 1024))
 
