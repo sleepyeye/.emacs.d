@@ -1,3 +1,5 @@
+;;; early-init.el --- early-init.el -*- no-byte-compile: t; lexical-binding: t; -*-
+
 ;; Early init settings
 (setq package-enable-at-startup nil
       inhibit-default-init nil

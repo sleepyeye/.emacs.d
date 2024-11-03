@@ -1,3 +1,5 @@
+;;; init.el --- init.el -*- no-byte-compile: t; lexical-binding: t; -*-
+
  ;; setup built-in emacs features
 (load "~/.emacs.d/defaults.el")
 (load "~/.emacs.d/built-in.el")
@@ -19,9 +21,12 @@
 (load "~/.emacs.d/tree-sitter.el")
 
 ;;; setup languages
-(load "~/.emacs.d/yaml.el")
-(load "~/.emacs.d/tex.el")
-(load "~/.emacs.d/quarto.el")
+;; (load "~/.emacs.d/yaml.el")
+;; (load "~/.emacs.d/tex.el")
+;; (load "~/.emacs.d/quarto.el")
 (load "~/.emacs.d/cc.el")
-(load "~/.emacs.d/python.el")
-(load "~/.emacs.d/elisp.el")
+;; (load "~/.emacs.d/python.el")
+;; (load "~/.emacs.d/elisp.el")
+
+
+(global-auto-revert-mode 1)
