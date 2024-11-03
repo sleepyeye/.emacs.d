@@ -1,7 +1,6 @@
 (defun sleepy/elisp-capf ()
   (setq-local completion-at-point-functions
 			  (list (cape-capf-super
-					 #'tempel-complete
 					 ;; for emacs-lisp symbols
 					 #'elisp-completion-at-point
 					 #'cape-elisp-symbol

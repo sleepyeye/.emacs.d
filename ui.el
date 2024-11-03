@@ -1,3 +1,5 @@
+;;; ui.el --- ui.el -*- no-byte-compile: t; lexical-binding: t; -*-
+
 (use-package which-key
   :ensure t
   :config

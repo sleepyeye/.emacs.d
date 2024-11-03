@@ -21,8 +21,9 @@
 ;; (load "~/.emacs.d/yaml.el")
 ;; (load "~/.emacs.d/tex.el")
 ;; (load "~/.emacs.d/quarto.el")
-;; (load "~/.emacs.d/cc.el")
+(load "~/.emacs.d/cc.el")
 ;; (load "~/.emacs.d/python.el")
-;; (load "~/.emacs.d/elisp.el")
+(load "~/.emacs.d/elisp.el")
 
+;;; Load ui stuffs
 (load "~/.emacs.d/ui.el")

@@ -1,4 +1,5 @@
 (use-package default-text-scale
+  :defer t
   :commands ( default-text-scale-increase
               default-text-scale-decrease
               default-text-scale-reset
@@ -31,14 +32,14 @@
   (require 'dwim-shell-commands))
 
 
-(use-package jinx
-  :after (latex auctex)
-  :demand t
-  :bind ([remap ispell-word] . jinx-correct)
-  :hook (emacs-startup . global-jinx-mode)
-  :config
-  (setq jinx-languages "en")
-  (set-face-attribute 'jinx-misspelled nil :underline '(:color "#ffcc00" :style wave)))
+;; (use-package jinx
+;;   :after (latex auctex)
+;;   :demand t
+;;   :bind ([remap ispell-word] . jinx-correct)
+;;   :hook (emacs-startup . global-jinx-mode)
+;;   :config
+;;   (setq jinx-languages "en")
+;;   (set-face-attribute 'jinx-misspelled nil :underline '(:color "#ffcc00" :style wave)))
 
 (use-package gcmh
   :hook (after-init . gcmh-mode)

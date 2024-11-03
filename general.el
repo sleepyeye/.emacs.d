@@ -1,3 +1,5 @@
+;;; general.el --- general.el -*- no-byte-compile: t; lexical-binding: t; -*-
+
 (defconst sleepy/leader-key "SPC")
 (defconst sleepy/global-leader-key "C-SPC")
 

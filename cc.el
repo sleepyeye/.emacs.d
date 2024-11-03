@@ -1,3 +1,5 @@
+;;; cc.el --- cc.el -*- no-byte-compile: t; lexical-binding: t; -*-
+
 (defun sleepy/cc-capf ()
   (setq-local completion-at-point-functions
 			  (list (cape-capf-super
@@ -13,10 +15,11 @@
 (add-hook 'c-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf)))
 (add-hook 'c++-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf)))
 (add-hook 'cc-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf)))
-;; (add-hook 'simpc-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf)))
+(add-hook 'simpc-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf)))
 
 
 (use-package cmake-mode
+  :defer t
   :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'"))
 
 (use-package cc-mode :elpaca nil :disabled t)
@@ -24,6 +27,8 @@
 (use-package c++-mode :elpaca nil :disabled t)
 
 (use-package simpc-mode
+  :defer t
+  :mode ("\\.c\\'" "\\.h\\'" "\\.cpp\\'")
   :init
   (add-to-list 'major-mode-remap-alist '(c-mode . simpc-mode))
   (add-to-list 'major-mode-remap-alist '(c++-mode . simpc-mode))
@@ -33,7 +38,9 @@
   :load-path local-package-directory)
 
 (use-package cmake-font-lock
-  :after (cmake-mode)
+  :defer t
+  :commands cmake-font-lock-activate
+  :after cmake-mode
   :hook (cmake-mode . cmake-font-lock-activate))
 
 (use-package modern-cpp-font-lock
@@ -43,6 +50,8 @@
   (modern-c++-font-lock-global-mode))
 
 (use-package clang-format+
+  :defer t
+  :commands clang-format+-mode
   :hook ((c-mode-hook . clang-format+-mode)
 		 (c++-mode-hook . clang-format+-mode)
 		 (simpc-mode . clang-format+-mode)))
