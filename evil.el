@@ -49,6 +49,20 @@
 
   (evil-mode 1))
 
+(use-package undo-fu
+  :commands (undo-fu-only-undo
+             undo-fu-only-redo
+             undo-fu-only-redo-all
+             undo-fu-disable-checkpoint)
+  :custom
+  ;; 3 times the default values
+  (undo-limit (* 3 160000))
+  (undo-strong-limit (* 3 240000)))
+
+(use-package undo-fu-session
+  :config
+  (undo-fu-session-global-mode))
+
 (use-package evil-collection
   :after evil
   :demand t

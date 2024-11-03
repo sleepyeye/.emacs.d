@@ -60,7 +60,6 @@
 ;; Required Packages
 (require 'xref)
 
-(use-package undo-fu)
 
 (when (eq system-type 'darwin)
   (require 'ls-lisp)
