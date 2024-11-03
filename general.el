@@ -4,8 +4,8 @@
 
 (use-package general
   :demand t
+  :ensure (:wait t)
   :config
-
   (general-auto-unbind-keys)
   (general-evil-setup t)
   (general-override-mode)
@@ -89,7 +89,4 @@
 
   (general-evil-define-key 'normal prog-mode-map
 	"gd" #'xref-find-definitions
-	"gr" #'xref-find-references)
-
-  )
-(elpaca-wait)
+	"gr" #'xref-find-references))

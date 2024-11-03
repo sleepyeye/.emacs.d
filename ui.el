@@ -1,9 +1,8 @@
 (use-package which-key
-  :demand t
-  :init
+  :ensure t
+  :config
   (which-key-mode)
   (which-key-setup-minibuffer)
-  :config
   (which-key-setup-side-window-bottom)
   ;; max width of which-key frame: number of columns (an integer)
   (setq which-key-frame-max-width 60)
@@ -23,8 +22,8 @@
 		which-key-allow-imprecise-window-fit t)
   :diminish which-key-mode)
 
+
 (use-package doom-modeline
-  :demand t
   :init
   (setq doom-modeline-height 15)
   :config
@@ -32,7 +31,6 @@
   (doom-modeline-mode)
   :custom
   (doom-modeline-icon t "Show icons in the modeline"))
-
 
 (use-package doom-themes
   :disabled t
@@ -105,7 +103,7 @@
   (pulsar-global-mode 1))
 
 (use-package hl-todo
-  :demand t
+  :defer t
   :config
   (global-hl-todo-mode))
 
@@ -188,15 +186,14 @@
 
 (use-package frame
   :ensure nil
-  :defer
+  :defer t
   :config
   (setq frame-resize-pixelwise t)
   (set-frame-parameter nil 'internal-border-width 0)
   (set-frame-position (selected-frame) 30 60)
   (set-frame-size (selected-frame)
 				  (- (nth 3 (assq 'geometry (car (display-monitor-attributes-list)))) 60 29)
-				  (- (nth 4 (assq 'geometry (car (display-monitor-attributes-list)))) 60 60 30)
-				  t))
+				  (- (nth 4 (assq 'geometry (car (display-monitor-attributes-list)))) 60 60 30) t))
 
 (use-package dired
   :ensure nil
