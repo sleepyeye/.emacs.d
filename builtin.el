@@ -20,6 +20,7 @@
 	  vc-make-backup-files nil)
 
 
+
 ;; Auto save stuffs
 ;; Do not auto-disable auto-save after deleting large chunks of
 ;; text. The purpose of auto-save is to provide a failsafe, and
@@ -95,7 +96,7 @@
 
 ;; Revert other buffers (e.g, Dired)
 (setq global-auto-revert-non-file-buffers t)
-
+(setq auto-revert-check-vc-info t)
 
 
 ;;; recentf

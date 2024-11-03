@@ -18,13 +18,14 @@
 
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
 		magit-diff-hide-trailing-cr-characters t)
-  (magit-auto-revert-mode t)
+  (magit-auto-revert-mode 1)
   (setq-default magit-bury-buffer-function #'mu-magit-kill-buffers)
 
-  ;; Disable Emacs' built-in VC package for git repositories. This prevents it from doing unnecessary work when
-  ;; Magit is performing git operations. This was recommended by the Magit manual. Empirically, I've noticed
-  ;; this greatly speeds up git rebasing with Magit.
-  (setq vc-handled-backends (delq 'Git vc-handled-backends))
+  ;;; I had to disable this since diff-hl relies on vc
+  ;; ;; Disable Emacs' built-in VC package for git repositories. This prevents it from doing unnecessary work when
+  ;; ;; Magit is performing git operations. This was recommended by the Magit manual. Empirically, I've noticed
+  ;; ;; this greatly speeds up git rebasing with Magit.
+  ;; (setq vc-handled-backends (delq 'Git vc-handled-backends))
 
   ;; Don't refresh the status buffer unless it's currently focused. This should improve performance.
   (setq magit-refresh-status-buffer nil))
@@ -40,6 +41,8 @@
   :config
   (global-diff-hl-mode)
   (setq diff-hl-draw-borders nil)
+  ;; Magit 2.4 or newer
+  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
 
 
