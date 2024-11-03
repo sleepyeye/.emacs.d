@@ -9,7 +9,7 @@
   (setq evil-want-Y-yank-to-eol t)
   (setq evil-respect-visual-line-mode t)
   :config
-  (evil-select-search-module 'evil-search-module 'evil-search)
+  (evil-select-search-module 'evil-search-module 'isearch)
 
   ;; (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   ;; (global-set-key (kbd "C-g") 'keyboard-escape-quit)
@@ -47,7 +47,15 @@
   (evil-set-initial-state 'pdf-view-mode 'motion)
   (evil-set-initial-state 'git-commit-mode 'insert)
 
-  (evil-mode 1))
+  (evil-mode 1)
+
+
+  ;;; replacement for evil-commentary
+  (evil-define-operator my-evil-comment-or-uncomment (beg end)
+	"Toggle comment for the region between BEG and END."
+	(interactive "<r>")
+	(comment-or-uncomment-region beg end))
+  (evil-define-key 'normal 'global (kbd "gc") 'my-evil-comment-or-uncomment))
 
 (use-package undo-fu
   :commands (undo-fu-only-undo
@@ -80,11 +88,6 @@
            "S" 'evil-Surround-region)
   (:states 'operator
             "s" 'evil-surround-edit))
-
-(use-package evil-commentary
-  :demand t
-  :config
-  (evil-commentary-mode))
 
 (use-package evil-textobj-line
   :demand t)
@@ -124,3 +127,15 @@
   :defer t
   :commands global-evil-visualstar-mode
   :hook (after-init . global-evil-visualstar-mode))
+
+(use-package vdiff
+  :ensure t
+  :defer t
+  :commands (vdiff-buffers
+             vdiff-buffers3
+             vdiff-quit
+             vdiff-files
+             vdiff-files3)
+  :custom
+  (vdiff-auto-refine t)
+  (vdiff-only-highlight-refinements t))
