@@ -19,7 +19,19 @@
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
 		magit-diff-hide-trailing-cr-characters t)
   (magit-auto-revert-mode t)
-  (setq-default magit-bury-buffer-function #'mu-magit-kill-buffers))
+  (setq-default magit-bury-buffer-function #'mu-magit-kill-buffers)
+
+  ;; Don't use a unicode ellipsis character when truncating author names in the git log view. It screws up
+  ;; the line height with my current font (Inconsolata).
+  (setq magit-ellipsis (get-byte 0 "."))
+
+  ;; Disable Emacs' built-in VC package for git repositories. This prevents it from doing unnecessary work when
+  ;; Magit is performing git operations. This was recommended by the Magit manual. Empirically, I've noticed
+  ;; this greatly speeds up git rebasing with Magit.
+  (setq vc-handled-backends (delq 'Git vc-handled-backends))
+
+  ;; Don't refresh the status buffer unless it's currently focused. This should improve performance.
+  (setq magit-refresh-status-buffer nil))
 
 (use-package diff-hl
   :init
