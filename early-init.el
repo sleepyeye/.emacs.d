@@ -36,10 +36,7 @@
 (setq frame-inhibit-implied-resize t
       frame-resize-pixelwise t)
 
-;; Garbage Collection
-(setq gc-cons-threshold (* 64 1024 1024)
-      gc-cons-percentage 0.6
-      read-process-output-max (* 1024 1024))
+(setq read-process-output-max (* 1024 1024))
 
 ;; System detection
 (defconst IS-MAC (eq system-type 'darwin))
