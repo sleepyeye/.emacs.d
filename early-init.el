@@ -2,10 +2,32 @@
 
 ;; Early init settings
 (setq package-enable-at-startup nil
-      inhibit-default-init nil
       native-comp-async-report-warnings-errors nil
       ring-bell-function 'ignore
-      inhibit-startup-screen t)
+      inhibit-startup-screen t
+      inhibit-default-init nil
+	  initial-buffer-choice nil
+	  inhibit-startup-buffer-menu t
+	  inhibit-x-resources t
+	  ;; Set the scratch buffer in `fundamental-mode'
+	  initial-major-mode 'fundamental-mode
+	  initial-scratch-message nil
+	  auto-mode-case-fold nil
+	  scroll-bar-mode nil
+	  tool-bar-mode nil
+	  frame-inhibit-implied-resize t
+	  )
+
+;; Miscellaneous optimizations
+(setq idle-update-delay 1.0
+      bidi-display-reordering 'left-to-right
+      bidi-paragraph-direction 'left-to-right
+      bidi-inhibit-bpa t
+      cursor-in-non-selected-windows nil
+      highlight-nonselected-windows nil
+      fast-but-imprecise-scrolling t
+      inhibit-compacting-font-caches t
+	  load-prefer-newer t)
 
 ;; Adjust ui stuffs
 (push '(menu-bar-lines . 0) default-frame-alist)
@@ -65,15 +87,13 @@
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
   (add-to-list 'default-frame-alist '(ns-appearance . dark))))
 
-;; Miscellaneous optimizations
-(setq idle-update-delay 1.0
-      bidi-display-reordering 'left-to-right
-      bidi-paragraph-direction 'left-to-right
-      bidi-inhibit-bpa t
-      cursor-in-non-selected-windows nil
-      highlight-nonselected-windows nil
-      fast-but-imprecise-scrolling t
-      inhibit-compacting-font-caches t)
+
+;; Remove "For information about GNU Emacs..." message at startup
+(advice-add #'display-startup-echo-area-message :override #'ignore)
+
+;; Suppress the vanilla startup screen completely. We've disabled it with
+;; `inhibit-startup-screen', but it would still initialize anyway.
+(advice-add #'display-startup-screen :override #'ignore)
 
 ;; Frame dimensions
 (add-to-list 'default-frame-alist '(height . 60))
