@@ -77,8 +77,8 @@
 ;; Compilation Settings
 (setq compilation-always-kill t
       compilation-ask-about-save nil
-	  compilation-scroll-output t
-      compilation-scroll-output 'first-error)
+	  compilation-scroll-output t)
+      ;; compilation-scroll-output 'first-error)
 
 
 ;; Disable the warning "X and Y are the same file". Ignoring this warning is

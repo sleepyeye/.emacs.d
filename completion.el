@@ -58,7 +58,7 @@
    consult-bookmark consult-xref
    consult--source-bookmark consult--source-file-register
    consult--source-recent-file consult--source-project-recent-file
-   :preview-key '(:debounce 0.4 any))
+   :preview-key '(:debounce 0.1 any))
   (setq consult-narrow-key "<")
 
   :init

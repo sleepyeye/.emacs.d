@@ -2,6 +2,7 @@
   (setq-local completion-at-point-functions
 			  (list (cape-capf-super
 					 ;; for emacs-lisp symbols
+					 #'citre-completion-at-point
 					 #'elisp-completion-at-point
 					 #'cape-elisp-symbol
 					 #'cape-file
