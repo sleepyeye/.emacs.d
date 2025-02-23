@@ -106,6 +106,7 @@
   (corfu-quit-no-match t)
   (corfu-scroll-margin 5)
   (corfu-max-width 80)
+  (corfu-on-exact-match nil)      ; Don't auto expand tempel snippets
   :bind
   (:map corfu-map ("M-SPC" . corfu-insert-separator))
   :init

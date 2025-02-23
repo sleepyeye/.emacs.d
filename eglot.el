@@ -30,7 +30,6 @@
   :general
   (sleepy/leader-def
 	"ca" #'eglot-code-action)
-
   (:keymaps 'eglot-mode-map :states 'normal
 			"ga" #'eglot-code-action
 			"ga" #'eglot-format-buffer
@@ -41,11 +40,11 @@
   (sleepy/leader-def "cr" #'eglot-rename)
 
   :hook
-  ;; ((python-mode . eglot-ensure)
-  ;;  (python-ts-mode . eglot-ensure)
+  ((python-mode . eglot-ensure)
+   (python-ts-mode . eglot-ensure)
    ;; (latex-mode . eglot-ensure)
    ;; (tex-mode . eglot-ensure)
-   ((LaTeX-mode . eglot-ensure)
+   (LaTeX-mode . eglot-ensure)
    (cmake-mode . eglot-ensure)
    (cmake-ts-mode . eglot-ensure)
    ;; (markdown-mode . eglot-ensure)
