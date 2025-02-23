@@ -11,6 +11,8 @@
   (setq eglot-extend-to-xref t)
   (setq eglot-ignored-server-capabilities '(:inlayHintProvider :foldingRangeProvider))
 
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+
   ;; setup language servers for each language
   (add-to-list 'eglot-server-programs
 			   '((simpc-mode c-mode c-ts-mode c++-mode c++-ts-mode) . ("clangd"
