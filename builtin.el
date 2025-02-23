@@ -1,5 +1,10 @@
 ;;; builtin.el --- builtin.el -*- no-byte-compile: t; lexical-binding: t; -*-
 
+;; Required Packages
+(require 'xref)
+(require 'compile)
+
+
 ;; User Information
 (setq user-full-name "sleepyeye"
       user-mail-address "wonjunlee.0729@gmail.com")
@@ -31,8 +36,6 @@
       (expand-file-name "autosave/" user-emacs-directory))
 (setq tramp-auto-save-directory
       (expand-file-name "tramp-autosave/" user-emacs-directory))
-
-
 
 ;; Customization Settings
 (setq use-short-answers t
@@ -181,10 +184,6 @@
       ediff-split-window-function #'split-window-horizontally)
 
 
-
-
-;; Required Packages
-(require 'xref)
 
 
 ;;; Date and formatting
