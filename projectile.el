@@ -1,23 +1,8 @@
+(use-package project :ensure nil)
+
 (use-package projectile
   :demand t
   :general
-  (sleepy/leader-def
-	"SPC" 'projectile-find-file)
-
-  (sleepy/leader-def
-	"p-" 'projectile-dired
-	"p_" 'projectile-dired-other-window
-	"p!" 'projectile-run-shell-command-in-root
-	"p%" 'projectile-replace-regexp
-	"p&" 'projectile-run-async-shell-command-in-root
-	"p-" 'projectile-dired
-	"pf" 'projectile-find-file
-	"pe" 'projectile-edit-dir-locals
-	"pI" 'projectile-invalidate-cache
-	"pk" 'projectile-kill-buffers
-	"pR" 'projectile-replace
-	"pS" 'projectile-save-project-buffers
-	"pv" 'projectile-vc)
   :config
   (projectile-mode)
   (add-to-list 'projectile-globally-ignored-directories "^\\build$")

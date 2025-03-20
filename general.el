@@ -8,31 +8,18 @@
   :demand t
   :ensure (:wait t)
   :config
-  (general-auto-unbind-keys)
-  (general-evil-setup t)
-  (general-override-mode)
+  (general-evil-setup)
 
   ;;; create definers
   (general-create-definer sleepy/leader-def
-	:wk-full-keys nil
 	:states        '(normal visual insert emacs)
+    :keymaps       'override
 	:prefix        "SPC"
-	:global-prefix "S-SPC")
+	:global-prefix "M-SPC")
 
   ;;; define menus
   (sleepy/leader-def
-	"a"   '(:ignore t :which-key "AI")
-	"h"   '(:ignore t :which-key "Help")
-	"c"   '(:ignore t :which-key "Code")
-	"p"   '(:ignore t :which-key "Project")
-	"s"   '(:ignore t :which-key "Search")
-	"j"   '(:ignore t :which-key "Jump")
-	"b"   '(:ignore t :which-key "Buffer")
-	"f"   '(:ignore t :which-key "File")
-	"g"   '(:ignore t :which-key "Utils")
-	"w"   '(:ignore t :which-key "Window")
-	"r"   '(:ignore t :which-key "Org-roam")
-	"TAB" '(:ignore t :which-key "Workspace"))
+	"c"   '(:ignore t :which-key "Code"))
 
 
   ;;; setup global keybindings
@@ -54,40 +41,97 @@
     "&" 'async-shell-command)
 
   (sleepy/leader-def
+	"h"   '(:ignore t :which-key "Help")
+	"h m" '(describe-mode     :which-key "desc mode")
+	"h k" '(describe-key      :which-key "desc key")
+	"h K" '(describe-keymap   :which-key "desc key map")
+	"h f" '(describe-function :which-key "desc func")
+	"h F" '(describe-Face     :which-key "desc face")
+	"h v" '(describe-variable :which-key "desc variable"))
+
+  ;; Perspective keybindings
+  (sleepy/leader-def
+	"TAB" '(perspective-map :wk "Perspective"))
+
+  ;; Window keybindings
+  (sleepy/leader-def
+	"w"   '(:ignore t :which-key "Window")
+	"w o" 'other-window
+	"w d" 'delete-window
+	"w r" 'evil-window-rotate-upwards
+	"w R" 'evil-window-rotate-upwards
+	"w e" 'evil-window-exchange
+	"w h" 'evil-window-left
+	"w j" 'evil-window-down
+	"w k" 'evil-window-up
+	"w l" 'evil-window-right
+	"w s" 'evil-window-split
+	"w v" 'evil-window-vsplit)
+
+
+  ;; Buffer keybindings
+  (sleepy/leader-def
+	"b"   '(:ignore t :which-key "Buffer")
+	"bi" 'ibuffer
+	"bd" 'kill-current-buffer
+	"br" 'revert-buffer
+	"bb" 'consult-buffer
+	"bB" 'consult-buffer-other-window
+	"bp" 'consult-project-buffer)
+
+  ;; Search keybindings
+  (sleepy/leader-def
+	"s"   '(:ignore t :which-key "Serch")
+	"si" 'consult-imenu
+	"sI" 'consult-imenu-multi
+	"sb" 'consult-line
+	"sB" 'consult-line-multi
+	"sd" 'consult-ripgrep-current
+	"sp" 'consult-ripgrep
+	"sg" 'consult-git-grep)
+
+  ;; Jump keybindings
+  (sleepy/leader-def
+	"j"   '(:ignore t :which-key "Jump")
+	"ji" 'consult-outline
+	"jl" 'consult-goto-line
+	"jo" 'consult-outline
+	"jd" 'consult-ripgrep
+	"jg" 'consult-git-grep)
+
+  ;; Project
+  (sleepy/leader-def
+	"p"   '(:ignore t :which-key "Project")
+	"pc" 'project-compile
+	"pp" 'project-recompile
+	"p-" 'projectile-dired
+	"p_" 'projectile-dired-other-window
+	"p!" 'projectile-run-shell-command-in-root
+	"p%" 'projectile-replace-regexp
+	"p&" 'projectile-run-async-shell-command-in-root
+	"p-" 'projectile-dired
+	"pf" 'projectile-find-file
+	"pe" 'projectile-edit-dir-locals
+	"pI" 'projectile-invalidate-cache
+	"pk" 'projectile-kill-buffers
+	"pR" 'projectile-replace
+	"pS" 'projectile-save-project-buffers
+	"pv" 'projectile-vc)
+
+  (sleepy/leader-def
+	"uy" 'consult-yank-pop)
+
+  (sleepy/leader-def
+	"g"   '(:ignore t :which-key "Git")
+	"gg" 'magit-status
+	"gt" 'git-timemachine)
+
+  ;; File keybindings
+  (sleepy/leader-def
+	"f"   '(:ignore t :which-key "File")
 	"ff" 'find-file
-	"fF" 'find-file-other-window)
-
-  (sleepy/leader-def
-	"hm" '(describe-mode     :which-key "desc mode")
-	"hk" '(describe-key      :which-key "desc key")
-	"hK" '(describe-keymap   :which-key "desc key map")
-	"hf" '(describe-function :which-key "desc func")
-	"hF" '(describe-Face     :which-key "desc face")
-	"hv" '(describe-variable :which-key "desc variable"))
-
-  (sleepy/leader-def
-	"TAB 1" '(:ignore t :which-key "workspace 1")
-	"TAB 2" '(:ignore t :which-key "workspace 2")
-	"TAB 3" '(:ignore t :which-key "workspace 3")
-	"TAB 4" '(:ignore t :which-key "workspace 4")
-	"TAB 5" '(:ignore t :which-key "workspace 5")
-	"TAB 6" '(:ignore t :which-key "workspace 6")
-	"TAB 7" '(:ignore t :which-key "workspace 7")
-	"TAB 8" '(:ignore t :which-key "workspace 8")
-	"TAB 9" '(:ignore t :which-key "workspace 9"))
-
-  (sleepy/leader-def
-	"wo" 'other-window
-	"wd" 'delete-window
-	"wr" 'evil-window-rotate-upwards
-	"wR" 'evil-window-rotate-upwards
-	"we" 'evil-window-exchange
-	"wh" 'evil-window-left
-	"wj" 'evil-window-down
-	"wk" 'evil-window-up
-	"wl" 'evil-window-right
-	"ws" 'evil-window-split
-	"wv" 'evil-window-vsplit)
+	"fF" 'find-file-other-window
+	"fr" 'consult-recent-file)
 
   (general-evil-define-key 'normal prog-mode-map
 	"gd" #'xref-find-definitions

@@ -15,40 +15,10 @@
   (add-to-list 'consult-buffer-filter "\\`\\*Welcome\\*\\'")
   (add-to-list 'consult-buffer-filter "magit*")
 
-  (sleepy/leader-def
-	"bd" 'kill-current-buffer
-	"br" 'revert-buffer
-	"bb" 'consult-buffer
-	"bB" 'consult-buffer-other-window
-	"bp" 'consult-project-buffer)
-
   ;; TODO fix name
   (defun consult-ripgrep-current ()
 	(interactive)
 	(consult-ripgrep default-directory))
-
-  (sleepy/leader-def
-	"si" 'consult-imenu
-	"sI" 'consult-imenu-multi
-	"sb" 'consult-line
-	"sB" 'consult-line-multi
-	"sd" 'consult-ripgrep-current
-	"sp" 'consult-ripgrep
-	"sg" 'consult-git-grep)
-
-  (sleepy/leader-def
-	"ji" 'consult-outline
-	"jl" 'consult-goto-line
-	"jo" 'consult-outline
-	"jd" 'consult-ripgrep
-	"jg" 'consult-git-grep)
-
-  (sleepy/leader-def
-	"uy" 'consult-yank-pop)
-
-  (sleepy/leader-def
-	"fr" 'consult-recent-file)
-
   :config
   ;; Turn off live-preview
   (consult-customize consult-theme consult-recent-file :preview-key nil)

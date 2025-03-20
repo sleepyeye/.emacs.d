@@ -6,8 +6,6 @@
 (use-package magit
   :defer t
   :commands magit-status
-  :general
-  (sleepy/leader-def "gg" 'magit-status)
   :config
   ;; See https://github.com/magit/magit/issues/2124
   (defun mu-magit-kill-buffers (param)
@@ -48,5 +46,4 @@
 
 (use-package git-timemachine
   :defer t
-  :commands git-timemachine
-  :config (sleepy/leader-def "gt" 'git-timemachine))
+  :commands git-timemachine)

@@ -139,3 +139,9 @@
   :custom
   (vdiff-auto-refine t)
   (vdiff-only-highlight-refinements t))
+
+
+(with-eval-after-load 'evil-maps
+  (define-key evil-motion-state-map (kbd "SPC") nil)
+  (define-key evil-motion-state-map (kbd "RET") nil)
+  (define-key evil-motion-state-map (kbd "TAB") nil))
