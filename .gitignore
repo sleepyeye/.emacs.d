@@ -108,3 +108,9 @@ Temporary Items
 /bookmarks
 
 .tags/
+
+ext/
+/history
+/places
+/saveplace
+/undo-fu-session/
