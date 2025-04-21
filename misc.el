@@ -32,14 +32,16 @@
   (require 'dwim-shell-commands))
 
 
-;; (use-package jinx
-;;   :after (latex auctex)
-;;   :demand t
-;;   :bind ([remap ispell-word] . jinx-correct)
-;;   :hook (emacs-startup . global-jinx-mode)
-;;   :config
-;;   (setq jinx-languages "en")
-;;   (set-face-attribute 'jinx-misspelled nil :underline '(:color "#ffcc00" :style wave)))
+(use-package jinx
+  :hook (emacs-startup . global-jinx-mode)
+  :bind (([remap ispell-word] . jinx-correct)
+		 ("M-i" . jinx-correct)
+		 ("M-o" . jinx-previous)
+		 ("M-p" . jinx-next))
+  :config
+  (setq jinx-languages "en")
+  ;; The quick broown fox jumps uver the lazy dog.
+  (set-face-attribute 'jinx-misspelled nil :underline '(:color "#006800" :style wave)))
 
 (use-package gcmh
   :hook (after-init . gcmh-mode)
