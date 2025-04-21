@@ -3,6 +3,7 @@
   :commands (eglot eglot-ensure)
   :custom
   (eglot-report-progress nil)  ; Prevent minibuffer spam
+  (eglot-events-buffer-size 0)
   :config
   (fset #'jsonrpc--log-event #'ignore)
   (setq jsonrpc-event-hook nil)
@@ -60,3 +61,9 @@
   :general
   (sleepy/leader-def
     "cs" 'consult-eglot-symbols))
+
+(use-package eglot-booster
+  :ensure (eglot-booster :host github :repo "jdtsmith/eglot-booster")
+  :after eglot
+  :config
+  (eglot-booster-mode))
