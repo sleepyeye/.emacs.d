@@ -28,20 +28,22 @@
   ;; Don't refresh the status buffer unless it's currently focused. This should improve performance.
   (setq magit-refresh-status-buffer nil))
 
-(use-package diff-hl
+(use-package git-gutter
   :demand t
+  :hook (emacs-startup . global-git-gutter-mode)
   :init
-  ;; Better looking colours for diff indicators /w spacemacs-light theme
+  (custom-set-variables
+   '(git-gutter:modified-sign " ")
+   '(git-gutter:added-sign " ")
+   '(git-gutter:deleted-sign " "))
+
   (custom-set-faces
-  '(diff-hl-change ((t (:foreground "#553d00"))))
-  '(diff-hl-insert ((t (:foreground "#005000"))))
-  '(diff-hl-delete ((t (:foreground "#8f1313")))))
+   '(git-gutter:modified ((t (:foreground "#553d00" :weight bold))))
+   '(git-gutter:added    ((t (:foreground "#005000" :weight bold))))
+   '(git-gutter:deleted  ((t (:foreground "#8f1313" :weight bold)))))
   :config
-  (global-diff-hl-mode)
-  (setq diff-hl-draw-borders nil)
-  ;; Magit 2.4 or newer
-  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+  (setq git-gutter:update-interval 1)
+  (setq git-gutter:hide-gutter nil))
 
 
 (use-package git-timemachine
