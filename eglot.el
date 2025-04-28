@@ -24,10 +24,14 @@
 															"--background-index"
 															"--header-insertion=never"
 															"--header-insertion-decorators=0")))
-  ;; (add-to-list 'eglot-server-programs
-  ;; 			   '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
+  (add-to-list 'eglot-server-programs
+			   '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
+
   (add-to-list 'eglot-server-programs
 			   '((LaTeX-mode) . ("texlab")))
+
+  (add-hook 'eglot-managed-mode-hook #'evil-normalize-keymaps)
+
   :general
   (sleepy/leader-def
 	"ca" #'eglot-code-action)
