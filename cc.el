@@ -15,26 +15,12 @@
 (add-hook 'c-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf)))
 (add-hook 'c++-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf)))
 (add-hook 'cc-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf)))
-(add-hook 'simpc-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf)))
 
 
 (use-package cmake-mode
   :defer t
   :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'"))
 
-(use-package cc-mode :elpaca nil :disabled t)
-(use-package c-mode :elpaca nil :disabled t)
-(use-package c++-mode :elpaca nil :disabled t)
-
-(use-package simpc-mode
-  :mode ("\\.c\\'" "\\.h\\'" "\\.cpp\\'")
-  :init
-  (add-to-list 'major-mode-remap-alist '(c-mode . simpc-mode))
-  (add-to-list 'major-mode-remap-alist '(c++-mode . simpc-mode))
-  (add-hook 'eglot-managed-mode-hook #'sleepy/cc-capf)
-  (add-hook 'simpc-mode-hook #'tree-sitter-hl-mode)
-
-  :load-path local-package-directory)
 
 (use-package cmake-font-lock
   :defer t
@@ -43,14 +29,11 @@
   :hook (cmake-mode . cmake-font-lock-activate))
 
 (use-package modern-cpp-font-lock
-  :load-path local-package-directory
-  :disabled t
   :config
-  (modern-c++-font-lock-global-mode))
+  (modern-c++-font-lock-global-mode t))
 
 (use-package clang-format+
   :defer t
   :commands clang-format+-mode
   :hook ((c-mode-hook . clang-format+-mode)
-		 (c++-mode-hook . clang-format+-mode)
-		 (simpc-mode . clang-format+-mode)))
+		 (c++-mode-hook . clang-format+-mode)))

@@ -16,14 +16,14 @@
 
   ;; setup language servers for each language
   (add-to-list 'eglot-server-programs
-			   '((simpc-mode c-mode c-ts-mode c++-mode c++-ts-mode) . ("clangd"
-																	   "-j=2"
-																	   "--log=error"
-																	   ;; "--completion-style=detailed"
-																	   "--completion-style=bundled" ;; more simpler style
-																	   "--background-index"
-																	   "--header-insertion=never"
-																	   "--header-insertion-decorators=0")))
+			   '((c-mode c-ts-mode c++-mode c++-ts-mode) . ("clangd"
+															"-j=2"
+															"--log=error"
+															;; "--completion-style=detailed"
+															"--completion-style=bundled" ;; more simpler style
+															"--background-index"
+															"--header-insertion=never"
+															"--header-insertion-decorators=0")))
   ;; (add-to-list 'eglot-server-programs
   ;; 			   '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
   (add-to-list 'eglot-server-programs
@@ -49,12 +49,10 @@
    (cmake-mode . eglot-ensure)
    (cmake-ts-mode . eglot-ensure)
    ;; (markdown-mode . eglot-ensure)
-   ;; (c-mode . eglot-ensure)
-   ;; (c++-mode . eglot-ensure)
-   ;; (c-ts-mode . eglot-ensure)
-   ;; (c++-ts-mode . eglot-ensure)
-   (simpc-mode . eglot-ensure)
-  ))
+   (c-mode . eglot-ensure)
+   (c++-mode . eglot-ensure)
+   (c-ts-mode . eglot-ensure)
+   (c++-ts-mode . eglot-ensure)))
 
 (use-package consult-eglot
   :after eglot
