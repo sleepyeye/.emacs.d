@@ -25,7 +25,11 @@
 
 (use-package conda
   :init
-  (setq conda-env-home-directory (expand-file-name "~/miniconda3/")))
+  (setq conda-env-home-directory (expand-file-name "~/miniconda3/")
+		conda-env-subdirectory "envs")
+  (setq conda-env-autoactivate-mode t)
+  (add-hook 'find-file-hook (lambda () (when (bound-and-true-p conda-project-env-path)
+										 (conda-env-activate-for-buffer)))))
 
 ;; (use-package python-black
 ;;   :after python

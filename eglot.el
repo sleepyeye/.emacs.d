@@ -4,6 +4,16 @@
   :custom
   (eglot-report-progress nil)  ; Prevent minibuffer spam
   (eglot-events-buffer-size 0)
+  :init
+  (setq eglot-autoshutdown t
+		eglot-workspace-configuration
+		'(:basedpyright (:typeCheckingMode "standard")
+		  :basedpyright.analysis (:inlayHints (:callArgumentNames :json-false)
+								  :diagnosticSeverityOverrides (:reportUnusedCallResult "none" :reportGeneralTypeIssues "none" :reportArgumentType "none")
+								  :useLibraryCodeForTypes t
+								  :diagnosticMode "workspace" :autoSearchPaths t))
+		eglot-sync-connect 0)
+
   :config
   (fset #'jsonrpc--log-event #'ignore)
   (setq jsonrpc-event-hook nil)
@@ -24,8 +34,9 @@
 															"--background-index"
 															"--header-insertion=never"
 															"--header-insertion-decorators=0")))
+
   (add-to-list 'eglot-server-programs
-			   '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
+                 '((python-mode python-ts-mode) . ("basedpyright-langserver" "--stdio")))
 
   (add-to-list 'eglot-server-programs
 			   '((LaTeX-mode) . ("texlab")))
