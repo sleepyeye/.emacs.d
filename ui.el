@@ -25,14 +25,14 @@
   :diminish which-key-mode)
 
 
-(use-package doom-modeline
-  :init
-  (setq doom-modeline-height 15)
-  :config
-  (column-number-mode 1)
-  (doom-modeline-mode)
-  :custom
-  (doom-modeline-icon t "Show icons in the modeline"))
+;; (use-package doom-modeline
+;;   :init
+;;   (setq doom-modeline-height 15)
+;;   :config
+;;   (column-number-mode 1)
+;;   (doom-modeline-mode)
+;;   :custom
+;;   (doom-modeline-icon t "Show icons in the modeline"))
 
 (use-package doom-themes
   :disabled t
@@ -57,13 +57,26 @@
 (use-package modus-themes
   :ensure t
   :config
+
+  (setq modus-themes-common-palette-overrides
+		'(;;; remove overline from headings
+		  (overline-heading-0 unspecified)
+		  (overline-heading-1 unspecified)
+		  (overline-heading-2 unspecified)
+		  (overline-heading-3 unspecified)
+		  (overline-heading-4 unspecified)
+		  (overline-heading-5 unspecified)
+		  (overline-heading-6 unspecified)
+		  (overline-heading-7 unspecified)
+		  (overline-heading-8 unspecified)
+		  ;;; adjust mode-line setup
+		  (bg-mode-line-active bg-blue-subtle)
+		  (fg-mode-line-active fg-main)
+		  (border-mode-line-active blue-intense)))
+
   ;; Add all your customizations prior to loading the themes
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs nil)
-
-  ;; Maybe define some palette overrides, such as by using our presets
-  (setq modus-themes-common-palette-overrides
-        modus-themes-preset-overrides-intense)
 
   ;; Load the theme of your choice.
   (load-theme 'modus-operandi :no-confirm))
