@@ -32,5 +32,30 @@
 	   :italic-family "JuliaMono"
 	   :italic-slant italic
 	   :bold-weight bold
+	   :line-spacing 1)
+	  (iosevka
+	   :default-family "Iosevka"
+	   :default-weight regular
+	   :default-height 140
+	   :fixed-pitch-family "Iosevka Fixed"
+	   :fixed-pitch-weight nil
+	   :fixed-pitch-height 1.0
+	   :fixed-pitch-serif-family nil ; falls back to :default-family
+	   :fixed-pitch-serif-weight nil ; falls back to :default-weight
+	   :fixed-pitch-serif-height 1.0
+	   :variable-pitch-family "Iosevka Alie"
+	   :variable-pitch-weight nil
+	   :variable-pitch-height 1.0
+	   :bold-family nil
+	   :bold-weight bold
+	   :italic-family nil
+	   :italic-slant italic
 	   :line-spacing 1)))
-  (fontaine-set-preset 'regular))
+  (fontaine-set-preset 'iosevka)
+  ;; The other side of `fontaine-restore-latest-preset'.
+  (add-hook 'kill-emacs-hook #'fontaine-store-latest-preset)
+
+  ;; Persist font configurations while switching themes (doing it with
+  ;; my `modus-themes' and `ef-themes' via the hooks they provide).
+  (dolist (hook '(modus-themes-after-load-theme-hook ef-themes-post-load-hook))
+	(add-hook hook #'fontaine-apply-current-preset)))
