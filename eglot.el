@@ -9,8 +9,9 @@
 		eglot-workspace-configuration
 		'(:basedpyright (:typeCheckingMode "standard")
 		  :basedpyright.analysis (:inlayHints (:callArgumentNames :json-false)
-								  :diagnosticSeverityOverrides (:reportUnusedCallResult "none" :reportGeneralTypeIssues "none" :reportArgumentType "none")
+								  :diagnosticSeverityOverrides (:reportCallIssue "none" :reportUnusedCallResult "none" :reportGeneralTypeIssues "none" :reportArgumentType "none")
 								  :useLibraryCodeForTypes t
+								  :stubPath ["./", "./typings"]
 								  :diagnosticMode "workspace" :autoSearchPaths t))
 		eglot-sync-connect 0)
 
