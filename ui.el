@@ -151,6 +151,7 @@
 		  compilation-mode
 		  messages-mode
 		  occur-mode
+		  "\\*Python\\*"
 		  "\\*Messages\\*"
 		  "^\\*Warnings\\*"
 		  "^\\*Compile-Log\\*"
