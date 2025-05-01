@@ -109,14 +109,13 @@
 	"p!" 'projectile-run-shell-command-in-root
 	"p%" 'projectile-replace-regexp
 	"p&" 'projectile-run-async-shell-command-in-root
-	"p-" 'projectile-dired
 	"pf" 'projectile-find-file
 	"pe" 'projectile-edit-dir-locals
 	"pI" 'projectile-invalidate-cache
 	"pk" 'projectile-kill-buffers
 	"pR" 'projectile-replace
 	"pS" 'projectile-save-project-buffers
-	"pv" 'projectile-vc)
+	"pt" 'projectile-run-vterm)
 
   (sleepy/leader-def
 	"uy" 'consult-yank-pop)

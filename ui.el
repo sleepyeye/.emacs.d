@@ -128,15 +128,7 @@
   (solaire-global-mode +1)
   (add-hook 'ediff-prepare-buffer-hook #'solaire-mode))
 
-
-;; (set-face-attribute 'fringe nil :background nil)
-;; (set-face-attribute 'header-line nil :background nil :inherit 'default)
-;; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-
-
 (use-package popper
-  :defer 2
-  :after perspective
   :config
   ;; Group by projects
   (setq popper-group-function #'popper-group-by-projectile)

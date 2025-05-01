@@ -23,6 +23,6 @@ If the file doesn't exist, create it."
 		  (write-file todo-path)))
 	  (find-file todo-path)))
 
-  (sleepy/leader-def "p t" #'open-project-todo))
+  (sleepy/leader-def "p '" #'open-project-todo))
 
 (use-package consult-projectile)
