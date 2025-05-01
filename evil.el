@@ -145,3 +145,9 @@
   (define-key evil-motion-state-map (kbd "SPC") nil)
   (define-key evil-motion-state-map (kbd "RET") nil)
   (define-key evil-motion-state-map (kbd "TAB") nil))
+
+(use-package better-jumper
+  :config
+  (with-eval-after-load 'evil-maps
+	(define-key evil-motion-state-map (kbd "C-o") 'better-jumper-jump-backward)
+	(define-key evil-motion-state-map (kbd "<C-i>") 'better-jumper-jump-forward)))
