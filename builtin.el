@@ -203,3 +203,10 @@
 (add-hook 'after-init-hook #'recentf-mode)
 (add-hook 'after-init-hook #'savehist-mode)
 (add-hook 'after-init-hook #'save-place-mode)
+
+(add-hook 'markdown-mode-hook (lambda () (setq-local imenu-auto-rescan t)))
+(add-hook 'makefile-mode-hook (lambda () (setq-local imenu-auto-rescan t)))
+(add-hook 'prog-mode-hook
+      (lambda ()
+        (setq-local imenu-auto-rescan t)
+        (setq-local imenu-sort-function #'imenu--sort-by-name)))

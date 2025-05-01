@@ -1,10 +1,8 @@
 (use-package transient
-  :defer t
   :config
   (transient-bind-q-to-quit))
 
 (use-package magit
-  :defer t
   :commands magit-status
   :config
   ;; See https://github.com/magit/magit/issues/2124
@@ -29,7 +27,6 @@
   (setq magit-refresh-status-buffer nil))
 
 (use-package git-gutter
-  :demand t
   :hook (emacs-startup . global-git-gutter-mode)
   :init
   (custom-set-variables
@@ -42,7 +39,7 @@
    '(git-gutter:added    ((t (:foreground "#005000" :weight bold))))
    '(git-gutter:deleted  ((t (:foreground "#8f1313" :weight bold)))))
   :config
-  (setq git-gutter:update-interval 1)
+  (setq git-gutter:update-interval 0.5)
   (setq git-gutter:hide-gutter nil))
 
 

@@ -83,6 +83,7 @@
   (sleepy/leader-def
 	"s"   '(:ignore t :which-key "Serch")
 	"si" 'consult-imenu
+	"so" 'consult-outline
 	"sI" 'consult-imenu-multi
 	"sb" 'consult-line
 	"sB" 'consult-line-multi

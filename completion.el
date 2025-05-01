@@ -33,7 +33,7 @@
 
   :init
   ;; Optionally configure the register formatting. This improves the register
-  (setq register-preview-delay 0.5
+  (setq register-preview-delay 0.3
         register-preview-function #'consult-register-format)
 
   ;; Optionally tweak the register preview window.
