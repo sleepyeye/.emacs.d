@@ -106,7 +106,7 @@
 ;; `recentf' is an Emacs package that maintains a list of recently
 ;; accessed files, making it easier to reopen files you have worked on
 ;; recently.
-(setq recentf-max-saved-items 300) ; default is 20
+(setq recentf-max-saved-items 100) ; default is 20
 (setq recentf-auto-cleanup 'mode)
 
 ;;; saveplace

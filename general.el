@@ -81,7 +81,7 @@
 
   ;; Search keybindings
   (sleepy/leader-def
-	"s"   '(:ignore t :which-key "Serch")
+	"s"   '(:ignore t :which-key "Search")
 	"si" 'consult-imenu
 	"so" 'consult-outline
 	"sI" 'consult-imenu-multi
