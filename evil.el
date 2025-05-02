@@ -152,3 +152,33 @@
   (with-eval-after-load 'evil-maps
 	(define-key evil-motion-state-map (kbd "C-o") 'better-jumper-jump-backward)
 	(define-key evil-motion-state-map (kbd "<C-i>") 'better-jumper-jump-forward)))
+
+
+(use-package evil-textobj-tree-sitter
+  :after evil
+  :ensure t
+  :config
+  (with-eval-after-load 'evil-maps
+	(define-key evil-outer-text-objects-map "a" (evil-textobj-tree-sitter-get-textobj ("conditional.outer" "loop.outer")))
+
+	;;; text object for functions
+	;; bind `function.outer`(entire function block) to `f` for use in things like `vaf`, `yaf`
+	(define-key evil-outer-text-objects-map "f" (evil-textobj-tree-sitter-get-textobj "function.outer"))
+	;; bind `function.inner`(function block without name and args) to `f` for use in things like `vif`, `yif`
+	(define-key evil-inner-text-objects-map "f" (evil-textobj-tree-sitter-get-textobj "function.inner"))
+	;; Goto start of next function
+	(define-key evil-normal-state-map (kbd "]f") (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "function.outer")))
+	;; Goto start of previous function
+	(define-key evil-normal-state-map (kbd "[f") (lambda () (interactive)  (evil-textobj-tree-sitter-goto-textobj "function.outer" t)))
+	;; Goto end of next function
+	(define-key evil-normal-state-map (kbd "]F") (lambda () (interactive)  (evil-textobj-tree-sitter-goto-textobj "function.outer" nil t)))
+	;; Goto end of previous function
+	(define-key evil-normal-state-map (kbd "[F") (lambda () (interactive)  (evil-textobj-tree-sitter-goto-textobj "function.outer" t t)))
+
+	;;; text object for class
+	(define-key evil-outer-text-objects-map "g" (evil-textobj-tree-sitter-get-textobj "class.outer"))
+	(define-key evil-inner-text-objects-map "g" (evil-textobj-tree-sitter-get-textobj "class.inner"))
+	(define-key evil-normal-state-map (kbd "]g") (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "class.outer")))
+	(define-key evil-normal-state-map (kbd "[g") (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "class.outer" t)))
+	(define-key evil-normal-state-map (kbd "]G") (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "class.outer" nil t)))
+	(define-key evil-normal-state-map (kbd "[G") (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "class.outer" t t)))))
