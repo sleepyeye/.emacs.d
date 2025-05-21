@@ -7,10 +7,11 @@
   :init
   (setq eglot-autoshutdown t
 		eglot-workspace-configuration
-		'(:basedpyright (:typeCheckingMode "standard")
+		'(:basedpyright (:typeCheckingMode "standard" :disableOrganizeImports t)
 		  :basedpyright.analysis (:inlayHints (:callArgumentNames :json-false)
 								  :diagnosticSeverityOverrides (:reportCallIssue "none" :reportUnusedCallResult "none" :reportGeneralTypeIssues "none" :reportArgumentType "none")
 								  :useLibraryCodeForTypes t
+								  :autoImportCompletions nil
 								  :stubPath ["./", "./typings"]
 								  :diagnosticMode "workspace" :autoSearchPaths t))
 		eglot-sync-connect 0)

@@ -51,7 +51,7 @@
 
   ;; Perspective keybindings
   (sleepy/leader-def
-	"TAB" '(perspective-map :wk "Perspective"))
+	"tab"    '(perspective-map :wk "Perspective"))
 
   ;; Window keybindings
   (sleepy/leader-def

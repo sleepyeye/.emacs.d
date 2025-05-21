@@ -135,6 +135,7 @@
   (setq popper-mode-line nil)
   (setq popper-display-control t)
   (general-define-key
+   "C-M-'" #'popper-toggle-type
    "C-;" #'popper-toggle
    "C-'" #'popper-cycle)
   :init
