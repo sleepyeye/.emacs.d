@@ -1,13 +1,11 @@
-(use-package project :ensure nil)
-
 (use-package projectile
-  :demand t
   :config
   (projectile-mode)
   (add-to-list 'projectile-globally-ignored-directories "^\\build$")
   (add-to-list 'projectile-globally-ignored-directories "^\\elpa$")
   (add-to-list 'projectile-globally-ignored-directories "^\\url$")
   (add-to-list 'projectile-globally-ignored-directories "^\\__pycache__$")
+  (setq projectile-project-search-path '("~/workspace/"))
   (setq projectile-enable-caching t)
   (setq projectile-require-project-root t)
 

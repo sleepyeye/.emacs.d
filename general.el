@@ -100,23 +100,8 @@
 	"jd" 'consult-ripgrep
 	"jg" 'consult-git-grep)
 
-  ;; Project
   (sleepy/leader-def
-	"p"   '(:ignore t :which-key "Project")
-	"pc" 'project-compile
-	"pp" 'project-recompile
-	"p-" 'projectile-dired
-	"p_" 'projectile-dired-other-window
-	"p!" 'projectile-run-shell-command-in-root
-	"p%" 'projectile-replace-regexp
-	"p&" 'projectile-run-async-shell-command-in-root
-	"pf" 'projectile-find-file
-	"pe" 'projectile-edit-dir-locals
-	"pI" 'projectile-invalidate-cache
-	"pk" 'projectile-kill-buffers
-	"pR" 'projectile-replace
-	"pS" 'projectile-save-project-buffers
-	"pt" 'projectile-run-vterm)
+	"p" '(projectile-command-map :wk "Project"))
 
   (sleepy/leader-def
 	"uy" 'consult-yank-pop)

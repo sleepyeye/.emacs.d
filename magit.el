@@ -39,7 +39,7 @@
    '(git-gutter:added    ((t (:foreground "#005000" :weight bold))))
    '(git-gutter:deleted  ((t (:foreground "#8f1313" :weight bold)))))
   :config
-  (setq git-gutter:update-interval 0.5)
+  (setq git-gutter:update-interval 0.05)
   (setq git-gutter:hide-gutter nil))
 
 

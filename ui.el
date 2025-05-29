@@ -9,7 +9,7 @@
   ;; max width of which-key frame: number of columns (an integer)
   (setq which-key-frame-max-width 60)
   ;; max height of which-key frame: number of lines (an integer)
-  (setq which-key-frame-max-height 20)
+  (setq which-key-frame-max-height 22)
   (setq which-key-side-window-location 'bottom
 		which-key-enable-extended-define-key t
 		which-key-sort-order #'which-key-key-order-alpha
@@ -83,7 +83,6 @@
 
 
 (use-package pulsar
-  :defer 2
   :hook
   ((consult-after-jump-hook . pulsar-recenter-top)
    (consult-after-jump-hook . pulsar-reveal-entry))
@@ -119,7 +118,6 @@
   (pulsar-global-mode 1))
 
 (use-package hl-todo
-  :defer 2
   :config
   (global-hl-todo-mode))
 
@@ -161,7 +159,6 @@
 
 (use-package frame
   :ensure nil
-  :defer t
   :config
   (setq frame-resize-pixelwise t)
   (set-frame-parameter nil 'internal-border-width 0)

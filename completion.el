@@ -1,9 +1,7 @@
 (use-package vertico
-  :defer t
   :init
   (vertico-mode)
-  (setq vertico-count 12
-		vertico-cycle t))
+  (setq vertico-count 12 vertico-cycle t))
 
 
 (use-package consult
@@ -33,7 +31,7 @@
 
   :init
   ;; Optionally configure the register formatting. This improves the register
-  (setq register-preview-delay 0.3
+  (setq register-preview-delay 0.1
         register-preview-function #'consult-register-format)
 
   ;; Optionally tweak the register preview window.
@@ -58,8 +56,6 @@
 
 (use-package corfu
   :ensure (corfu :host github :repo "minad/corfu" :files (:defaults "extensions/*"))
-  :defer t
-  :commands (corfu-mode global-corfu-mode)
   :custom
   ;; Hide commands in M-x which do not apply to the current mode.
   (read-extended-command-predicate #'command-completion-default-include-p)
@@ -81,11 +77,10 @@
   (:map corfu-map ("M-SPC" . corfu-insert-separator))
   :init
   (global-corfu-mode)
-  (corfu-history-mode 1))
+  (corfu-history-mode))
+
 
 (use-package cape
-  :defer t
-  :commands (cape-dabbrev cape-file cape-elisp-block)
   :init
   (add-hook 'completion-at-point-functions #'cape-file)
   (add-hook 'completion-at-point-functions #'cape-keyword))

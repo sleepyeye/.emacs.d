@@ -15,7 +15,6 @@
 	"t" #'rg-rerun-change-literal))
 
 (use-package dumb-jump
-  :defer t
   :commands dumb-jump-xref-activate
   :config
   ;; (setq xref-show-definitions-function #'xref-show-definitions-completing-read)

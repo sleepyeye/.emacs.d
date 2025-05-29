@@ -8,7 +8,6 @@
 
 ;; Open python files in tree-sitter mode.
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
-
 (add-hook 'python-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/python-capf)))
 (add-hook 'python-ts-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/python-capf)))
 
