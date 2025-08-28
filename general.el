@@ -1,123 +1,77 @@
-;;; general.el --- general.el -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; general.el --- leader bindings (lean, no override of package evil bindings) -*- lexical-binding: t; -*-
 
 (defconst sleepy/leader-key "SPC")
-(defconst sleepy/global-leader-key "C-SPC")
-
+(defconst sleepy/global-leader-key "M-SPC")
 
 (use-package general
-  :demand t
   :ensure (:wait t)
+  :demand t
   :config
   (general-evil-setup)
 
-  ;;; create definers
   (general-create-definer sleepy/leader-def
-	:states        '(normal visual insert emacs)
-    :keymaps       'override
-	:prefix        "SPC"
-	:global-prefix "M-SPC")
+    :states '(normal visual motion)
+    :keymaps 'override
+    :prefix sleepy/leader-key
+    :global-prefix sleepy/global-leader-key)
 
-  ;;; define menus
-  (sleepy/leader-def
-	"c"   '(:ignore t :which-key "Code"))
-
-
-  ;;; setup global keybindings
+  ;; 최소 전역 키
   (general-define-key
+   "M-x" 'execute-extended-command
    "s-x" 'execute-extended-command
-   "C-," 'duplicate-line
    "C-=" 'text-scale-increase
    "C--" 'text-scale-decrease)
 
-
-   ;;; setup leader keybindings
+  ;; Leader 메뉴
   (sleepy/leader-def
-	"SPC" 'find-file
-	"-" 'dired-jump
-	"!" 'shell-command
-	":" 'eval-expression
-	"." 'repeat
-    "!" 'shell-command
-    "&" 'async-shell-command)
+    "SPC" '(find-file :which-key "find file")
+    "-"   '(dired-jump :which-key "dired here")
+    ":"   '(eval-expression :which-key "eval")
+    "!"   '(shell-command :which-key "shell cmd")
+    "&"   '(async-shell-command :which-key "async shell"))
 
   (sleepy/leader-def
-	"h"   '(:ignore t :which-key "Help")
-	"h m" '(describe-mode     :which-key "desc mode")
-	"h k" '(describe-key      :which-key "desc key")
-	"h K" '(describe-keymap   :which-key "desc key map")
-	"h f" '(describe-function :which-key "desc func")
-	"h F" '(describe-Face     :which-key "desc face")
-	"h v" '(describe-variable :which-key "desc variable"))
-
-  ;; Perspective keybindings
-  (sleepy/leader-def
-	"tab"    '(perspective-map :wk "Perspective"))
-
-  ;; Window keybindings
-  (sleepy/leader-def
-	"w"   '(:ignore t :which-key "Window")
-	"w o" 'other-window
-	"w d" 'delete-window
-	"w r" 'evil-window-rotate-upwards
-	"w R" 'evil-window-rotate-upwards
-	"w e" 'evil-window-exchange
-	"w h" 'evil-window-left
-	"w j" 'evil-window-down
-	"w k" 'evil-window-up
-	"w l" 'evil-window-right
-	"w s" 'evil-window-split
-	"w v" 'evil-window-vsplit)
-
-
-  ;; Buffer keybindings
-  (sleepy/leader-def
-	"b"   '(:ignore t :which-key "Buffer")
-	"bi" 'ibuffer
-	"bd" 'kill-current-buffer
-	"br" 'revert-buffer
-	"bb" 'consult-buffer
-	"bB" 'consult-buffer-other-window
-	"bp" 'consult-project-buffer)
-
-  ;; Search keybindings
-  (sleepy/leader-def
-	"s"   '(:ignore t :which-key "Search")
-	"si" 'consult-imenu
-	"so" 'consult-outline
-	"sI" 'consult-imenu-multi
-	"sb" 'consult-line
-	"sB" 'consult-line-multi
-	"sd" 'consult-ripgrep-current
-	"sp" 'consult-ripgrep
-	"sg" 'consult-git-grep)
-
-  ;; Jump keybindings
-  (sleepy/leader-def
-	"j"   '(:ignore t :which-key "Jump")
-	"ji" 'consult-outline
-	"jl" 'consult-goto-line
-	"jo" 'consult-outline
-	"jd" 'consult-ripgrep
-	"jg" 'consult-git-grep)
+    "h"   '(:ignore t :which-key "Help")
+    "h m" '(describe-mode     :which-key "mode")
+    "h k" '(describe-key      :which-key "key")
+    "h K" '(describe-keymap   :which-key "keymap")
+    "h f" '(describe-function :which-key "func")
+    "h F" '(describe-face     :which-key "face")
+    "h v" '(describe-variable :which-key "var"))
 
   (sleepy/leader-def
-	"p" '(projectile-command-map :wk "Project"))
+    "w"   '(:ignore t :which-key "Window")
+    "w o" '(other-window :which-key "other")
+    "w d" '(delete-window :which-key "delete")
+    "w s" '(evil-window-split :which-key "split-h")
+    "w v" '(evil-window-vsplit :which-key "split-v")
+    "w r" '(evil-window-rotate-upwards :which-key "rotate ↻")
+    "w R" '(evil-window-rotate-downwards :which-key "rotate ↺")
+    "w h" '(evil-window-left :which-key "←")
+    "w j" '(evil-window-down :which-key "↓")
+    "w k" '(evil-window-up   :which-key "↑")
+    "w l" '(evil-window-right:which-key "→"))
 
   (sleepy/leader-def
-	"uy" 'consult-yank-pop)
+    "b"   '(:ignore t :which-key "Buffer")
+    "bb" '(consult-buffer :which-key "switch")
+    "bB" '(consult-buffer-other-window :which-key "switch other")
+    "bd" '(kill-current-buffer :which-key "kill")
+    "br" '(revert-buffer :which-key "revert"))
 
   (sleepy/leader-def
-	"g"   '(:ignore t :which-key "Git")
-	"gg" 'magit-status
-	"gt" 'git-timemachine)
+    "s"   '(:ignore t :which-key "Search")
+    "sb" '(consult-line :which-key "in buffer")
+    "sB" '(consult-line-multi :which-key "multi buf")
+    "sp" '(consult-ripgrep :which-key "ripgrep proj")
+    "sd" '(consult-ripgrep-current :which-key "ripgrep here")
+    "si" '(consult-imenu :which-key "imenu")
+    "sI" '(consult-imenu-multi :which-key "imenu*"))
 
-  ;; File keybindings
   (sleepy/leader-def
-	"f"   '(:ignore t :which-key "File")
-	"ff" 'find-file
-	"fF" 'find-file-other-window
-	"fr" 'consult-recent-file)
+    "g"   '(:ignore t :which-key "Git")
+    "gg" '(magit-status :which-key "status"))
 
-  (general-evil-define-key 'normal prog-mode-map
-	"gd" #'xref-find-definitions
-	"gr" #'xref-find-references))
+  (sleepy/leader-def
+    "p" '(projectile-command-map :which-key "Project"))
+)

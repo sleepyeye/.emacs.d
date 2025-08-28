@@ -1,212 +1,146 @@
-;;; builtin.el --- builtin.el -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; builtin.el --- core builtins, tidy & fast -*- lexical-binding: t; -*-
 
-;; Required Packages
+;; --- Required built-ins -----------------------------------------------------
 (require 'xref)
 (require 'compile)
 
-
-;; User Information
+;; --- User info --------------------------------------------------------------
 (setq user-full-name "sleepyeye"
       user-mail-address "wonjunlee.0729@gmail.com")
 
-;; Backup and Lock Files
-(setq backup-directory-alist
-      `(("." . ,(expand-file-name "backup" user-emacs-directory))))
-(setq tramp-backup-directory-alist backup-directory-alist)
-(setq create-lockfiles nil
-      make-backup-files nil
-      backup-by-copying t
-	  backup-by-copying-when-linked t
+;; --- Backups / Autosave -----------------------------------------------------
+(setq make-backup-files nil
+      create-lockfiles nil
+      vc-make-backup-files nil
       auto-save-default t
-      delete-old-versions t
-      kept-new-versions 4
-      kept-old-versions 2
-      version-control t
-	  vc-make-backup-files nil)
+      auto-save-include-big-deletions t
+      kill-buffer-delete-auto-save-files t)
 
+;; Autosave directory
+(defconst sleepy/autosave-dir (expand-file-name "autosave/" user-emacs-directory))
+(defconst sleepy/tramp-autosave-dir (expand-file-name "tramp-autosave/" user-emacs-directory))
+(unless (file-directory-p sleepy/autosave-dir) (make-directory sleepy/autosave-dir t))
+(unless (file-directory-p sleepy/tramp-autosave-dir) (make-directory sleepy/tramp-autosave-dir t))
 
+(setq auto-save-list-file-prefix sleepy/autosave-dir
+      tramp-auto-save-directory sleepy/tramp-autosave-dir
+      auto-save-file-name-transforms `((".*" ,sleepy/autosave-dir t)))
 
-;; Auto save stuffs
-;; Do not auto-disable auto-save after deleting large chunks of
-;; text. The purpose of auto-save is to provide a failsafe, and
-;; disabling it contradicts this objective.
-(setq auto-save-include-big-deletions t)
-(setq kill-buffer-delete-auto-save-files t)
-(setq auto-save-list-file-prefix
-      (expand-file-name "autosave/" user-emacs-directory))
-(setq tramp-auto-save-directory
-      (expand-file-name "tramp-autosave/" user-emacs-directory))
-
-;; Customization Settings
+;; --- General UX -------------------------------------------------------------
 (setq use-short-answers t
       confirm-kill-emacs 'yes-or-no-p
       save-interprogram-paste-before-kill t
       apropos-do-all t
       mouse-yank-at-point t
-      what-cursor-show-names t)
+      what-cursor-show-names t
+      find-file-suppress-same-file-warnings t)
 
-;; Load Custom File
+;; custom.el 분리 로드 (elpaca 이후)
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (add-hook 'elpaca-after-init-hook (lambda () (load custom-file 'noerror)))
 
-;; Appearance Settings
+;; --- Appearance -------------------------------------------------------------
 (setq-default display-line-numbers-width 3
-              tab-width 4)
-(recentf-mode 1)
-(global-hl-line-mode +1)
+              tab-width 4
+              truncate-lines t
+              fill-column 80)
 
-;; Encoding Settings
+(global-hl-line-mode 1)
+
+(when (display-graphic-p)
+  (setq-default frame-title-format nil
+                use-dialog-box nil))
+
+;; --- Encoding ---------------------------------------------------------------
+(set-language-environment "English")
 (set-default-coding-systems 'utf-8)
 (prefer-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
-(set-language-environment "English")
 
-;; Graphics and UI
-(when (display-graphic-p)
-  (setq-default frame-title-format nil)
-  (setq cursor-in-non-selected-windows nil)
-  (setq use-dialog-box nil))
+;; --- Cursor / Blink / Visual noise -----------------------------------------
+(blink-cursor-mode -1)
+(setq blink-matching-paren nil
+      x-stretch-cursor nil
+      delete-pair-blink-delay 0.03
+      cursor-in-non-selected-windows nil
+      highlight-nonselected-windows nil)
 
-;; Whitespace and Formatting
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+;; --- Whitespace -------------------------------------------------------------
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
 
-;; External Tools
-(when (executable-find "rg")
-  (setq grep-program "rg"))
-(when (executable-find "fd")
-  (setq find-program "fd"))
+;; --- External tools ---------------------------------------------------------
+(when (executable-find "rg") (setq grep-program "rg"))
+(when (executable-find "fd") (setq find-program "fd"))
 
-;; Compilation Settings
+;; --- Compilation ------------------------------------------------------------
 (setq compilation-always-kill t
       compilation-ask-about-save nil
-	  compilation-scroll-output t)
-      ;; compilation-scroll-output 'first-error)
+      compilation-scroll-output t)
 
-
-;; Disable the warning "X and Y are the same file". Ignoring this warning is
-;; acceptable since it will redirect you to the existing buffer regardless.
-(setq find-file-suppress-same-file-warnings t)
-
-
-;;; Auto-revert
-;; Auto-revert in Emacs is a feature that automatically updates the
-;; contents of a buffer to reflect changes made to the underlying file
-;; on disk.
-(setq revert-without-query (list ".")  ; Do not prompt
+;; --- Auto-revert ------------------------------------------------------------
+(setq revert-without-query (list ".")
       auto-revert-stop-on-user-input nil
-      auto-revert-verbose t)
+      auto-revert-verbose t
+      global-auto-revert-non-file-buffers t
+      auto-revert-check-vc-info t)
 
-;; Revert other buffers (e.g, Dired)
-(setq global-auto-revert-non-file-buffers t)
-(setq auto-revert-check-vc-info t)
+;; --- recentf / savehist / saveplace ----------------------------------------
+(setq recentf-max-saved-items 100
+      recentf-auto-cleanup 'mode     ; 모드 기반 클린업
+      history-length 300
+      savehist-save-minibuffer-history t
+      save-place-file (expand-file-name "saveplace" user-emacs-directory)
+      save-place-limit 600)
 
-
-;;; recentf
-;; `recentf' is an Emacs package that maintains a list of recently
-;; accessed files, making it easier to reopen files you have worked on
-;; recently.
-(setq recentf-max-saved-items 100) ; default is 20
-(setq recentf-auto-cleanup 'mode)
-
-;;; saveplace
-;; `save-place-mode` enables Emacs to remember the last location within a file
-;; upon reopening. This feature is particularly beneficial for resuming work at
-;; the precise point where you previously left off.
-(setq save-place-file (expand-file-name "saveplace" user-emacs-directory))
-(setq save-place-limit 600)
-
-;;; savehist
-;; `savehist` is an Emacs feature that preserves the minibuffer history between
-;; sessions. It saves the history of inputs in the minibuffer, such as commands,
-;; search strings, and other prompts, to a file. This allows users to retain
-;; their minibuffer history across Emacs restarts.
-(setq history-length 300)
-(setq savehist-save-minibuffer-history t)  ;; Default
-
-;;; Cursor
-;; The blinking cursor is distracting and interferes with cursor settings in
-;; some minor modes that try to change it buffer-locally (e.g., Treemacs).
-;; Additionally, it can cause freezing, especially on macOS, for users with
-;; customized and colored cursors.
-(blink-cursor-mode -1)
-
-;; Don't blink the paren matching the one at point, it's too distracting.
-(setq blink-matching-paren nil)
-
-;; Don't stretch the cursor to fit wide characters, it is disorienting,
-;; especially for tabs.
-(setq x-stretch-cursor nil)
-
-;; Reduce rendering/line scan work by not rendering cursors or regions in
-;; non-focused windows.
-(setq-default cursor-in-non-selected-windows nil)
-(setq highlight-nonselected-windows nil)
-
-;; This controls how long Emacs will blink to show the deleted pairs with
-;; `delete-pair'. A longer delay can be annoying as it causes a noticeable pause
-;; after each deletion, disrupting the flow of editing.
-(setq delete-pair-blink-delay 0.03)
-
-;; Disable wrapping by default due to its performance cost.
-(setq-default truncate-lines t)
-
-;; Enable multi-line commenting which ensures that `comment-indent-new-line'
-;; properly continues comments onto new lines, which is useful for writing
-;; longer comments or docstrings that span multiple lines.
-(setq comment-multi-line t)
-
-;; We often split terminals and editor windows or place them side-by-side,
-;; making use of the additional horizontal space.
-(setq-default fill-column 80)
-
-;; Remove duplicates from the kill ring to reduce clutter
-(setq kill-do-not-save-duplicates t)
-
-;; Ensures that empty lines within the commented region are also commented out.
-;; This prevents unintended visual gaps and maintains a consistent appearance,
-;; ensuring that comments apply uniformly to all lines, including those that are
-;; otherwise empty.
-(setq comment-empty-lines t)
-
-;;; Dired configs
+;; --- Dired ------------------------------------------------------------------
 (setq dired-clean-confirm-killing-deleted-buffers nil
       dired-kill-when-opening-new-dired-buffer t
       dired-recursive-deletes 'top
-      dired-recursive-copies  'always
+      dired-recursive-copies 'always
       dired-create-destination-dirs 'ask)
 
-
-;;; Ediff
-
-;; Configure Ediff to use a single frame and split windows horizontally
+;; --- Ediff ------------------------------------------------------------------
 (setq ediff-window-setup-function #'ediff-setup-windows-plain
       ediff-split-window-function #'split-window-horizontally)
 
-
-
-
-;;; Date and formatting
+;; --- macOS ls-lisp/date formatting -----------------------------------------
 (when (eq system-type 'darwin)
   (require 'ls-lisp)
-  ;; date format setting
-  (setq ls-lisp-format-time-list
-		'("%Y-%m-%d %H:%M"
-		  "%Y-%m-%d      "))
-  (setq ls-lisp-use-insert-directory-program nil))
+  (setq ls-lisp-use-insert-directory-program nil
+        ls-lisp-format-time-list '("%Y-%m-%d %H:%M" "%Y-%m-%d      ")))
 
-;; Use year/month/day
 (setq calendar-date-style 'iso)
 
-
+;; --- Mode hooks (after-init에 일원화) ---------------------------------------
 (add-hook 'after-init-hook #'global-auto-revert-mode)
 (add-hook 'after-init-hook #'recentf-mode)
 (add-hook 'after-init-hook #'savehist-mode)
 (add-hook 'after-init-hook #'save-place-mode)
 
-(add-hook 'markdown-mode-hook (lambda () (setq-local imenu-auto-rescan t)))
-(add-hook 'makefile-mode-hook (lambda () (setq-local imenu-auto-rescan t)))
-(add-hook 'prog-mode-hook
-      (lambda ()
-        (setq-local imenu-auto-rescan t)
-        (setq-local imenu-sort-function #'imenu--sort-by-name)))
+;; imenu: 일부 모드에서 자동 재스캔 + 정렬
+(dolist (hook '(markdown-mode-hook makefile-mode-hook prog-mode-hook))
+  (add-hook hook
+            (lambda ()
+              (setq-local imenu-auto-rescan t)
+              (when (derived-mode-p 'prog-mode)
+                (setq-local imenu-sort-function #'imenu--sort-by-name)))))
+
+;; --- macOS 전용: GUI일 때만 ---
+(when (and (eq system-type 'darwin) (display-graphic-p))
+  (cond
+   ((boundp 'ns-command-modifier)
+    (setq ns-command-modifier 'super
+          ns-option-modifier  'meta
+          ns-function-modifier 'hyper))
+   ((boundp 'mac-command-modifier)
+    (setq mac-command-modifier 'super
+          mac-option-modifier  'meta
+          ns-function-modifier 'hyper)))
+  (setq select-enable-clipboard t
+        select-enable-primary  nil)
+  (global-set-key (kbd "s-c") #'kill-ring-save)
+  (global-set-key (kbd "s-v") #'yank)
+  (global-set-key (kbd "s-x") #'kill-region))
+
+;;; builtin.el ends here

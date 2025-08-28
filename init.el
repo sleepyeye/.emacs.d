@@ -21,7 +21,7 @@
 ;;; setup languages
 ;; (load "~/.emacs.d/yaml.el")
 (load "~/.emacs.d/tex.el")
-;; (load "~/.emacs.d/quarto.el")
+(load "~/.emacs.d/quarto.el")
 (load "~/.emacs.d/cc.el")
 (load "~/.emacs.d/python.el")
 (load "~/.emacs.d/elisp.el")

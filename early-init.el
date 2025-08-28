@@ -26,12 +26,12 @@
       fast-but-imprecise-scrolling t
       inhibit-compacting-font-caches t
       load-prefer-newer t
-      read-process-output-max (* 1024 1024))
+      read-process-output-max (* 4 1024 1024))
 
 ;; UI Tweaks
-(push '(menu-bar-lines . 0) default-frame-alist)
-(push '(tool-bar-lines . 0) default-frame-alist)
-(push '(vertical-scroll-bars) default-frame-alist)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(menu-bar-mode -1)
 (setq frame-inhibit-implied-resize t
       frame-resize-pixelwise t)
 
