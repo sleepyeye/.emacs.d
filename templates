@@ -181,6 +181,16 @@ python-base-mode
 (ig "# type: ignore" q)
 (main "if __name__ == \"__main__\":" n> r>)
 
+(__init__ "def __init__(self, " (p "args") "):" n> r>)
+
+(mainf "def main(" (p "args") "):" n>
+       r> n
+       "if __name__ == \"__main__\":" n>
+       "raise SystemExit(main(" (s args) "))")
+
+(__main__ "if __name__ == \"__main__\":" n>
+          "raise SystemExit(main())")
+
 
 ;; Local Variables:
 ;; mode: lisp-data

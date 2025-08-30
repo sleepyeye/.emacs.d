@@ -145,9 +145,6 @@
   :ensure t
   :after evil
   :config
-  ;; 리스트 quote 누락 수정됨
-  (define-key evil-outer-text-objects-map "a"
-    (evil-textobj-tree-sitter-get-textobj '("conditional.outer" "loop.outer")))
 
   ;; function
   (define-key evil-outer-text-objects-map "f"

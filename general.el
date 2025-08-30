@@ -31,6 +31,21 @@
     "&"   '(async-shell-command :which-key "async shell"))
 
   (sleepy/leader-def
+	"f"   '(:ignore t :which-key "File")
+	"ff"  'find-file
+	"fp"  'projectile-find-file
+	"fg"  'consult-ripgrep
+	"fl"  'consult-line
+	"fr"  'consult-recent-file
+	"fP"  'projectile-recentf
+	"fd"  'dired-jump
+	"fs"  'save-buffer
+	"fu"  'revert-buffer
+	"fR"  'rename-visited-file
+	"fx"  'delete-file)
+
+
+  (sleepy/leader-def
     "h"   '(:ignore t :which-key "Help")
     "h m" '(describe-mode     :which-key "mode")
     "h k" '(describe-key      :which-key "key")
@@ -50,7 +65,7 @@
     "w h" '(evil-window-left :which-key "←")
     "w j" '(evil-window-down :which-key "↓")
     "w k" '(evil-window-up   :which-key "↑")
-    "w l" '(evil-window-right:which-key "→"))
+    "w l" '(evil-window-right :which-key "→"))
 
   (sleepy/leader-def
     "b"   '(:ignore t :which-key "Buffer")
