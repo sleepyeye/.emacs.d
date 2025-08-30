@@ -43,7 +43,7 @@
 	   :fixed-pitch-serif-family nil ; falls back to :default-family
 	   :fixed-pitch-serif-weight nil ; falls back to :default-weight
 	   :fixed-pitch-serif-height 1.0
-	   :variable-pitch-family "Iosevka Alie"
+	   :variable-pitch-family "Iosevka Aile"
 	   :variable-pitch-weight nil
 	   :variable-pitch-height 1.0
 	   :bold-family nil

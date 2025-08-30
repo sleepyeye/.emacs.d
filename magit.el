@@ -28,7 +28,7 @@
         git-gutter:deleted-sign  " ")
   :config
   ;; 너무 촘촘하면 CPU 사용량↑ → 0.3s 정도 권장
-  (setq git-gutter:update-interval 0.3
+  (setq git-gutter:update-interval 0.2
         git-gutter:hide-gutter nil)
   ;; 색상은 set-face-attribute로 관리 (custom-* 지양)
   (set-face-attribute 'git-gutter:modified nil :foreground "#553d00" :weight 'bold)
