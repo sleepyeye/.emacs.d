@@ -7,7 +7,6 @@
   :init
   (setq eglot-autoshutdown t
 		eglot-sync-connect 0
-		;; ✅ 올바른 구조로 수정
 		eglot-workspace-configuration
 		'(:basedpyright
 		  (:typeCheckingMode "standard"
@@ -45,24 +44,6 @@
   (add-to-list 'eglot-server-programs
 			   '((python-mode python-ts-mode)
 				 . ("basedpyright-langserver" "--stdio")))
-
-  ;; 키바인딩(중복/오타 정리)
-  (add-hook 'eglot-managed-mode-hook
-            (lambda ()
-              (when (boundp 'evil-normal-state-map)
-                (with-eval-after-load 'evil
-                  (evil-normalize-keymaps)))
-              ;; leader
-              (when (fboundp 'sleepy/leader-def)
-                (sleepy/leader-def
-                  "ca" #'eglot-code-action
-                  "cr" #'eglot-rename))
-              ;; normal/visual (중복된 "ga" 정리)
-              (let ((map eglot-mode-map))
-                (define-key map (kbd "g=") #'eglot-format)         ; normal
-                (define-key map (kbd "ga") #'eglot-code-action)
-                ;; visual에선 region format
-                )))
   :hook
   ((python-mode . eglot-ensure)
    (python-ts-mode . eglot-ensure)
