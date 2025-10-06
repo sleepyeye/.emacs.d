@@ -50,7 +50,6 @@
 				  ;;; TODO inverse search
 				  ;;; FIXME, reuse-instance blocks break synctex
 				  ;;; check https://github.com/ahrm/sioyek/issues/768#issuecomment-1640564592
-				  ;; "--reuse-instance "
 				  "--forward-search-file "
 				  "%b "
 				  "--forward-search-line "

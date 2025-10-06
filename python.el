@@ -1,15 +1,12 @@
 (defun sleepy/python-capf ()
   (when (derived-mode-p 'python-base-mode)
-    (setq-local completion-at-point-functions
-                (list (cape-capf-super
-                       #'tempel-complete
-                       #'eglot-completion-at-point
-                       #'cape-keyword)))))
+	(setq-local completion-at-point-functions
+				(list (cape-capf-super
+					   #'tempel-complete
+					   #'eglot-completion-at-point
+					   #'cape-keyword)))))
 
-;; ❗️중요: 전역으로 '한 번만' 등록 (버퍼 열 때마다 중복 추가 금지)
 (add-hook 'eglot-managed-mode-hook #'sleepy/python-capf)
-
-;; 2) python-ts-mode로 리맵 (원하면 유지)
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
 (use-package exec-path-from-shell
@@ -134,7 +131,7 @@ With PREFIX (C-u), prompt for extra argv."
          (cmd (sleepy/python--build-cmd buffer-file-name extra)))
     ;; non-blocking run; reuse named buffer
     (compilation-start cmd 'compilation-mode
-                      (lambda (_) sleepy/python-run-buffer-name))))
+                       (lambda (_) sleepy/python-run-buffer-name))))
 
 (defun sleepy/python-rerun-last ()
   "Re-run the last Python run command in the same buffer."
