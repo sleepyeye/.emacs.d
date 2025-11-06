@@ -141,6 +141,7 @@
 		  "\\*Async Shell Command\\*"
 		  "^\\*vterm.*\\*$"  vterm-mode  ;vterm as a popup
 		  "^\\*eshell.*\\*$" eshell-mode ;eshell as a popup
+		  "^\\*Claude Code IDE.*\\*$"    ;Claude Code IDE buffers
 		  "Output\\*$"
 		  ))
   (setq popper-window-height 0.37)

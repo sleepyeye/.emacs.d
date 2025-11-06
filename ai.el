@@ -18,9 +18,7 @@
   ;; Configuration options
   (setq claude-code-ide-cli-path "claude"              ; Claude CLI command
         claude-code-ide-terminal-backend 'vterm        ; Use vterm for terminal
-        claude-code-ide-use-side-window t              ; Use side window
-        claude-code-ide-window-side 'right             ; Position on right side
-        claude-code-ide-window-width 90                ; Width of side window
+        claude-code-ide-use-side-window nil            ; Let popper manage window
         claude-code-ide-use-ide-diff t                 ; Enable ediff for diffs
         claude-code-ide-diagnostics-backend 'auto      ; Auto-detect flycheck/flymake
         claude-code-ide-vterm-anti-flicker t))         ; Anti-flicker for vterm
