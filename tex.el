@@ -58,6 +58,20 @@
   (setq-default TeX-master nil)
   (setq-default TeX-command-extra-options "--shell-escape"))
 
+;; RefTeX - 참조문헌 & Label/Ref 관리
+(use-package reftex
+  :ensure nil
+  :hook (LaTeX-mode . reftex-mode)
+  :config
+  (setq reftex-plug-into-AUCTeX t
+		reftex-cite-prompt-optional-args t
+		reftex-enable-partial-scans t
+		reftex-save-parse-info t
+		reftex-use-multiple-selection-buffers t
+		reftex-toc-split-windows-fraction 0.2))
+
+;; LaTeX mode hooks
+(add-hook 'LaTeX-mode-hook #'electric-pair-local-mode) ; 자동 괄호 닫기
 
 ;; ;; CDLatex settings
 ;; (use-package cdlatex
