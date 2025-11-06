@@ -55,11 +55,16 @@
             :state    #'consult--buffer-state
             :default  t
             :items    (lambda ()
-                        (when (and (fboundp 'persp-curr)
-                                   (persp-curr))
-                          (mapcar #'buffer-name
-                                  (persp-buffers (persp-curr)))))))
+                        (if (and (fboundp 'persp-curr)
+                                 (persp-curr))
+                            (mapcar #'buffer-name
+                                    (persp-buffers (persp-curr)))
+                          ;; Return empty list instead of nil
+                          '()))))
     ;; perspective 소스를 앞에 추가
+    ;; Ensure consult-buffer-sources is initialized first
+    (unless (boundp 'consult-buffer-sources)
+      (require 'consult))
     (setq consult-buffer-sources
           (cons 'consult--source-perspective
                 (delq 'consult--source-perspective consult-buffer-sources))))
