@@ -8,40 +8,38 @@
 ;; evil-mc: multiple cursors for Evil (수동 커서 배치)
 (use-package evil-mc
   :ensure t
-  :after evil
+  :after (evil general)
   :config
   (global-evil-mc-mode 1)
 
-  ;; general.el을 사용한 키바인딩 설정
-  (when (featurep 'general)
-    ;; Evil 스타일: gm 프리픽스 (multiple cursors - 다른 패키지들과 일관성 유지)
-    (general-define-key
-     :states 'normal
-     "gmm" 'evil-mc-make-all-cursors
-     "gmu" 'evil-mc-undo-all-cursors
-     "gmn" 'evil-mc-make-and-goto-next-match
-     "gmp" 'evil-mc-make-and-goto-prev-match
-     "gmN" 'evil-mc-skip-and-goto-next-match
-     "gmP" 'evil-mc-skip-and-goto-prev-match
-     "gmq" 'evil-mc-pause-cursors
-     "gmr" 'evil-mc-resume-cursors)
+  ;; Evil 스타일: gm 프리픽스 (multiple cursors - 다른 패키지들과 일관성 유지)
+  (general-define-key
+   :states 'normal
+   "gmm" 'evil-mc-make-all-cursors
+   "gmu" 'evil-mc-undo-all-cursors
+   "gmn" 'evil-mc-make-and-goto-next-match
+   "gmp" 'evil-mc-make-and-goto-prev-match
+   "gmN" 'evil-mc-skip-and-goto-next-match
+   "gmP" 'evil-mc-skip-and-goto-prev-match
+   "gmq" 'evil-mc-pause-cursors
+   "gmr" 'evil-mc-resume-cursors)
 
-    ;; 줄 단위 커서 추가 (normal & visual)
-    (general-define-key
-     :states '(normal visual)
-     "C-M-j" 'evil-mc-make-cursor-move-next-line
-     "C-M-k" 'evil-mc-make-cursor-move-prev-line)
+  ;; 줄 단위 커서 추가 (normal & visual)
+  (general-define-key
+   :states '(normal visual)
+   "C-M-j" 'evil-mc-make-cursor-move-next-line
+   "C-M-k" 'evil-mc-make-cursor-move-prev-line)
 
-    ;; Emacs 스타일: C-c m 프리픽스 (전역)
-    (general-define-key
-     "C-c m j" 'evil-mc-make-cursor-move-next-line
-     "C-c m k" 'evil-mc-make-cursor-move-prev-line
-     "C-c m n" 'evil-mc-make-and-goto-next-match
-     "C-c m p" 'evil-mc-make-and-goto-prev-match
-     "C-c m m" 'evil-mc-make-all-cursors
-     "C-c m u" 'evil-mc-undo-all-cursors
-     "C-c m q" 'evil-mc-pause-cursors
-     "C-c m r" 'evil-mc-resume-cursors)))
+  ;; Emacs 스타일: C-c m 프리픽스 (전역)
+  (general-define-key
+   "C-c m j" 'evil-mc-make-cursor-move-next-line
+   "C-c m k" 'evil-mc-make-cursor-move-prev-line
+   "C-c m n" 'evil-mc-make-and-goto-next-match
+   "C-c m p" 'evil-mc-make-and-goto-prev-match
+   "C-c m m" 'evil-mc-make-all-cursors
+   "C-c m u" 'evil-mc-undo-all-cursors
+   "C-c m q" 'evil-mc-pause-cursors
+   "C-c m r" 'evil-mc-resume-cursors))
 
 (use-package ialign
   :ensure t)
