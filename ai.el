@@ -35,7 +35,13 @@
 (use-package claude-code-ide
   :ensure (:host github :repo "manzaltu/claude-code-ide.el")
   :demand t
-  :bind (("C-c C-'" . claude-code-ide-menu))
+  :bind (("C-c C-'" . claude-code-ide-menu)
+         ("C-c a c" . claude-code-ide-menu)           ; Additional binding for quick access
+         ("C-c a w" . sleepy/claude-write)            ; Writing assistant
+         ("C-c a r" . sleepy/claude-rewrite-region)   ; Rewrite selected text
+         ("C-c a p" . sleepy/claude-proofread-region) ; Proofread selected text
+         ("C-c a e" . sleepy/claude-explain)          ; Explain concept/code
+         ("C-c a s" . sleepy/claude-summarize))       ; Summarize text
   :config
   ;; Enable Emacs MCP tools integration
   (claude-code-ide-emacs-tools-setup)
@@ -49,6 +55,90 @@
         claude-code-ide-use-ide-diff t                 ; Enable ediff for diffs
         claude-code-ide-diagnostics-backend 'auto      ; Auto-detect flycheck/flymake
         claude-code-ide-prevent-reflow-glitch t)       ; Prevent resize glitches (default: t)
+
+  ;; Writing-specific helper functions
+  (defun sleepy/claude-write ()
+    "Start Claude for writing assistance in the current buffer."
+    (interactive)
+    (unless (claude-code-ide-session-active-p)
+      (claude-code-ide))
+    (let ((mode (symbol-name major-mode))
+          (topic (read-string "What would you like to write about? ")))
+      (claude-code-ide-send-prompt
+       (format "Help me write about: %s. I'm in %s mode. Please provide well-structured content."
+               topic mode))))
+
+  (defun sleepy/claude-rewrite-region (start end)
+    "Ask Claude to rewrite the selected region."
+    (interactive "r")
+    (unless (claude-code-ide-session-active-p)
+      (claude-code-ide))
+    (let ((text (buffer-substring-no-properties start end)))
+      (claude-code-ide-send-prompt
+       (format "Please rewrite the following text to be clearer and more concise:\n\n%s" text))))
+
+  (defun sleepy/claude-proofread-region (start end)
+    "Ask Claude to proofread and correct the selected region."
+    (interactive "r")
+    (unless (claude-code-ide-session-active-p)
+      (claude-code-ide))
+    (let ((text (buffer-substring-no-properties start end)))
+      (claude-code-ide-send-prompt
+       (format "Please proofread the following text for grammar, spelling, and style issues. Provide corrections and suggestions:\n\n%s" text))))
+
+  (defun sleepy/claude-explain ()
+    "Ask Claude to explain a concept or code."
+    (interactive)
+    (unless (claude-code-ide-session-active-p)
+      (claude-code-ide))
+    (let ((topic (if (use-region-p)
+                     (buffer-substring-no-properties (region-beginning) (region-end))
+                   (read-string "What would you like explained? "))))
+      (claude-code-ide-send-prompt
+       (format "Please explain the following in detail:\n\n%s" topic))))
+
+  (defun sleepy/claude-summarize ()
+    "Ask Claude to summarize text or code."
+    (interactive)
+    (unless (claude-code-ide-session-active-p)
+      (claude-code-ide))
+    (if (use-region-p)
+        (let ((text (buffer-substring-no-properties (region-beginning) (region-end))))
+          (claude-code-ide-send-prompt
+           (format "Please provide a concise summary of the following:\n\n%s" text)))
+      (claude-code-ide-send-prompt "Please summarize the current buffer's content.")))
+
+  ;; Evil mode integration for visual selections
+  (with-eval-after-load 'evil
+    (evil-define-key 'visual 'global
+      (kbd "gr") 'sleepy/claude-rewrite-region
+      (kbd "gp") 'sleepy/claude-proofread-region
+      (kbd "ge") 'sleepy/claude-explain
+      (kbd "gs") 'sleepy/claude-summarize))
+
+  ;; Additional writing templates
+  (defun sleepy/claude-email ()
+    "Start Claude for email composition."
+    (interactive)
+    (unless (claude-code-ide-session-active-p)
+      (claude-code-ide))
+    (let ((recipient (read-string "Recipient (optional): "))
+          (subject (read-string "Subject/Topic: ")))
+      (claude-code-ide-send-prompt
+       (format "Help me write a professional email about: %s%s"
+               subject
+               (if (string-empty-p recipient) "" (format " to %s" recipient))))))
+
+  (defun sleepy/claude-improve-writing ()
+    "Ask Claude to improve writing style of the current buffer or region."
+    (interactive)
+    (unless (claude-code-ide-session-active-p)
+      (claude-code-ide))
+    (let ((text (if (use-region-p)
+                    (buffer-substring-no-properties (region-beginning) (region-end))
+                  (buffer-substring-no-properties (point-min) (point-max)))))
+      (claude-code-ide-send-prompt
+       (format "Please improve the following text's clarity, flow, and style while maintaining its meaning:\n\n%s" text))))
 
   ;; Eat optimizations for Claude Code
   (with-eval-after-load 'eat

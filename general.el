@@ -93,4 +93,16 @@
 
   (sleepy/leader-def
     "p" '(projectile-command-map :which-key "Project"))
+
+  ;; AI/Claude writing assistance
+  (sleepy/leader-def
+    "a"   '(:ignore t :which-key "AI/Claude")
+    "ac" '(claude-code-ide-menu :which-key "claude menu")
+    "aw" '(sleepy/claude-write :which-key "write")
+    "ar" '(sleepy/claude-rewrite-region :which-key "rewrite region")
+    "ap" '(sleepy/claude-proofread-region :which-key "proofread")
+    "ae" '(sleepy/claude-explain :which-key "explain")
+    "as" '(sleepy/claude-summarize :which-key "summarize")
+    "ai" '(sleepy/claude-improve-writing :which-key "improve writing")
+    "am" '(sleepy/claude-email :which-key "compose email"))
 )
