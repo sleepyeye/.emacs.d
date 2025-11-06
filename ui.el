@@ -24,16 +24,6 @@
 		which-key-allow-imprecise-window-fit t)
   :diminish which-key-mode)
 
-
-;; (use-package doom-modeline
-;;   :init
-;;   (setq doom-modeline-height 15)
-;;   :config
-;;   (column-number-mode 1)
-;;   (doom-modeline-mode)
-;;   :custom
-;;   (doom-modeline-icon t "Show icons in the modeline"))
-
 (use-package doom-themes
   :disabled t
   :ensure t
@@ -193,6 +183,17 @@
 (use-package nerd-icons-dired
   :hook
   (dired-mode . nerd-icons-dired-mode))
+
+(use-package breadcrumb
+  :ensure (:host github :repo "joaotavora/breadcrumb")
+  :hook ((prog-mode . breadcrumb-mode)
+         (text-mode . breadcrumb-mode))
+  :config
+  ;; Customize the appearance
+  (setq breadcrumb-project-crumb-separator " > "
+        breadcrumb-imenu-crumb-separator " > "
+        breadcrumb-project-max-length 30
+        breadcrumb-imenu-max-length 30))
 
 (use-package spacious-padding
   :config

@@ -41,14 +41,3 @@
 (elpaca elpaca-use-package
   (elpaca-use-package-mode)
   (setq elpaca-use-package-by-default t))
-
-;; ;; 'always-defer' means that for a package to load we need a ':hook' or using a ':general' keybinding
-;; ;; if there is none, we need to explicitly add ':demand' to load the package
-;; ;; can also load with ':defer time'
-;; (setq use-package-verbose nil		; don't print anything
-;;       use-package-compute-statistics nil ; compute statistics about package initialization
-;;       use-package-minimum-reported-time 0.0001
-;;       use-package-always-ensure t	; always ensure the package is installed, unless :ensure nil
-;;       use-package-expand-minimally t	; minimal expanded macro
-;; 	  )
-;;       ;; use-package-always-defer t)	; always defer, don't "require", except when :demand
