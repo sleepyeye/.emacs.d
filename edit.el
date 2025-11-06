@@ -14,17 +14,17 @@
 
   ;; general.el을 사용한 키바인딩 설정
   (when (featurep 'general)
-    ;; Evil 스타일: gr 프리픽스
+    ;; Evil 스타일: gm 프리픽스 (multiple cursors - 다른 패키지들과 일관성 유지)
     (general-define-key
      :states 'normal
-     "grm" 'evil-mc-make-all-cursors
-     "gru" 'evil-mc-undo-all-cursors
-     "grn" 'evil-mc-make-and-goto-next-match
-     "grp" 'evil-mc-make-and-goto-prev-match
-     "grN" 'evil-mc-skip-and-goto-next-match
-     "grP" 'evil-mc-skip-and-goto-prev-match
-     "grq" 'evil-mc-pause-cursors
-     "grr" 'evil-mc-resume-cursors)
+     "gmm" 'evil-mc-make-all-cursors
+     "gmu" 'evil-mc-undo-all-cursors
+     "gmn" 'evil-mc-make-and-goto-next-match
+     "gmp" 'evil-mc-make-and-goto-prev-match
+     "gmN" 'evil-mc-skip-and-goto-next-match
+     "gmP" 'evil-mc-skip-and-goto-prev-match
+     "gmq" 'evil-mc-pause-cursors
+     "gmr" 'evil-mc-resume-cursors)
 
     ;; 줄 단위 커서 추가 (normal & visual)
     (general-define-key
