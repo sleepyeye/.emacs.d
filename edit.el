@@ -33,7 +33,17 @@
 
   ;; 일시 정지/재개
   (define-key evil-normal-state-map (kbd "grq") 'evil-mc-pause-cursors)
-  (define-key evil-normal-state-map (kbd "grr") 'evil-mc-resume-cursors))
+  (define-key evil-normal-state-map (kbd "grr") 'evil-mc-resume-cursors)
+
+  ;; Emacs 스타일 키바인딩 (모든 상태에서 사용 가능)
+  (global-set-key (kbd "C-c m j") 'evil-mc-make-cursor-move-next-line)
+  (global-set-key (kbd "C-c m k") 'evil-mc-make-cursor-move-prev-line)
+  (global-set-key (kbd "C-c m n") 'evil-mc-make-and-goto-next-match)
+  (global-set-key (kbd "C-c m p") 'evil-mc-make-and-goto-prev-match)
+  (global-set-key (kbd "C-c m m") 'evil-mc-make-all-cursors)
+  (global-set-key (kbd "C-c m u") 'evil-mc-undo-all-cursors)
+  (global-set-key (kbd "C-c m q") 'evil-mc-pause-cursors)
+  (global-set-key (kbd "C-c m r") 'evil-mc-resume-cursors))
 
 (use-package ialign
   :ensure t)
