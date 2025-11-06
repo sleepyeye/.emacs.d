@@ -16,7 +16,7 @@
 (load "~/.emacs.d/search.el")
 (load "~/.emacs.d/misc.el")
 (load "~/.emacs.d/tree-sitter.el")
-(load "~/.emacs.d/claude-code-ide.el")
+(load "~/.emacs.d/ai.el")
 ;; (load "~/.emacs.d/note.el")
 
 ;;; setup languages

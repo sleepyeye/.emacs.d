@@ -1,8 +1,8 @@
-;;; claude-code-ide.el --- Claude Code IDE integration -*- lexical-binding: t; -*-
+;;; ai.el --- AI tools integration -*- lexical-binding: t; -*-
 
 ;;; Commentary:
-;; Configuration for claude-code-ide.el package
-;; Provides integration with Claude Code CLI for AI-assisted coding
+;; Configuration for AI-powered development tools
+;; Currently includes Claude Code IDE integration
 
 ;;; Code:
 
@@ -25,5 +25,5 @@
         claude-code-ide-diagnostics-backend 'auto      ; Auto-detect flycheck/flymake
         claude-code-ide-vterm-anti-flicker t))         ; Anti-flicker for vterm
 
-(provide 'claude-code-ide)
-;;; claude-code-ide.el ends here
+(provide 'ai)
+;;; ai.el ends here
