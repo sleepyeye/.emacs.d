@@ -3,8 +3,6 @@
 			  (list (cape-capf-super
 					 #'tempel-complete
 					 #'eglot-completion-at-point
-					 #'cape-dabbrev
-					 #'cape-keyword
 					 #'cape-file))))
 
 
