@@ -12,38 +12,36 @@
   :config
   (global-evil-mc-mode 1)
 
-  ;; evil-mc 키바인딩 (Evil과 충돌 방지)
-  (define-key evil-normal-state-map (kbd "C-M-j") 'evil-mc-make-cursor-move-next-line)
-  (define-key evil-normal-state-map (kbd "C-M-k") 'evil-mc-make-cursor-move-prev-line)
-  (define-key evil-visual-state-map (kbd "C-M-j") 'evil-mc-make-cursor-move-next-line)
-  (define-key evil-visual-state-map (kbd "C-M-k") 'evil-mc-make-cursor-move-prev-line)
+  ;; general.el을 사용한 키바인딩 설정
+  (when (featurep 'general)
+    ;; Evil 스타일: gr 프리픽스
+    (general-define-key
+     :states 'normal
+     "grm" 'evil-mc-make-all-cursors
+     "gru" 'evil-mc-undo-all-cursors
+     "grn" 'evil-mc-make-and-goto-next-match
+     "grp" 'evil-mc-make-and-goto-prev-match
+     "grN" 'evil-mc-skip-and-goto-next-match
+     "grP" 'evil-mc-skip-and-goto-prev-match
+     "grq" 'evil-mc-pause-cursors
+     "grr" 'evil-mc-resume-cursors)
 
-  ;; grm: 모든 매치에 커서 생성
-  (define-key evil-normal-state-map (kbd "grm") 'evil-mc-make-all-cursors)
-  ;; gru: 커서 모두 제거
-  (define-key evil-normal-state-map (kbd "gru") 'evil-mc-undo-all-cursors)
-  ;; grn: 다음 매치에 커서 추가
-  (define-key evil-normal-state-map (kbd "grn") 'evil-mc-make-and-goto-next-match)
-  ;; grp: 이전 매치에 커서 추가
-  (define-key evil-normal-state-map (kbd "grp") 'evil-mc-make-and-goto-prev-match)
-  ;; grN: 다음 매치 스킵
-  (define-key evil-normal-state-map (kbd "grN") 'evil-mc-skip-and-goto-next-match)
-  ;; grP: 이전 매치 스킵
-  (define-key evil-normal-state-map (kbd "grP") 'evil-mc-skip-and-goto-prev-match)
+    ;; 줄 단위 커서 추가 (normal & visual)
+    (general-define-key
+     :states '(normal visual)
+     "C-M-j" 'evil-mc-make-cursor-move-next-line
+     "C-M-k" 'evil-mc-make-cursor-move-prev-line)
 
-  ;; 일시 정지/재개
-  (define-key evil-normal-state-map (kbd "grq") 'evil-mc-pause-cursors)
-  (define-key evil-normal-state-map (kbd "grr") 'evil-mc-resume-cursors)
-
-  ;; Emacs 스타일 키바인딩 (모든 상태에서 사용 가능)
-  (global-set-key (kbd "C-c m j") 'evil-mc-make-cursor-move-next-line)
-  (global-set-key (kbd "C-c m k") 'evil-mc-make-cursor-move-prev-line)
-  (global-set-key (kbd "C-c m n") 'evil-mc-make-and-goto-next-match)
-  (global-set-key (kbd "C-c m p") 'evil-mc-make-and-goto-prev-match)
-  (global-set-key (kbd "C-c m m") 'evil-mc-make-all-cursors)
-  (global-set-key (kbd "C-c m u") 'evil-mc-undo-all-cursors)
-  (global-set-key (kbd "C-c m q") 'evil-mc-pause-cursors)
-  (global-set-key (kbd "C-c m r") 'evil-mc-resume-cursors))
+    ;; Emacs 스타일: C-c m 프리픽스 (전역)
+    (general-define-key
+     "C-c m j" 'evil-mc-make-cursor-move-next-line
+     "C-c m k" 'evil-mc-make-cursor-move-prev-line
+     "C-c m n" 'evil-mc-make-and-goto-next-match
+     "C-c m p" 'evil-mc-make-and-goto-prev-match
+     "C-c m m" 'evil-mc-make-all-cursors
+     "C-c m u" 'evil-mc-undo-all-cursors
+     "C-c m q" 'evil-mc-pause-cursors
+     "C-c m r" 'evil-mc-resume-cursors)))
 
 (use-package ialign
   :ensure t)
