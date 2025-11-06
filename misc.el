@@ -16,19 +16,6 @@
   (interactive)
   (set-buffer-file-coding-system 'unix))
 
-;; -------
-;; vterm
-;; -------
-(use-package vterm
-  :commands vterm
-  :config
-  (setq vterm-shell (or (executable-find "fish")
-                        (getenv "SHELL")              ;; fallback to login shell
-                        (user-shell))
-        vterm-max-scrollback 10000)
-  (with-eval-after-load 'general
-    (sleepy/leader-def
-      "ot" #'vterm)))   ;; SPC o t 로 터미널 열기
 
 ;; -------------------------
 ;; Spell checking (jinx)

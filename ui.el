@@ -139,8 +139,8 @@
 		  "^\\*Backtrace\\*"
 		  "\\*Shell Command Output\\*"
 		  "\\*Async Shell Command\\*"
-		  "^\\*vterm.*\\*$"  vterm-mode  ;vterm as a popup
 		  "^\\*eshell.*\\*$" eshell-mode ;eshell as a popup
+		  "^\\*eat.*\\*$" eat-mode        ;eat as a popup
 		  "^\\*Claude Code IDE.*\\*$"    ;Claude Code IDE buffers
 		  "Output\\*$"
 		  ))
