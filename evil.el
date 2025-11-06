@@ -66,18 +66,17 @@
 ;; ---- Surround ---------------------------------------------------------------
 (use-package evil-surround
   :ensure t
-  :after evil
+  :after (evil general)
   :config
   (global-evil-surround-mode 1)
-  ;; (use-package의 :general 없이 general-define-key 사용)
-  (when (featurep 'general)
-    (general-define-key
-     :states 'visual
-     "s" 'evil-surround-region
-     "S" 'evil-Surround-region)
-    (general-define-key
-     :states 'operator
-     "s" 'evil-surround-edit)))
+
+  (general-define-key
+   :states 'visual
+   "s" 'evil-surround-region
+   "S" 'evil-Surround-region)
+  (general-define-key
+   :states 'operator
+   "s" 'evil-surround-edit))
 
 ;; ---- 기타 텍스트 오브젝트/도구 ---------------------------------------------
 (use-package evil-textobj-line :ensure t :after evil)
