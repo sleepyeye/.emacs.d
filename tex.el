@@ -73,6 +73,18 @@
 ;; LaTeX mode hooks
 (add-hook 'LaTeX-mode-hook #'electric-pair-local-mode) ; 자동 괄호 닫기
 
+;; Apheleia - 자동 포맷팅 (latexindent)
+(use-package apheleia
+  :ensure t
+  :config
+  ;; latexindent 포매터 설정
+  (setf (alist-get 'latexindent apheleia-formatters)
+        '("latexindent" "-"))
+  ;; LaTeX 모드에 latexindent 연결
+  (setf (alist-get 'latex-mode apheleia-mode-alist) 'latexindent)
+  (setf (alist-get 'LaTeX-mode apheleia-mode-alist) 'latexindent)
+  :hook (LaTeX-mode . apheleia-mode))
+
 ;; ;; CDLatex settings
 ;; (use-package cdlatex
 ;;   :hook (LaTeX-mode . turn-on-cdlatex)
