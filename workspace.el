@@ -44,21 +44,25 @@
     (interactive)
     (persp-switch (completing-read "Switch to workspace: " (persp-names))))
 
-  ;; ── consult: 현재 워크스페이스 버퍼만 노출 ──
+  ;; ── consult: 현재 워크스페이스 버퍼 우선 노출 ──
   (with-eval-after-load 'consult
-    (consult-customize consult--source-buffer :hidden t :default nil)
+    ;; 기본 버퍼 소스는 숨기지 않고 우선순위만 낮춤
+    (consult-customize consult--source-buffer :hidden nil :default nil)
     (defvar consult--source-perspective
-      (list :name     "Workspace"
+      (list :name     "Workspace Buffers"
             :narrow   ?w
             :category 'buffer
             :state    #'consult--buffer-state
             :default  t
-            ;; 안전하게 람다로 현재 persp 버퍼 이름 반환
             :items    (lambda ()
-                        (mapcar #'buffer-name
-                                (ignore-errors
+                        (when (and (fboundp 'persp-curr)
+                                   (persp-curr))
+                          (mapcar #'buffer-name
                                   (persp-buffers (persp-curr)))))))
-    (add-to-list 'consult-buffer-sources 'consult--source-perspective t))
+    ;; perspective 소스를 앞에 추가
+    (setq consult-buffer-sources
+          (cons 'consult--source-perspective
+                (delq 'consult--source-perspective consult-buffer-sources))))
 
 
   ;; ── Workspace leader: SPC TAB … ──
