@@ -77,9 +77,18 @@
 (use-package apheleia
   :ensure t
   :config
-  ;; latexindent 포매터 설정
-  (setf (alist-get 'latexindent apheleia-formatters)
-        '("latexindent" "-"))
+  ;; latexindent 포매터 설정 (Homebrew 버전 사용)
+  ;; Apple Silicon: /opt/homebrew/bin/latexindent
+  ;; Intel: /usr/local/bin/latexindent
+  (let ((homebrew-latexindent
+         (cond
+          ((file-exists-p "/opt/homebrew/bin/latexindent")
+           "/opt/homebrew/bin/latexindent")
+          ((file-exists-p "/usr/local/bin/latexindent")
+           "/usr/local/bin/latexindent")
+          (t "latexindent")))) ; fallback to PATH
+    (setf (alist-get 'latexindent apheleia-formatters)
+          (list homebrew-latexindent "-")))
   ;; LaTeX 모드에 latexindent 연결
   (setf (alist-get 'latex-mode apheleia-mode-alist) 'latexindent)
   (setf (alist-get 'LaTeX-mode apheleia-mode-alist) 'latexindent)
