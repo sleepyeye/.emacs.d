@@ -1,5 +1,147 @@
 ;;; evil.el --- lean evil setup using package defaults (no :general) -*- lexical-binding: t; -*-
 
+;; ==============================================================================
+;; EVIL COMMANDS REFERENCE GUIDE
+;; ==============================================================================
+;;
+;; ---- G PREFIX COMMANDS ------------------------------------------------------
+;; gf        - Go to file under cursor (find-file-at-point)
+;; gd        - Go to definition (xref-find-definitions)
+;; gx/gX     - Exchange text regions (evil-exchange - installed)
+;; gc        - Comment operator (gcc for line, gc{motion} for region)
+;; gu{motion}- Convert to lowercase (guiw = lowercase word, guap = lowercase paragraph)
+;; gU{motion}- Convert to uppercase (gUiw = uppercase word)
+;; g~{motion}- Toggle case
+;; gq{motion}- Format/wrap text (great for comments)
+;; g;/g,     - Go to previous/next change location in change list
+;; gv        - Reselect last visual selection
+;; gi        - Go to last insert position and enter insert mode
+;; gJ        - Join lines without spaces
+;;
+;; ---- Z PREFIX COMMANDS (FOLDING & SCROLLING) --------------------------------
+;; zz        - Center current line on screen
+;; zt        - Current line to top of screen
+;; zb        - Current line to bottom of screen
+;; za        - Toggle fold at cursor
+;; zo/zc     - Open/close fold
+;; zM/zR     - Close/open all folds
+;; zm/zr     - Fold more/fold less (increase/decrease fold level)
+;; zf{motion}- Create a fold
+;;
+;; ---- NAVIGATION PAIRS [ AND ] -----------------------------------------------
+;; [b/]b     - Previous/next buffer
+;; [f/]f     - Previous/next function (configured with tree-sitter)
+;; [g/]g     - Previous/next class (configured with tree-sitter)
+;; [[/]]     - Previous/next section/function
+;; [{/]}     - Previous/next unmatched brace
+;; [(/])     - Previous/next unmatched parenthesis
+;; [m/]m     - Previous/next method start
+;; [M/]M     - Previous/next method end
+;;
+;; ---- MARKS AND REGISTERS ----------------------------------------------------
+;; m{a-z}    - Set local mark (buffer-specific)
+;; m{A-Z}    - Set global mark (across buffers)
+;; '{mark}   - Jump to beginning of marked line
+;; `{mark}   - Jump to exact mark position
+;; ''        - Jump to line of last jump
+;; ``        - Jump to exact position before last jump
+;; `.        - Jump to last change
+;; `^        - Jump to last insert position
+;; :marks    - List all marks
+;;
+;; "{reg}y   - Yank to register (a-z for named, 0 for yank, " for default)
+;; "{reg}p   - Paste from register
+;; "0p       - Paste from yank register (not affected by delete/change)
+;; "+y/"+p   - System clipboard yank/paste
+;; "*y/"*p   - X11 primary selection (Linux)
+;; :reg      - Show all registers
+;;
+;; ---- POWERFUL TEXT OBJECTS (USE WITH d/c/y/v) -------------------------------
+;; iw/aw     - Inner/around word
+;; iW/aW     - Inner/around WORD (includes special chars)
+;; is/as     - Inner/around sentence
+;; ip/ap     - Inner/around paragraph
+;; i"/a"     - Inner/around double quotes
+;; i'/a'     - Inner/around single quotes
+;; i`/a`     - Inner/around backticks
+;; ib/ab     - Inner/around () parentheses (same as i(/a()
+;; iB/aB     - Inner/around {} braces (same as i{/a{)
+;; it/at     - Inner/around HTML/XML tags
+;; ia/aa     - Inner/around argument (evil-args - installed)
+;; il/al     - Inner/around line (evil-textobj-line - installed)
+;; if/af     - Inner/around function (tree-sitter - installed)
+;; ig/ag     - Inner/around class (tree-sitter - installed)
+;;
+;; ---- WINDOW COMMANDS (C-w PREFIX) -------------------------------------------
+;; C-w v     - Vertical split
+;; C-w s     - Horizontal split
+;; C-w w     - Cycle windows
+;; C-w h/j/k/l - Navigate windows
+;; C-w H/J/K/L - Move window to far left/bottom/top/right
+;; C-w =     - Balance window sizes
+;; C-w _     - Maximize window height
+;; C-w |     - Maximize window width
+;; C-w r/R   - Rotate windows forward/backward
+;; C-w x     - Exchange windows
+;; C-w c     - Close window
+;; C-w o     - Close all other windows
+;; C-w T     - Move window to new tab
+;;
+;; ---- USEFUL OPERATORS -------------------------------------------------------
+;; !{motion} - Filter through external command
+;; ={motion} - Auto-indent
+;; gw{motion}- Format text without moving cursor
+;; >{motion} - Indent right
+;; <{motion} - Indent left
+;;
+;; ---- VISUAL MODE SPECIFIC ---------------------------------------------------
+;; o         - Jump to other end of selection
+;; O         - Jump to other corner (block selection)
+;; gv        - Reselect last visual selection
+;; V         - Line-wise visual mode
+;; C-v       - Block visual mode
+;; I/A       - Insert at beginning/end of each line (block mode)
+;; r{char}   - Replace selection with character
+;; J         - Join selected lines
+;; u/U       - Convert selection to lower/uppercase
+;; */##      - Search forward/backward for selected text (evil-visualstar - installed)
+;;
+;; ---- SPECIAL COMMANDS -------------------------------------------------------
+;; .         - Repeat last change
+;; @{reg}    - Execute macro from register (@@ to repeat)
+;; q{reg}    - Record macro to register (q to stop)
+;; Q         - Ex mode (rarely used)
+;; &         - Repeat last substitution
+;; g&        - Repeat last substitution globally
+;; C-a/C-x   - Increment/decrement number under cursor
+;; g C-a/g C-x - Increment/decrement in visual selection (sequential)
+;;
+;; ---- CONFIGURED EXTRAS ------------------------------------------------------
+;; L/H       - Next/previous argument (evil-args)
+;; K         - Jump out of arguments (evil-args)
+;; gx/gX     - Exchange operator (evil-exchange)
+;; gc        - Comment operator
+;; s/S       - Surround in visual mode (evil-surround)
+;; ys{motion}- Add surround (ysiwb = surround inner word with parens)
+;; cs{old}{new} - Change surround (cs"' = change " to ')
+;; ds{char}  - Delete surround
+;; M-d       - Start multiple cursors (evil-multiedit)
+;;
+;; ---- USEFUL COMBINATIONS ----------------------------------------------------
+;; ciw       - Change inner word
+;; ci"       - Change inside quotes
+;; da)       - Delete around parentheses
+;; yi{       - Yank inside braces
+;; vap       - Select around paragraph
+;; >i}       - Indent inside braces
+;; gcap      - Comment a paragraph
+;; gUiw      - Uppercase inner word
+;; ysiwb     - Surround word with parentheses
+;; ysiw"     - Surround word with quotes
+;; va"yi"p   - Select around quotes, yank inside quotes, paste
+;;
+;; ==============================================================================
+
 ;; ---- Undo stack -------------------------------------------------------------
 (use-package undo-fu :ensure t)
 (use-package undo-fu-session
@@ -53,7 +195,10 @@
     "Toggle comment for region."
     (interactive "<r>")
     (comment-or-uncomment-region beg end))
-  (evil-define-key 'normal 'global (kbd "gc") 'my-evil-comment-or-uncomment))
+  (evil-define-key 'normal 'global (kbd "gc") 'my-evil-comment-or-uncomment)
+
+  ;; Go to file under cursor with gf (standard Vim behavior)
+  (evil-define-key 'normal 'global (kbd "gf") 'find-file-at-point))
 
 ;; ---- Evil collection (패키지 기본 evil 바인딩 사용) ------------------------
 (use-package evil-collection
