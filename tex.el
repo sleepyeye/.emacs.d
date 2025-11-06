@@ -26,8 +26,8 @@
   :mode ("\\.tex\\'" . LaTeX-mode)
   :after auctex
   :config
-  ;; (setq TeX-engine 'xetex ;; Use XeTeX
-  ;; 		latex-run-command "xetex")
+  (setq TeX-engine 'xetex ;; Use XeTeX
+		latex-run-command "xetex")
   (setq TeX-parse-self t ; parse on load
 		TeX-auto-save t  ; parse on save
 		TeX-source-correlate-mode t
