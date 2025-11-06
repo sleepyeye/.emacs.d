@@ -140,6 +140,7 @@
 		  "\\*Shell Command Output\\*"
 		  "\\*Async Shell Command\\*"
 		  "^\\*eshell.*\\*$" eshell-mode ;eshell as a popup
+		  "^\\*vterm.*\\*$"  vterm-mode  ;vterm as a popup
 		  "^\\*eat.*\\*$" eat-mode        ;eat as a popup
 		  "^\\*Claude Code IDE.*\\*$"    ;Claude Code IDE buffers
 		  "Output\\*$"
