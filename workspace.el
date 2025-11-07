@@ -10,8 +10,8 @@
 
   ;; 세션 저장/복원
   (add-hook 'kill-emacs-hook #'persp-state-save)
-  ;; (when (file-exists-p persp-state-default-file)
-  ;;   (ignore-errors (persp-state-load persp-state-default-file)))
+  (when (file-exists-p persp-state-default-file)
+    (ignore-errors (persp-state-load persp-state-default-file)))
 
   ;; ── 숫자 워크스페이스 전환 ──
   (defun sleepy/persp--switch (name)
