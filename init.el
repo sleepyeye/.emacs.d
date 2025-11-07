@@ -17,6 +17,10 @@
 (load "~/.emacs.d/misc.el")
 (load "~/.emacs.d/tree-sitter.el")
 (load "~/.emacs.d/ai.el")
+
+;;; Platform-specific configuration
+(when IS-MAC
+  (load "~/.emacs.d/macos.el"))
 ;; (load "~/.emacs.d/note.el")
 
 ;;; setup languages
