@@ -7,7 +7,6 @@
 					   #'cape-keyword)))))
 
 (add-hook 'eglot-managed-mode-hook #'sleepy/python-capf)
-(add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
 (use-package exec-path-from-shell
   :if (memq (window-system) '(mac ns))
