@@ -1,23 +1,25 @@
 ;;; search.el --- ripgrep / dumb-jump setup -*- lexical-binding: t; -*-
 
-;; dumb-jump (xref 백엔드로 사용)
+;; dumb-jump (use as xref backend)
 (use-package dumb-jump
   :commands dumb-jump-xref-activate
   :init
-  ;; ripgrep을 우선 사용 (속도 ↑)
+  ;; Prefer ripgrep (faster)
   (setq dumb-jump-prefer-searcher 'rg
         dumb-jump-force-searcher  'rg)
   :config
-  ;; xref 백엔드에 등록 → 기본 xref UI/키와 연동됨
+  ;; Register as xref backend → integrates with default xref UI/keys
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
 
 ;;; --- Imenu: only classes & functions ---------------------------------
 
-;; consult-imenu에서 계층을 한 줄로(예: Class.method)
+;; Show hierarchy in one line in consult-imenu (e.g., Class.method)
 (with-eval-after-load 'consult
   (setq consult-imenu-namespace 'concat))
 
-;; 공통: 최신화/정확도 옵션
+;; Common: auto-rescan and accuracy options
 (setq imenu-auto-rescan t
 	  imenu-use-markers t)
+
+;;; search.el ends here

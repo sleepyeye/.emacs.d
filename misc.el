@@ -5,12 +5,12 @@
 ;; --------------------------------------------
 (defun remove-dos-eol ()
   "Hide ^M when visiting files with mixed CRLF/LF endings.
-표시만 가리는 것. 실제 변환은 `set-buffer-file-coding-system`을 사용."
+Only hides display. For actual conversion, use `set-buffer-file-coding-system`."
   (interactive)
   (setq buffer-display-table (or buffer-display-table (make-display-table)))
   (aset buffer-display-table ?\^M []))
 
-;; 참고: 실제로 CRLF→LF 변환하려면 이걸 실행
+;; Note: To actually convert CRLF→LF, run this
 (defun convert-dos-to-unix ()
   "Convert current buffer to UNIX line endings."
   (interactive)
@@ -22,17 +22,17 @@
 ;; -------------------------
 (use-package jinx
   :hook
-  ;; 전역 활성화
+  ;; Enable globally
   (text-mode . jinx-mode)
   :bind (([remap ispell-word] . jinx-correct)
          ("M-i" . jinx-correct)
          ("M-o" . jinx-previous)
          ("M-p" . jinx-next))
   :custom
-  ;; 언어: 필요시 "en ko" 등 추가 가능(사전 설치 필요)
+  ;; Language: can add "en ko" etc. if needed (requires dictionary installation)
   (jinx-languages "en")
   :config
-  ;; 가독성 좋은 밑줄(원하는 색으로 바꿔도 됨)
+  ;; Readable underline (change color as desired)
   (set-face-attribute 'jinx-misspelled nil
                       :underline '(:color "#006800" :style wave)));; -------------------------
 ;; GC tuning (gcmh)
@@ -40,14 +40,14 @@
 (use-package gcmh
   :hook (after-init . gcmh-mode)
   :custom
-  ;; 유휴 시점 자동 계산
+  ;; Auto-calculate idle time
   (gcmh-idle-delay 'auto)
   (gcmh-auto-idle-delay-factor 10)
-  ;; 안전한 임계값(낮음/높음). 이전 값 `minimal-emacs-gc-cons-threshold`는
-  ;; 환경에 없으면 void-variable가 날 수 있어 명시적으로 설정.
+  ;; Safe thresholds (low/high). Previous value `minimal-emacs-gc-cons-threshold`
+  ;; could cause void-variable error if not in environment, so set explicitly.
   (gcmh-low-cons-threshold  (* 1 1024 1024))    ;; 1MB
   (gcmh-high-cons-threshold (* 128 1024 1024))) ;; 128MB
 
-;; 긴 줄로 인한 렌더링 병목 완화(Emacs 내장)
+;; Mitigate rendering bottlenecks from long lines (built-in Emacs)
 (when (fboundp 'global-so-long-mode)
   (global-so-long-mode 1))

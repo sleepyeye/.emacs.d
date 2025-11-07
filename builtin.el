@@ -93,13 +93,6 @@
       save-place-file (expand-file-name "saveplace" user-emacs-directory)
       save-place-limit 600)
 
-;; --- Dired ------------------------------------------------------------------
-(setq dired-clean-confirm-killing-deleted-buffers nil
-      dired-kill-when-opening-new-dired-buffer t
-      dired-recursive-deletes 'top
-      dired-recursive-copies 'always
-      dired-create-destination-dirs 'ask)
-
 ;; --- Ediff ------------------------------------------------------------------
 (setq ediff-window-setup-function #'ediff-setup-windows-plain
       ediff-split-window-function #'split-window-horizontally)

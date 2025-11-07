@@ -162,14 +162,14 @@
   :config
   (evil-mode 1)
 
-  ;; 검색 모듈
+  ;; Search module
   (evil-select-search-module 'evil-search-module 'isearch)
 
-  ;; 점프 커맨드로 표시
+  ;; Mark as jump commands
   (evil-set-command-property 'xref-find-definitions :jump t)
   (evil-set-command-property 'xref-find-references :jump t)
 
-  ;; Emacs화 키 몇 가지 (원래 설정 유지)
+  ;; Some Emacs-style keys (preserve original settings)
   (define-key evil-normal-state-map (kbd "C-b") 'evil-scroll-up)
   (define-key evil-normal-state-map (kbd "C-f") 'evil-scroll-down)
   (define-key evil-normal-state-map (kbd "C-n") 'evil-next-line)
@@ -181,7 +181,7 @@
   (define-key evil-motion-state-map "_" 'evil-end-of-line)
   (define-key evil-motion-state-map "0" 'evil-beginning-of-line)
 
-  ;; Evil 상태 예외
+  ;; Evil state exceptions
   (dolist (mode '(custom-mode eshell-mode shell-mode term-mode vterm-mode eat-mode
                   elpaca-ui-mode calc-mode inferior-python-mode wdired-mode
                   log-edit-mode))
@@ -190,7 +190,7 @@
   (evil-set-initial-state 'pdf-view-mode 'motion)
   (evil-set-initial-state 'git-commit-mode 'insert)
 
-  ;; 댓글 토글 연산자: gc
+  ;; Comment toggle operator: gc
   (evil-define-operator my-evil-comment-or-uncomment (beg end)
     "Toggle comment for region."
     (interactive "<r>")
@@ -200,7 +200,7 @@
   ;; Go to file under cursor with gf (standard Vim behavior)
   (evil-define-key 'normal 'global (kbd "gf") 'find-file-at-point))
 
-;; ---- Evil collection (패키지 기본 evil 바인딩 사용) ------------------------
+;; ---- Evil collection (use package default evil bindings) -------------------
 (use-package evil-collection
   :after evil
   :ensure t
@@ -223,7 +223,7 @@
    :states 'operator
    "s" 'evil-surround-edit))
 
-;; ---- 기타 텍스트 오브젝트/도구 ---------------------------------------------
+;; ---- Other text objects/tools -----------------------------------------------
 (use-package evil-textobj-line :ensure t :after evil)
 
 (use-package evil-args
@@ -233,7 +233,7 @@
   ;; text object
   (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
   (define-key evil-outer-text-objects-map "a" 'evil-outer-arg)
-  ;; 이동/점프
+  ;; movement/jump
   (define-key evil-normal-state-map "L" 'evil-forward-arg)
   (define-key evil-motion-state-map "L" 'evil-forward-arg)
   (define-key evil-normal-state-map "H" 'evil-backward-arg)
@@ -260,7 +260,7 @@
   :commands global-evil-visualstar-mode
   :hook (after-init . global-evil-visualstar-mode))
 
-;; ---- vdiff (옵션) ----------------------------------------------------------
+;; ---- vdiff (optional) -------------------------------------------------------
 (use-package vdiff
   :ensure t
   :commands (vdiff-buffers vdiff-buffers3 vdiff-quit vdiff-files vdiff-files3)
@@ -268,23 +268,23 @@
   (vdiff-auto-refine t)
   (vdiff-only-highlight-refinements t))
 
-;; ---- Motion 맵 정리 --------------------------------------------------------
+;; ---- Motion map cleanup -----------------------------------------------------
 (with-eval-after-load 'evil-maps
   (define-key evil-motion-state-map (kbd "SPC") nil)
   (define-key evil-motion-state-map (kbd "RET") nil)
   (define-key evil-motion-state-map (kbd "TAB") nil))
 
-;; ---- Better-jumper (C-i 충돌 방지) -----------------------------------------
+;; ---- Better-jumper (prevent C-i conflict) -----------------------------------
 (use-package better-jumper
   :ensure t
   :init (better-jumper-mode 1)
   :config
   (with-eval-after-load 'evil-maps
     (define-key evil-motion-state-map (kbd "C-o") 'better-jumper-jump-backward)
-    ;; <C-i>는 TAB과 충돌 가능 → 대체 키
+    ;; <C-i> can conflict with TAB → use alternative key
     (define-key evil-motion-state-map (kbd "M-]") 'better-jumper-jump-forward)))
 
-;; ---- Tree-sitter text objects (선택) ----------------------------------------
+;; ---- Tree-sitter text objects (optional) ------------------------------------
 (use-package evil-textobj-tree-sitter
   :ensure t
   :after evil

@@ -1,3 +1,5 @@
+;;; eglot.el --- LSP configuration with Eglot -*- lexical-binding: t; -*-
+
 (use-package eglot
   :ensure nil
   :commands (eglot eglot-ensure)
@@ -35,7 +37,7 @@
 
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
 
-  ;; C/C++/LaTeX 서버
+  ;; C/C++/LaTeX language servers
   (add-to-list 'eglot-server-programs
     '((c-mode c-ts-mode c++-mode c++-ts-mode)
       . ("clangd" "-j=2" "--log=error" "--completion-style=bundled"
@@ -66,3 +68,5 @@
   :after eglot
   :config
   (eglot-booster-mode 1))
+
+;;; eglot.el ends here

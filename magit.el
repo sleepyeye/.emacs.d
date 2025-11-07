@@ -1,3 +1,5 @@
+;;; magit.el --- Git interface configuration -*- lexical-binding: t; -*-
+
 ;; transient
 (use-package transient
   :config
@@ -7,30 +9,30 @@
 (use-package magit
   :commands (magit-status magit-log-all)
   :init
-  ;; 상태 버퍼는 전체화면으로 열기
+  ;; Open status buffer in fullscreen
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
         magit-diff-hide-trailing-cr-characters t
-        ;; 저장 안 된 버퍼 자동 저장 묻지 않고 진행 (rebase 등 빠르게)
+        ;; Auto-save unsaved buffers without asking (faster for rebase, etc.)
         magit-save-repository-buffers 'dontask)
   :config
-  ;; 창 배치는 복원하되, 버퍼는 남겨두는 기본 동작 권장
+  ;; Restore window layout but keep buffer (recommended default behavior)
   (setq-default magit-bury-buffer-function #'magit-restore-window-configuration)
-  ;; 파일 변경 자동 반영(기본값이지만 명시해 둠)
+  ;; Auto-reflect file changes (default, but explicitly stated)
   (magit-auto-revert-mode 1))
 
-;; git-gutter (VC 비의존, 가벼움)
+;; git-gutter (VC-independent, lightweight)
 (use-package git-gutter
   :hook (emacs-startup . global-git-gutter-mode)
   :init
-  ;; 기호는 눈에 거슬리지 않게 최소화
+  ;; Minimize symbols to avoid visual clutter
   (setq git-gutter:modified-sign " "
         git-gutter:added-sign    " "
         git-gutter:deleted-sign  " ")
   :config
-  ;; 너무 촘촘하면 CPU 사용량↑ → 0.3s 정도 권장
+  ;; Too frequent updates increase CPU usage → 0.2-0.3s recommended
   (setq git-gutter:update-interval 0.2
         git-gutter:hide-gutter nil)
-  ;; 색상은 set-face-attribute로 관리 (custom-* 지양)
+  ;; Manage colors with set-face-attribute (avoid custom-*)
   (set-face-attribute 'git-gutter:modified nil :foreground "#553d00" :weight 'bold)
   (set-face-attribute 'git-gutter:added    nil :foreground "#005000" :weight 'bold)
   (set-face-attribute 'git-gutter:deleted  nil :foreground "#8f1313" :weight 'bold))
@@ -42,6 +44,8 @@
 
 (with-eval-after-load 'general
   (sleepy/leader-def
-    "gd" 'git-timemachine-toggle      ;; 현재 파일의 과거 기록 보기
-    "gD" 'magit-diff-buffer-file      ;; 현재 파일 Magit UI에서 diff
-    "gE" 'ediff-buffers))             ;; 수동으로 현재 버퍼 vs timemachine 버퍼 diff
+    "gd" 'git-timemachine-toggle      ;; View current file's history
+    "gD" 'magit-diff-buffer-file      ;; Diff current file in Magit UI
+    "gE" 'ediff-buffers))             ;; Manually diff current buffer vs timemachine buffer
+
+;;; magit.el ends here

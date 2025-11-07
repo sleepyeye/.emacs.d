@@ -1,3 +1,5 @@
+;;; bootstraps.el --- Elpaca package manager bootstrap -*- lexical-binding: t; -*-
+
 (defvar elpaca-installer-version 0.11)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
@@ -41,3 +43,5 @@
 (elpaca elpaca-use-package
   (elpaca-use-package-mode)
   (setq elpaca-use-package-by-default t))
+
+;;; bootstraps.el ends here
