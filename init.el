@@ -7,6 +7,7 @@
 (load "~/.emacs.d/general.el")
 (load "~/.emacs.d/evil.el")
 (load "~/.emacs.d/edit.el")
+(load "~/.emacs.d/hydra.el")
 (load "~/.emacs.d/completion.el")
 (load "~/.emacs.d/font.el")
 (load "~/.emacs.d/projectile.el")

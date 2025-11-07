@@ -88,10 +88,30 @@
 ;; --- recentf / savehist / saveplace ----------------------------------------
 (setq recentf-max-saved-items 100
       recentf-auto-cleanup 'mode     ; 모드 기반 클린업
+      recentf-show-file-shortcuts-flag t
       history-length 300
       savehist-save-minibuffer-history t
       save-place-file (expand-file-name "saveplace" user-emacs-directory)
       save-place-limit 600)
+
+;; --- Better Defaults --------------------------------------------------------
+;; Uniquify: better buffer names when files have same name
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'forward
+      uniquify-separator "/"
+      uniquify-after-kill-buffer-p t
+      uniquify-ignore-buffers-re "^\\*")
+
+;; ibuffer: improved buffer list
+(setq ibuffer-expert t
+      ibuffer-show-empty-filter-groups nil
+      ibuffer-use-other-window nil)
+
+;; Better scrolling
+(setq scroll-conservatively 101
+      scroll-margin 0
+      scroll-preserve-screen-position t
+      auto-window-vscroll nil)
 
 ;; --- Ediff ------------------------------------------------------------------
 (setq ediff-window-setup-function #'ediff-setup-windows-plain

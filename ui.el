@@ -24,6 +24,38 @@
 		which-key-allow-imprecise-window-fit t)
   :diminish which-key-mode)
 
+;; Modern modeline with icons, LSP info, and Git status
+(use-package doom-modeline
+  :ensure t
+  :hook (after-init . doom-modeline-mode)
+  :init
+  ;; Performance: reduce update frequency
+  (setq doom-modeline-bar-width 3
+        doom-modeline-height 25
+        doom-modeline-window-width-limit 85
+        doom-modeline-project-detection 'projectile
+        doom-modeline-buffer-file-name-style 'truncate-upto-project
+        doom-modeline-icon t
+        doom-modeline-major-mode-icon t
+        doom-modeline-major-mode-color-icon t
+        doom-modeline-buffer-state-icon t
+        doom-modeline-buffer-modification-icon t
+        doom-modeline-minor-modes nil
+        doom-modeline-enable-word-count nil
+        doom-modeline-buffer-encoding nil
+        doom-modeline-indent-info nil
+        doom-modeline-checker-simple-format t
+        doom-modeline-vcs-max-length 12
+        doom-modeline-persp-name t
+        doom-modeline-lsp t
+        doom-modeline-github nil
+        doom-modeline-mu4e nil
+        doom-modeline-irc nil
+        doom-modeline-env-version t)
+  :config
+  ;; Nerd icons required for doom-modeline
+  (require 'nerd-icons))
+
 (use-package doom-themes
   :disabled t
   :ensure t
@@ -204,3 +236,20 @@
 (use-package spacious-padding
   :config
   (spacious-padding-mode 1))
+
+;; Zen/distraction-free writing mode
+(use-package writeroom-mode
+  :ensure t
+  :commands writeroom-mode
+  :init
+  (setq writeroom-width 100
+        writeroom-mode-line t
+        writeroom-bottom-divider-width 0
+        writeroom-fringes-outside-margins nil
+        writeroom-maximize-window nil
+        writeroom-fullscreen-effect 'maximized)
+  :config
+  ;; Better integration with other modes
+  (with-eval-after-load 'general
+    (sleepy/leader-def
+      "t z" '(writeroom-mode :which-key "zen mode"))))
