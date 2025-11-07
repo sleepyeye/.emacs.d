@@ -1,7 +1,8 @@
-;; Checkout this awesome posts about font system in emacs-lisp
+;;; font.el --- Font configuration -*- lexical-binding: t; -*-
+
+;; Checkout this awesome post about font system in emacs-lisp
 ;; https://idiocy.org/emacs-fonts-and-fontsets.html
 ;; The symbol name of Korean in =script-representative-chars= is 'hangul
-
 
 ;; First we define fall-back Korean font which is Noto Sans CJK.
 ;; Append to default fontsets of hangul
@@ -59,3 +60,5 @@
   ;; my `modus-themes' and `ef-themes' via the hooks they provide).
   (dolist (hook '(modus-themes-after-load-theme-hook ef-themes-post-load-hook))
 	(add-hook hook #'fontaine-apply-current-preset)))
+
+;;; font.el ends here

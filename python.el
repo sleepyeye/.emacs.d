@@ -1,8 +1,10 @@
+;;; python.el --- Python development configuration -*- lexical-binding: t; -*-
+
 (defun sleepy/python-capf ()
+  "Setup completion-at-point for Python mode."
   (when (derived-mode-p 'python-base-mode)
 	(setq-local completion-at-point-functions
 				(list (cape-capf-super
-					   #'tempel-complete
 					   #'eglot-completion-at-point
 					   #'cape-keyword)))))
 
@@ -30,7 +32,7 @@
 (use-package pet
   :ensure t
   :init
-  ;; 1) 느린 재귀 검색 제외, 빠른 경로만 사용
+  ;; 1) Exclude slow recursive search, use only fast paths
   (setq pet-find-file-functions
         '(pet-find-file-from-project-root
           pet-locate-dominating-file
@@ -41,7 +43,7 @@
 		  pet-fd-command-args '("-tf" "-cnever" "-H" "-a" "-g")))
 
   (defun sleepy/pet-fast-maybe-enable ()
-    "Python 버퍼에서 명확한 프로젝트 표식이 있을 때만 pet-mode를 켠다."
+    "Enable pet-mode only when clear project markers exist in Python buffer."
     (when (and (derived-mode-p 'python-base-mode)
                (or (locate-dominating-file default-directory ".venv")
                    (locate-dominating-file default-directory "pyproject.toml")
@@ -100,18 +102,18 @@
          (quoted-file (shell-quote-argument (expand-file-name file)))
          (args-str (mapconcat #'shell-quote-argument extra-args " ")))
     (if (sleepy/python--uv-available-p)
-        ;; uv 프로젝트면 해당 .venv/lock 기준으로 실행
+        ;; For uv projects, run based on .venv/lock
         (string-join (delq nil
                            (list "uv" "run" py "-u" quoted-file
                                  (unless (string-empty-p args-str) args-str)))
                      " ")
-      ;; 일반 .venv/conda or 시스템 python (버퍼/프로젝트 env 우선)
+      ;; Regular .venv/conda or system python (buffer/project env priority)
       (string-join (delq nil
                          (list py "-u" quoted-file
                                (unless (string-empty-p args-str) args-str)))
                    " "))))
 
-;; 컬러 ANSI 코드 처리 (compilation buffer)
+;; Handle color ANSI codes (compilation buffer)
 (defun sleepy/python--colorize-compilation ()
   (when (eq (current-buffer)
             (get-buffer sleepy/python-run-buffer-name))
@@ -125,7 +127,7 @@
 With PREFIX (C-u), prompt for extra argv."
   (interactive "P")
   (unless buffer-file-name
-    (user-error "이 버퍼는 파일이 아닙니다"))
+    (user-error "This buffer is not a file"))
   (save-buffer)
   (let* ((default-directory (sleepy/python--project-root))
          (extra (if prefix
@@ -141,13 +143,13 @@ With PREFIX (C-u), prompt for extra argv."
   (interactive)
   (let ((buf (get-buffer sleepy/python-run-buffer-name)))
     (unless buf
-      (user-error "이전 실행 버퍼가 없습니다"))
+      (user-error "No previous run buffer exists"))
     (with-current-buffer buf
       (recompile))))
 
 ;; --- keybindings via general (consistent) ---
 (with-eval-after-load 'general
-  ;; C-c 계열 바인딩 (python-mode / python-ts-mode 공통)
+  ;; C-c bindings (common for python-mode / python-ts-mode)
   (general-define-key
    :keymaps '(python-mode-map python-ts-mode-map)
    "C-c C-c" #'sleepy/python-run-file-async
@@ -155,3 +157,5 @@ With PREFIX (C-u), prompt for extra argv."
 
 ;; Enable apheleia for Python modes
 (add-hook 'python-base-mode-hook #'apheleia-mode)
+
+;;; python.el ends here

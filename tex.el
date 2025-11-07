@@ -1,7 +1,9 @@
+;;; tex.el --- LaTeX editing configuration -*- lexical-binding: t; -*-
+
 (defun sleepy/tex-capf ()
+  "Setup completion-at-point for LaTeX mode."
   (setq-local completion-at-point-functions
 			  (list (cape-capf-super
-					 #'tempel-complete
 					 #'eglot-completion-at-point
 					 #'cape-file))))
 
@@ -58,7 +60,7 @@
   (setq-default TeX-master nil)
   (setq-default TeX-command-extra-options "--shell-escape"))
 
-;; RefTeX - 참조문헌 & Label/Ref 관리
+;; RefTeX - Bibliography & Label/Ref management
 (use-package reftex
   :ensure nil
   :hook (LaTeX-mode . reftex-mode)
@@ -71,29 +73,29 @@
 		reftex-toc-split-windows-fraction 0.2))
 
 ;; LaTeX mode hooks
-(add-hook 'LaTeX-mode-hook #'electric-pair-local-mode) ; 자동 괄호 닫기
+(add-hook 'LaTeX-mode-hook #'electric-pair-local-mode) ; Auto-close brackets
 
-;; Apheleia - 자동 포맷팅 (latexindent)
+;; Apheleia - Auto-formatting (latexindent)
 (use-package apheleia
   :ensure t
   :config
-  ;; latexindent 포매터 설정
-  ;; macOS: Homebrew 버전 사용 (Perl 의존성 문제 회피)
-  ;; 기타 OS: PATH의 latexindent 사용
+  ;; latexindent formatter configuration
+  ;; macOS: Use Homebrew version (avoid Perl dependency issues)
+  ;; Other OS: Use latexindent from PATH
   (let ((latexindent-cmd
          (if (eq system-type 'darwin)
-             ;; macOS: Homebrew 경로 확인
+             ;; macOS: Check Homebrew paths
              (cond
               ((file-exists-p "/opt/homebrew/bin/latexindent")
                "/opt/homebrew/bin/latexindent")  ; Apple Silicon
               ((file-exists-p "/usr/local/bin/latexindent")
                "/usr/local/bin/latexindent")     ; Intel
               (t "latexindent"))                 ; fallback
-           ;; Linux/Windows: PATH 사용
+           ;; Linux/Windows: Use PATH
            "latexindent")))
     (setf (alist-get 'latexindent apheleia-formatters)
           (list latexindent-cmd "-")))
-  ;; LaTeX 모드에 latexindent 연결
+  ;; Connect latexindent to LaTeX modes
   (setf (alist-get 'latex-mode apheleia-mode-alist) 'latexindent)
   (setf (alist-get 'LaTeX-mode apheleia-mode-alist) 'latexindent)
   :hook (LaTeX-mode . apheleia-mode))
@@ -103,3 +105,5 @@
 ;;   :hook (LaTeX-mode . turn-on-cdlatex)
 ;;   :bind (:map cdlatex-mode-map
 ;;               ("<tab>" . cdlatex-tab)))
+
+;;; tex.el ends here
