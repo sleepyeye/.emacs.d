@@ -1,5 +1,30 @@
 ;;; edit.el --- editing utilities (lean & fast) -*- lexical-binding: t; -*-
 
+;; Smart parentheses management
+(use-package smartparens
+  :ensure t
+  :hook ((prog-mode . smartparens-mode)
+         (text-mode . smartparens-mode)
+         (LaTeX-mode . smartparens-mode))
+  :config
+  (require 'smartparens-config)
+  ;; Evil integration
+  (with-eval-after-load 'evil
+    ;; Use smartparens for text objects
+    (setq sp-navigate-consider-symbols nil)
+    ;; Better Evil integration
+    (setq sp-autoskip-closing-pair 'always
+          sp-hybrid-kill-entire-symbol nil))
+  ;; Don't insert space before delimiters in some modes
+  (sp-local-pair 'emacs-lisp-mode "`" nil :actions nil)
+  (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
+  ;; Python-specific
+  (sp-local-pair 'python-mode "'" nil :unless '(sp-point-after-word-p))
+  ;; LaTeX-specific
+  (sp-local-pair 'LaTeX-mode "$" "$")
+  (sp-local-pair 'LaTeX-mode "\\[" "\\]")
+  :diminish smartparens-mode)
+
 ;; iedit: multiple identical region editing (loaded on demand)
 (use-package iedit
   :ensure t
@@ -51,11 +76,45 @@
   (setq wgrep-change-readonly-file t
         wgrep-auto-save-buffer t))
 
+;; EditorConfig support for consistent coding styles across editors
+(use-package editorconfig
+  :ensure t
+  :hook (after-init . editorconfig-mode)
+  :config
+  (setq editorconfig-trim-whitespaces-mode 'ws-butler-mode)
+  :diminish editorconfig-mode)
+
 (use-package expand-region
   :ensure t
   :commands (er/expand-region er/contract-region)
   :bind (("M-=" . er/expand-region)
          ("M-+" . er/expand-region)
          ("M--" . er/contract-region)))
+
+;; Snippet expansion system
+(use-package yasnippet
+  :ensure t
+  :hook ((prog-mode . yas-minor-mode)
+         (text-mode . yas-minor-mode)
+         (LaTeX-mode . yas-minor-mode))
+  :init
+  (setq yas-snippet-dirs (list (expand-file-name "snippets" user-emacs-directory)))
+  :config
+  (yas-reload-all)
+  ;; Use TAB only when at word end/beginning for better completion integration
+  (setq yas-triggers-in-field t
+        yas-wrap-around-region t
+        yas-verbosity 1)
+  ;; Keybindings
+  (with-eval-after-load 'general
+    (sleepy/leader-def
+      "i s" '(yas-insert-snippet :which-key "insert snippet")
+      "i n" '(yas-new-snippet :which-key "new snippet")
+      "i v" '(yas-visit-snippet-file :which-key "visit snippet"))))
+
+;; Collection of snippets for many languages
+(use-package yasnippet-snippets
+  :ensure t
+  :after yasnippet)
 
 ;;; edit.el ends here
