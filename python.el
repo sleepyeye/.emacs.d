@@ -19,10 +19,14 @@
     (setq sleepy/exec-path-from-shell-did-init t)))
 
 
-;; 포매터 패키지: 필요할 때만 로드되도록 가볍게
-(use-package python-black   :commands (python-black-on-save-mode))
-(use-package python-isort   :commands (python-isort-on-save-mode))
-(use-package ruff-format    :commands (ruff-format-on-save-mode))
+;; Auto-formatting with apheleia
+(with-eval-after-load 'apheleia
+  ;; Configure ruff as Python formatter (fast, modern alternative to black+isort)
+  (when (executable-find "ruff")
+    (setf (alist-get 'ruff apheleia-formatters)
+          '("ruff" "format" "--stdin-filename" filepath "-"))
+    (setf (alist-get 'python-mode apheleia-mode-alist) 'ruff)
+    (setf (alist-get 'python-ts-mode apheleia-mode-alist) 'ruff)))
 
 (use-package pet
   :ensure t
@@ -149,3 +153,6 @@ With PREFIX (C-u), prompt for extra argv."
    :keymaps '(python-mode-map python-ts-mode-map)
    "C-c C-c" #'sleepy/python-run-file-async
    "C-c C-r" #'sleepy/python-rerun-last))
+
+;; Enable apheleia for Python modes
+(add-hook 'python-base-mode-hook #'apheleia-mode)

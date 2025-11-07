@@ -163,15 +163,19 @@
   :ensure nil
   :commands dired
   :config
-  (setq dired-recursive-copies 'always)
-  (setq dired-recursive-deletes 'always)
-  (setq delete-by-moving-to-trash t)
-  (setq dired-dwim-target t)
-  (setq dired-kill-when-opening-new-dired-buffer t)
-  (setq dired-free-space nil) ; Emacs 29.1
-  (setq dired-mouse-drag-files t) ; Emacs 29.1
-  (setq dired-listing-switches
-        "-AGFhlv --group-directories-first --time-style=long-iso")
+  ;; File operations
+  (setq dired-recursive-copies 'always
+        dired-recursive-deletes 'always
+        dired-create-destination-dirs 'ask
+        delete-by-moving-to-trash t)
+  ;; Buffer management
+  (setq dired-kill-when-opening-new-dired-buffer t
+        dired-clean-confirm-killing-deleted-buffers nil)
+  ;; Display options
+  (setq dired-dwim-target t
+        dired-free-space nil           ; Emacs 29.1
+        dired-mouse-drag-files t       ; Emacs 29.1
+        dired-listing-switches "-AGFhlv --group-directories-first --time-style=long-iso")
   :hook
   (dired-mode . dired-hide-details-mode))
 
