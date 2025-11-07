@@ -65,7 +65,72 @@
                   (solaire-mode -1))
                 ;; Additional optimizations
                 (setq-local cursor-in-non-selected-windows nil)
-                (setq-local show-trailing-whitespace nil)))))
+                (setq-local show-trailing-whitespace nil))))
+
+  ;; Helper functions for writing assistance
+  (defun claude-code-ide-improve-writing ()
+    "Ask Claude to improve the selected text or current paragraph."
+    (interactive)
+    (let ((text (if (use-region-p)
+                    (buffer-substring-no-properties (region-beginning) (region-end))
+                  (thing-at-point 'paragraph t))))
+      (when text
+        (claude-code-ide-send-prompt
+         (format "Please improve the following text for clarity, grammar, and academic style:\n\n%s" text)))))
+
+  (defun claude-code-ide-check-grammar ()
+    "Ask Claude to check grammar of selected text or current paragraph."
+    (interactive)
+    (let ((text (if (use-region-p)
+                    (buffer-substring-no-properties (region-beginning) (region-end))
+                  (thing-at-point 'paragraph t))))
+      (when text
+        (claude-code-ide-send-prompt
+         (format "Check grammar and suggest corrections:\n\n%s" text)))))
+
+  (defun claude-code-ide-make-concise ()
+    "Ask Claude to make the selected text more concise."
+    (interactive)
+    (let ((text (if (use-region-p)
+                    (buffer-substring-no-properties (region-beginning) (region-end))
+                  (thing-at-point 'paragraph t))))
+      (when text
+        (claude-code-ide-send-prompt
+         (format "Make this text more concise while preserving meaning:\n\n%s" text)))))
+
+  (defun claude-code-ide-expand-text ()
+    "Ask Claude to expand on the selected text."
+    (interactive)
+    (let ((text (if (use-region-p)
+                    (buffer-substring-no-properties (region-beginning) (region-end))
+                  (thing-at-point 'paragraph t))))
+      (when text
+        (claude-code-ide-send-prompt
+         (format "Expand on this text with more detail and examples:\n\n%s" text)))))
+
+  (defun claude-code-ide-review-abstract ()
+    "Ask Claude to review the abstract section of a LaTeX document."
+    (interactive)
+    (when (derived-mode-p 'latex-mode 'LaTeX-mode)
+      (save-excursion
+        (goto-char (point-min))
+        (when (re-search-forward "\\\\begin{abstract}" nil t)
+          (let ((start (point))
+                (end (when (re-search-forward "\\\\end{abstract}" nil t)
+                       (match-beginning 0))))
+            (when end
+              (let ((abstract (buffer-substring-no-properties start end)))
+                (claude-code-ide-send-prompt
+                 (format "Review this LaTeX abstract and suggest improvements:\n\n%s" abstract)))))))))
+
+  ;; Keybindings for writing functions
+  (with-eval-after-load 'general
+    (sleepy/leader-def
+      "a i" '(claude-code-ide-improve-writing :which-key "improve writing")
+      "a g" '(claude-code-ide-check-grammar :which-key "check grammar")
+      "a c" '(claude-code-ide-make-concise :which-key "make concise")
+      "a e" '(claude-code-ide-expand-text :which-key "expand text")
+      "a r" '(claude-code-ide-review-abstract :which-key "review abstract"))))
 
 (provide 'ai)
 ;;; ai.el ends here
