@@ -86,7 +86,8 @@ Returns the generated message as a string, or nil on error."
          (prompt (format "Analyze the following git diff and generate a concise commit message following these guidelines:
 
 **Commit Message Format:**
-- First line: 50 characters or less, imperative mood (e.g., 'Add feature' not 'Added feature')
+- First line: MAXIMUM 50 characters (preferably shorter), imperative mood (e.g., 'Add feature' not 'Added feature')
+- Keep the title SHORT and focused - prioritize brevity over detail
 - Blank line (if detailed explanation needed)
 - Detailed explanation if needed (wrap at 72 characters per line)
 - Focus on WHY the change was made, not just WHAT changed (the diff shows what)
@@ -101,16 +102,21 @@ Returns the generated message as a string, or nil on error."
 %s
 ```
 
-Generate only the commit message, no extra explanation." branch recent-commits diff)))
+IMPORTANT: The first line must be 50 characters or less. Generate only the commit message, no extra explanation." branch recent-commits diff)))
     (if (string-empty-p (string-trim diff))
         nil
-      (let ((ai-message (string-trim
-                         (shell-command-to-string
-                          (format "claude --no-stream <<'EOF'\n%s\nEOF" prompt)))))
-        (if (or (string-empty-p ai-message)
-                (string-prefix-p "Error" ai-message))
-            nil
-          ai-message)))))
+      ;; Use call-process-region to pipe prompt via stdin (shell-independent)
+      (with-temp-buffer
+        (insert prompt)
+        (let ((exit-code (call-process-region (point-min) (point-max)
+                                              "claude" t t nil
+                                              "--print"))
+              (ai-message (string-trim (buffer-string))))
+          (if (and (= exit-code 0)
+                   (not (string-empty-p ai-message))
+                   (not (string-prefix-p "Error" ai-message)))
+              ai-message
+            nil))))))
 
 (defun sleepy/ai-commit-message ()
   "Generate commit message using Claude CLI based on staged changes."
@@ -144,18 +150,24 @@ Generate only the commit message, no extra explanation." branch recent-commits d
 (with-eval-after-load 'git-commit
   (add-hook 'git-commit-setup-hook #'sleepy/git-commit-setup-with-ai))
 
-;; Define a transient suffix for AI commit
-(with-eval-after-load 'magit-commit
-  (transient-define-suffix sleepy/magit-commit-with-ai ()
-    "Commit with AI-generated message."
-    :description "commit with AI"
-    (interactive)
-    (setq sleepy/ai-commit-enabled t)
-    (call-interactively #'magit-commit-create))
+;; Define a transient suffix for AI commit and add to magit-commit menu
+;; This needs to run after both transient and magit are fully loaded
+(with-eval-after-load 'magit
+  (with-eval-after-load 'transient
+    ;; Define the transient suffix
+    (transient-define-suffix sleepy/magit-commit-with-ai ()
+      "Commit with AI-generated message."
+      :description "commit with AI"
+      (interactive)
+      (setq sleepy/ai-commit-enabled t)
+      (call-interactively #'magit-commit-create))
 
-  ;; Add to magit-commit transient menu after "c" (commit)
-  (transient-append-suffix 'magit-commit "c"
-    '("A" "Commit with AI" sleepy/magit-commit-with-ai)))
+    ;; Add to magit-commit transient menu after "c" (commit)
+    (condition-case err
+        (transient-append-suffix 'magit-commit "c"
+          '("A" "Commit with AI" sleepy/magit-commit-with-ai))
+      (error
+       (message "Failed to append AI commit option to magit: %s" (error-message-string err))))))
 
 ;; Keybindings
 (with-eval-after-load 'general

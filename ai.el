@@ -49,9 +49,9 @@
   ;; Configuration options
   (setq claude-code-ide-cli-path "claude"              ; Claude CLI command
         claude-code-ide-terminal-backend 'eat          ; Use eat for terminal (no flickering)
-        claude-code-ide-use-side-window t              ; Use side window
+        claude-code-ide-use-side-window t              ; Use side window (reduces flickering)
         claude-code-ide-window-side 'bottom            ; Open at the bottom
-        claude-code-ide-window-height 30               ; Custom height (30 lines)
+        claude-code-ide-window-height 20               ; Custom height (30 lines)
         claude-code-ide-use-ide-diff t                 ; Enable ediff for diffs
         claude-code-ide-diagnostics-backend 'auto      ; Auto-detect flycheck/flymake
         claude-code-ide-prevent-reflow-glitch t)       ; Prevent resize glitches (default: t)
