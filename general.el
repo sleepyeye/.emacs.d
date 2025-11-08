@@ -3,6 +3,23 @@
 (defconst sleepy/leader-key "SPC")
 (defconst sleepy/global-leader-key "M-SPC")
 
+;; Helper function for renaming visited file
+(defun rename-visited-file (new-name)
+  "Rename the file being visited to NEW-NAME.
+The buffer name is also updated to match the new file name."
+  (interactive "FNew name: ")
+  (let ((old-name (buffer-file-name)))
+    (unless old-name
+      (error "Buffer is not visiting a file"))
+    (when (file-exists-p new-name)
+      (unless (y-or-n-p (format "File %s already exists. Overwrite? " new-name))
+        (user-error "Rename cancelled")))
+    (rename-file old-name new-name 1)
+    (set-visited-file-name new-name)
+    (rename-buffer (file-name-nondirectory new-name))
+    (set-buffer-modified-p nil)
+    (message "File renamed to %s" new-name)))
+
 (use-package general
   :ensure (:wait t)
   :demand t
