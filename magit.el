@@ -40,15 +40,16 @@
   :ensure t
   :after magit
   :hook (magit-mode . magit-todos-mode)
-  :custom
-  ;; Scanner will auto-detect and prefer rg (ripgrep) if available
-  (magit-todos-scanner nil)
-  ;; Customize TODO keywords
-  (magit-todos-keywords-list '("TODO" "FIXME" "HACK" "XXX" "NOTE"))
-  (magit-todos-exclude-globs '("*.map" "*.min.js" "*.lock"))
-  (magit-todos-branch-list nil)  ; Only scan current branch
-  (magit-todos-recursive t)
-  (magit-todos-depth 100)))
+  :config
+  ;; Customize TODO keywords and scanning behavior
+  (setq magit-todos-keywords-list '("TODO" "FIXME" "HACK" "XXX" "NOTE")
+        magit-todos-exclude-globs '("*.map" "*.min.js" "*.lock")
+        magit-todos-branch-list nil  ; Only scan current branch
+        magit-todos-recursive t
+        magit-todos-depth 100)
+  ;; Use ripgrep scanner explicitly if available
+  (when (executable-find "rg")
+    (setq magit-todos-scanner 'magit-todos--scan-with-rg))))
 
 ;; git-gutter (VC-independent, lightweight)
 (use-package git-gutter
