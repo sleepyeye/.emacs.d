@@ -73,10 +73,61 @@
   :defer t
   :commands git-timemachine)
 
+;; AI-powered commit message generation
+(defun sleepy/ai-commit-message ()
+  "Generate commit message using Claude CLI based on staged changes."
+  (interactive)
+  (let* ((diff (shell-command-to-string "git diff --cached"))
+         (branch (magit-get-current-branch))
+         (recent-commits (shell-command-to-string "git log -3 --pretty=format:'%s'"))
+         (prompt (format "Analyze the following git diff and generate a concise commit message following these guidelines:
+
+**Commit Message Format:**
+- First line: 50 characters or less, imperative mood (e.g., 'Add feature' not 'Added feature')
+- Blank line (if detailed explanation needed)
+- Detailed explanation if needed (wrap at 72 characters per line)
+- Focus on WHY the change was made, not just WHAT changed (the diff shows what)
+
+**Context:**
+- Current branch: %s
+- Recent commits for style reference:
+%s
+
+**Git diff:**
+```
+%s
+```
+
+Generate only the commit message, no extra explanation." branch recent-commits diff)))
+    (if (string-empty-p (string-trim diff))
+        (message "No staged changes to commit")
+      (message "Generating commit message with AI...")
+      (let ((ai-message (string-trim
+                         (shell-command-to-string
+                          (format "claude --no-stream <<'EOF'\n%s\nEOF" prompt)))))
+        (if (or (string-empty-p ai-message)
+                (string-prefix-p "Error" ai-message))
+            (message "Failed to generate commit message: %s" ai-message)
+          (if (derived-mode-p 'git-commit-mode)
+              (progn
+                (goto-char (point-min))
+                (insert ai-message)
+                (message "AI commit message inserted. Review and edit as needed."))
+            (progn
+              (kill-new ai-message)
+              (message "AI commit message copied to clipboard: %s"
+                       (truncate-string-to-width ai-message 60 nil nil "...")))))))))
+
+;; Keybindings
 (with-eval-after-load 'general
   (sleepy/leader-def
     "gd" 'git-timemachine-toggle      ;; View current file's history
     "gD" 'magit-diff-buffer-file      ;; Diff current file in Magit UI
-    "gE" 'ediff-buffers))             ;; Manually diff current buffer vs timemachine buffer
+    "gE" 'ediff-buffers               ;; Manually diff current buffer vs timemachine buffer
+    "g c" 'sleepy/ai-commit-message)) ;; Generate AI commit message
+
+;; Add keybinding in git-commit-mode
+(with-eval-after-load 'git-commit
+  (define-key git-commit-mode-map (kbd "C-c C-a") 'sleepy/ai-commit-message))
 
 ;;; magit.el ends here
