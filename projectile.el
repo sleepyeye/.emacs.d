@@ -17,6 +17,25 @@
   ;; ✅ 검색 경로/깊이: ~/workspace 바로 아래 2단계까지만
   (setq projectile-project-search-path '(("~/workspace" . 2)))
 
+  ;; ✅ 캐시 디렉토리 명시적 설정 (홈 폴더 대신 ~/.emacs.d/projectile-cache)
+  (setq projectile-cache-file
+        (expand-file-name "projectile.cache" user-emacs-directory)
+        projectile-known-projects-file
+        (expand-file-name "projectile-bookmarks.eld" user-emacs-directory))
+
+  ;; ✅ ~/workspace 외부 디렉토리는 프로젝트로 인식하지 않음
+  (setq projectile-ignored-projects
+        (list "~/" "/tmp/" "/usr/" "/opt/" "/etc/"
+              (expand-file-name "~/.emacs.d/")
+              (expand-file-name "~/.config/")))
+
+  ;; ✅ ~/workspace 외부의 모든 디렉토리를 프로젝트에서 제외
+  (setq projectile-ignored-project-function
+        (lambda (project-root)
+          (let ((workspace-path (expand-file-name "~/workspace/")))
+            ;; ~/workspace/ 아래가 아니면 무시
+            (not (string-prefix-p workspace-path project-root)))))
+
   ;; ✅ 인덱싱/캐시: 대체로 가장 빠른 조합
   (setq projectile-indexing-method 'alien
         projectile-enable-caching t)
