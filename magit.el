@@ -10,6 +10,7 @@
 ;; magit
 (use-package magit
   :commands (magit-status magit-log-all)
+  :after general
   :init
   ;; Open status buffer in fullscreen
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
@@ -42,14 +43,13 @@
        (message "Failed to append AI commit option to magit: %s" (error-message-string err)))))
 
   ;; Keybindings
-  (with-eval-after-load 'general
-    (sleepy/leader-def
-      "gD" '(magit-diff-buffer-file :which-key "diff file in magit"))))
+  (sleepy/leader-def
+    "gD" '(magit-diff-buffer-file :which-key "diff file in magit")))
 
 ;; Git commit message best practices
 (use-package git-commit
   :ensure nil
-  :after magit
+  :after (magit general)
   :config
   ;; Enforce commit message conventions
   (setq git-commit-summary-max-length 50
@@ -59,12 +59,15 @@
 
   ;; AI commit integration
   (add-hook 'git-commit-setup-hook #'sleepy/git-commit-setup-with-ai)
-  (define-key git-commit-mode-map (kbd "C-c C-a") 'sleepy/ai-commit-message)
 
-  ;; Keybindings
-  (with-eval-after-load 'general
-    (sleepy/leader-def
-      "g c" '(sleepy/ai-commit-message :which-key "AI commit message"))))
+  ;; Mode-specific keybindings
+  (general-define-key
+   :keymaps 'git-commit-mode-map
+   "C-c C-a" 'sleepy/ai-commit-message)
+
+  ;; Leader keybindings
+  (sleepy/leader-def
+    "g c" '(sleepy/ai-commit-message :which-key "AI commit message")))
 
 ;; Magit-todos: Show TODO/FIXME in magit status
 (use-package magit-todos
@@ -103,12 +106,12 @@
 (use-package git-timemachine
   :defer t
   :commands git-timemachine
+  :after general
   :config
   ;; Keybindings
-  (with-eval-after-load 'general
-    (sleepy/leader-def
-      "gd" '(git-timemachine-toggle :which-key "file history")
-      "gE" '(ediff-buffers :which-key "ediff buffers"))))
+  (sleepy/leader-def
+    "gd" '(git-timemachine-toggle :which-key "file history")
+    "gE" '(ediff-buffers :which-key "ediff buffers")))
 
 ;;; AI-powered commit message generation
 
