@@ -144,30 +144,31 @@ Generate only the commit message, no extra explanation." branch recent-commits d
 (with-eval-after-load 'git-commit
   (add-hook 'git-commit-setup-hook #'sleepy/git-commit-setup-with-ai))
 
-;; Define a transient suffix for AI commit
-(transient-define-suffix sleepy/magit-commit-with-ai ()
-  "Commit with AI-generated message."
-  :description "commit with AI"
-  (interactive)
-  (setq sleepy/ai-commit-enabled t)
-  (call-interactively #'magit-commit-create))
+;; AI commit integration with Magit transient menu
+;; This must be loaded after transient is available
+(with-eval-after-load 'transient
+  ;; Define a transient suffix for AI commit
+  (transient-define-suffix sleepy/magit-commit-with-ai ()
+    "Commit with AI-generated message."
+    :description "commit with AI"
+    (interactive)
+    (setq sleepy/ai-commit-enabled t)
+    (call-interactively #'magit-commit-create))
 
-;; Safe wrapper for appending transient suffix
-(defun sleepy/transient-append-suffix-safe (parent pos spec)
-  "Try to append SPEC after POS in PARENT transient. Return non-nil on success."
-  (when (featurep 'transient)
+  ;; Safe wrapper for appending transient suffix
+  (defun sleepy/transient-append-suffix-safe (parent pos spec)
+    "Try to append SPEC after POS in PARENT transient. Return non-nil on success."
     (condition-case err
         (progn
           (transient-append-suffix parent pos spec)
           t)
       (error
        (message "Failed to append AI commit option to magit: %s" (error-message-string err))
-       nil))))
+       nil)))
 
-;; Add to magit-commit transient menu after "c" (commit)
-;; This needs to run after both transient and magit are fully loaded
-(with-eval-after-load 'magit
-  (with-eval-after-load 'transient
+  ;; Add to magit-commit transient menu after "c" (commit)
+  ;; Also needs magit to be loaded
+  (with-eval-after-load 'magit
     (sleepy/transient-append-suffix-safe 'magit-commit "c"
       '("i" "Commit with AI message" sleepy/magit-commit-with-ai))))
 
