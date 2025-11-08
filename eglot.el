@@ -46,16 +46,6 @@
   ;; Cape integration for better completion
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
 
-  ;; Integrate yasnippet with eglot completion
-  (defun sleepy/eglot-capf-with-yasnippet ()
-    "Merge eglot completion with yasnippet."
-    (setq-local completion-at-point-functions
-                (list (cape-capf-super
-                       #'eglot-completion-at-point
-                       #'yasnippet-capf))))
-
-  (add-hook 'eglot-managed-mode-hook #'sleepy/eglot-capf-with-yasnippet)
-
   ;; C/C++/LaTeX language servers
   (add-to-list 'eglot-server-programs
     '((c-mode c-ts-mode c++-mode c++-ts-mode)
