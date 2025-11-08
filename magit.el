@@ -74,9 +74,12 @@
   :commands git-timemachine)
 
 ;; AI-powered commit message generation
-(defun sleepy/ai-commit-message ()
-  "Generate commit message using Claude CLI based on staged changes."
-  (interactive)
+(defvar sleepy/ai-commit-enabled nil
+  "Flag to indicate if AI commit message should be generated automatically.")
+
+(defun sleepy/generate-ai-commit-message ()
+  "Generate commit message using Claude CLI based on staged changes.
+Returns the generated message as a string, or nil on error."
   (let* ((diff (shell-command-to-string "git diff --cached"))
          (branch (magit-get-current-branch))
          (recent-commits (shell-command-to-string "git log -3 --pretty=format:'%s'"))
@@ -100,23 +103,65 @@
 
 Generate only the commit message, no extra explanation." branch recent-commits diff)))
     (if (string-empty-p (string-trim diff))
-        (message "No staged changes to commit")
-      (message "Generating commit message with AI...")
+        nil
       (let ((ai-message (string-trim
                          (shell-command-to-string
                           (format "claude --no-stream <<'EOF'\n%s\nEOF" prompt)))))
         (if (or (string-empty-p ai-message)
                 (string-prefix-p "Error" ai-message))
-            (message "Failed to generate commit message: %s" ai-message)
-          (if (derived-mode-p 'git-commit-mode)
-              (progn
-                (goto-char (point-min))
-                (insert ai-message)
-                (message "AI commit message inserted. Review and edit as needed."))
+            nil
+          ai-message)))))
+
+(defun sleepy/ai-commit-message ()
+  "Generate commit message using Claude CLI based on staged changes."
+  (interactive)
+  (message "Generating commit message with AI...")
+  (let ((ai-message (sleepy/generate-ai-commit-message)))
+    (if ai-message
+        (if (derived-mode-p 'git-commit-mode)
             (progn
-              (kill-new ai-message)
-              (message "AI commit message copied to clipboard: %s"
-                       (truncate-string-to-width ai-message 60 nil nil "...")))))))))
+              (goto-char (point-min))
+              (insert ai-message)
+              (message "AI commit message inserted. Review and edit as needed."))
+          (progn
+            (kill-new ai-message)
+            (message "AI commit message copied to clipboard: %s"
+                     (truncate-string-to-width ai-message 60 nil nil "..."))))
+      (message "Failed to generate AI commit message"))))
+
+;; Auto-insert AI message when git-commit buffer opens
+(defun sleepy/git-commit-setup-with-ai ()
+  "Insert AI-generated commit message if the AI option is enabled."
+  (when sleepy/ai-commit-enabled
+    (setq sleepy/ai-commit-enabled nil)  ; Reset flag
+    (let ((ai-message (sleepy/generate-ai-commit-message)))
+      (when ai-message
+        (goto-char (point-min))
+        (insert ai-message)
+        (message "AI commit message inserted. Review and edit as needed.")))))
+
+;; Add to git-commit-setup-hook
+(with-eval-after-load 'git-commit
+  (add-hook 'git-commit-setup-hook #'sleepy/git-commit-setup-with-ai))
+
+;; Add AI option to magit-commit transient menu
+(with-eval-after-load 'magit-commit
+  (transient-append-suffix 'magit-commit '(1 -1)
+    '("=a" "Generate with AI" "--ai-message")))
+
+;; Advice to capture --ai-message flag from transient
+(defun sleepy/magit-commit-capture-ai-flag (args)
+  "Capture --ai-message flag and set sleepy/ai-commit-enabled."
+  (when (member "--ai-message" args)
+    (setq sleepy/ai-commit-enabled t))
+  ;; Remove --ai-message from args so it doesn't get passed to git
+  (remove "--ai-message" args))
+
+(with-eval-after-load 'magit-commit
+  (advice-add 'magit-commit-create :filter-args
+              (lambda (args)
+                (sleepy/magit-commit-capture-ai-flag (car args))
+                args)))
 
 ;; Keybindings
 (with-eval-after-load 'general
