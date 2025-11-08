@@ -55,6 +55,10 @@
     "h v" '(describe-variable :which-key "var"))
 
   (sleepy/leader-def
+    "o"   '(:ignore t :which-key "Open")
+    "o p" '(proced :which-key "process manager"))
+
+  (sleepy/leader-def
     "w"   '(:ignore t :which-key "Window")
     "w o" '(other-window :which-key "other")
     "w d" '(delete-window :which-key "delete")

@@ -69,6 +69,10 @@
 ;; --- Whitespace -------------------------------------------------------------
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 
+;; --- Electric quote mode (smart quotes for text/LaTeX) --------------------
+(add-hook 'text-mode-hook #'electric-quote-mode)
+(add-hook 'LaTeX-mode-hook #'electric-quote-mode)
+
 ;; --- External tools ---------------------------------------------------------
 (when (executable-find "rg") (setq grep-program "rg"))
 (when (executable-find "fd") (setq find-program "fd"))
@@ -130,6 +134,13 @@
 (add-hook 'after-init-hook #'recentf-mode)
 (add-hook 'after-init-hook #'savehist-mode)
 (add-hook 'after-init-hook #'save-place-mode)
+(add-hook 'after-init-hook #'show-paren-mode)
+
+;; show-paren configuration
+(setq show-paren-delay 0.0
+      show-paren-style 'parenthesis  ; or 'expression to highlight entire block
+      show-paren-when-point-inside-paren t
+      show-paren-when-point-in-periphery t)
 
 ;; imenu: 일부 모드에서 자동 재스캔 + 정렬
 (dolist (hook '(markdown-mode-hook makefile-mode-hook prog-mode-hook))
