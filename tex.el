@@ -43,6 +43,10 @@
 		TeX-save-query nil
 		TeX-electric-sub-and-superscript t
 		TeX-electric-math '("$" . "$")
+		;; Use LatexMk as default command for C-c C-c
+		TeX-command-default "LatexMk"
+		;; Always use PDF mode
+		TeX-PDF-mode t
 		)
   (add-to-list 'TeX-view-program-list
 			   `("Sioyek"
