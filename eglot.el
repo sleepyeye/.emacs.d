@@ -31,11 +31,30 @@
   (fset #'jsonrpc--log-event #'ignore)
   (setq jsonrpc-event-hook nil)
 
-  (setq completion-category-defaults nil
-        eglot-extend-to-xref t
+  ;; Performance: reduce server communication frequency
+  (setq eglot-send-changes-idle-time 0.5)  ; Wait 0.5s before sending changes
+
+  ;; Eglot behavior settings
+  (setq eglot-extend-to-xref t
         eglot-ignored-server-capabilities '(:inlayHintProvider :foldingRangeProvider))
 
+  ;; Completion integration with orderless
+  (setq completion-category-overrides
+        '((file (styles partial-completion))
+          (eglot (styles orderless basic))))
+
+  ;; Cape integration for better completion
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+
+  ;; Integrate yasnippet with eglot completion
+  (defun sleepy/eglot-capf-with-yasnippet ()
+    "Merge eglot completion with yasnippet."
+    (setq-local completion-at-point-functions
+                (list (cape-capf-super
+                       #'eglot-completion-at-point
+                       #'yasnippet-capf))))
+
+  (add-hook 'eglot-managed-mode-hook #'sleepy/eglot-capf-with-yasnippet)
 
   ;; C/C++/LaTeX language servers
   (add-to-list 'eglot-server-programs
@@ -62,6 +81,26 @@
   :config
   (when (fboundp 'sleepy/leader-def)
     (sleepy/leader-def "cs" #'consult-eglot-symbols)))
+
+;; Additional eglot keybindings for common LSP operations
+(with-eval-after-load 'eglot
+  (with-eval-after-load 'general
+    (sleepy/leader-def
+      ;; Code actions and refactoring
+      "c a" '(eglot-code-actions :which-key "code actions")
+      "c r" '(eglot-rename :which-key "rename symbol")
+      "c f" '(eglot-format :which-key "format buffer/region")
+      "c o" '(eglot-code-action-organize-imports :which-key "organize imports")
+      ;; Navigation
+      "c d" '(xref-find-definitions :which-key "find definitions")
+      "c D" '(xref-find-references :which-key "find references")
+      "c i" '(eglot-find-implementation :which-key "find implementation")
+      "c t" '(eglot-find-typeDefinition :which-key "find type definition")
+      ;; Documentation and help
+      "c h" '(eldoc-doc-buffer :which-key "show documentation")
+      ;; Server management
+      "c R" '(eglot-reconnect :which-key "restart LSP server")
+      "c S" '(eglot-shutdown :which-key "shutdown LSP server"))))
 
 (use-package eglot-booster
   :ensure (eglot-booster :host github :repo "jdtsmith/eglot-booster")
