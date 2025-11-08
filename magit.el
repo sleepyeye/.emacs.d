@@ -1,5 +1,7 @@
 ;;; magit.el --- Git interface configuration -*- lexical-binding: t; -*-
 
+;;; Package declarations
+
 ;; transient
 (use-package transient
   :config
@@ -8,6 +10,7 @@
 ;; magit
 (use-package magit
   :commands (magit-status magit-log-all)
+  :after general
   :init
   ;; Open status buffer in fullscreen
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
@@ -22,18 +25,49 @@
   ;; Restore window layout but keep buffer (recommended default behavior)
   (setq-default magit-bury-buffer-function #'magit-restore-window-configuration)
   ;; Auto-reflect file changes (default, but explicitly stated)
-  (magit-auto-revert-mode 1))
+  (magit-auto-revert-mode 1)
+
+  ;; AI commit integration with transient menu
+  (with-eval-after-load 'transient
+    (transient-define-suffix sleepy/magit-commit-with-ai ()
+      "Commit with AI-generated message."
+      :description "commit with AI"
+      (interactive)
+      (setq sleepy/ai-commit-enabled t)
+      (call-interactively #'magit-commit-create))
+
+    (condition-case err
+        (transient-append-suffix 'magit-commit "c"
+          '("A" "Commit with AI" sleepy/magit-commit-with-ai))
+      (error
+       (message "Failed to append AI commit option to magit: %s" (error-message-string err)))))
+
+  ;; Keybindings
+  (sleepy/leader-def
+    "gD" '(magit-diff-buffer-file :which-key "diff file in magit")))
 
 ;; Git commit message best practices
 (use-package git-commit
   :ensure nil
-  :after magit
+  :after (magit general)
   :config
   ;; Enforce commit message conventions
   (setq git-commit-summary-max-length 50
         git-commit-fill-column 72
         git-commit-style-convention-checks '(non-empty-second-line
-                                              overlong-summary-line)))
+                                              overlong-summary-line))
+
+  ;; AI commit integration
+  (add-hook 'git-commit-setup-hook #'sleepy/git-commit-setup-with-ai)
+
+  ;; Mode-specific keybindings
+  (general-define-key
+   :keymaps 'git-commit-mode-map
+   "C-c C-a" 'sleepy/ai-commit-message)
+
+  ;; Leader keybindings
+  (sleepy/leader-def
+    "g c" '(sleepy/ai-commit-message :which-key "AI commit message")))
 
 ;; Magit-todos: Show TODO/FIXME in magit status
 (use-package magit-todos
@@ -71,9 +105,16 @@
 ;; timemachine
 (use-package git-timemachine
   :defer t
-  :commands git-timemachine)
+  :commands git-timemachine
+  :after general
+  :config
+  ;; Keybindings
+  (sleepy/leader-def
+    "gd" '(git-timemachine-toggle :which-key "file history")
+    "gE" '(ediff-buffers :which-key "ediff buffers")))
 
-;; AI-powered commit message generation
+;;; AI-powered commit message generation
+
 (defvar sleepy/ai-commit-enabled nil
   "Flag to indicate if AI commit message should be generated automatically.")
 
@@ -118,67 +159,34 @@ IMPORTANT: The first line must be 50 characters or less. Generate only the commi
               ai-message
             nil))))))
 
+(defun sleepy/insert-ai-commit-message ()
+  "Insert AI commit message at point and show user message.
+Helper function for both interactive and automatic insertion."
+  (let ((ai-message (sleepy/generate-ai-commit-message)))
+    (when ai-message
+      (goto-char (point-min))
+      (insert ai-message)
+      (message "AI commit message inserted. Review and edit as needed."))))
+
 (defun sleepy/ai-commit-message ()
   "Generate commit message using Claude CLI based on staged changes."
   (interactive)
   (message "Generating commit message with AI...")
-  (let ((ai-message (sleepy/generate-ai-commit-message)))
-    (if ai-message
-        (if (derived-mode-p 'git-commit-mode)
-            (progn
-              (goto-char (point-min))
-              (insert ai-message)
-              (message "AI commit message inserted. Review and edit as needed."))
+  (if (derived-mode-p 'git-commit-mode)
+      (sleepy/insert-ai-commit-message)
+    ;; If not in commit buffer, copy to clipboard
+    (let ((ai-message (sleepy/generate-ai-commit-message)))
+      (if ai-message
           (progn
             (kill-new ai-message)
             (message "AI commit message copied to clipboard: %s"
-                     (truncate-string-to-width ai-message 60 nil nil "..."))))
-      (message "Failed to generate AI commit message"))))
+                     (truncate-string-to-width ai-message 60 nil nil "...")))
+        (message "Failed to generate AI commit message")))))
 
-;; Auto-insert AI message when git-commit buffer opens
 (defun sleepy/git-commit-setup-with-ai ()
   "Insert AI-generated commit message if the AI option is enabled."
   (when sleepy/ai-commit-enabled
     (setq sleepy/ai-commit-enabled nil)  ; Reset flag
-    (let ((ai-message (sleepy/generate-ai-commit-message)))
-      (when ai-message
-        (goto-char (point-min))
-        (insert ai-message)
-        (message "AI commit message inserted. Review and edit as needed.")))))
-
-;; Add to git-commit-setup-hook
-(with-eval-after-load 'git-commit
-  (add-hook 'git-commit-setup-hook #'sleepy/git-commit-setup-with-ai))
-
-;; Define a transient suffix for AI commit and add to magit-commit menu
-;; This needs to run after both transient and magit are fully loaded
-(with-eval-after-load 'magit
-  (with-eval-after-load 'transient
-    ;; Define the transient suffix
-    (transient-define-suffix sleepy/magit-commit-with-ai ()
-      "Commit with AI-generated message."
-      :description "commit with AI"
-      (interactive)
-      (setq sleepy/ai-commit-enabled t)
-      (call-interactively #'magit-commit-create))
-
-    ;; Add to magit-commit transient menu after "c" (commit)
-    (condition-case err
-        (transient-append-suffix 'magit-commit "c"
-          '("A" "Commit with AI" sleepy/magit-commit-with-ai))
-      (error
-       (message "Failed to append AI commit option to magit: %s" (error-message-string err))))))
-
-;; Keybindings
-(with-eval-after-load 'general
-  (sleepy/leader-def
-    "gd" 'git-timemachine-toggle      ;; View current file's history
-    "gD" 'magit-diff-buffer-file      ;; Diff current file in Magit UI
-    "gE" 'ediff-buffers               ;; Manually diff current buffer vs timemachine buffer
-    "g c" 'sleepy/ai-commit-message)) ;; Generate AI commit message
-
-;; Add keybinding in git-commit-mode
-(with-eval-after-load 'git-commit
-  (define-key git-commit-mode-map (kbd "C-c C-a") 'sleepy/ai-commit-message))
+    (sleepy/insert-ai-commit-message)))
 
 ;;; magit.el ends here
