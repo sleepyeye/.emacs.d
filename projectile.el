@@ -24,17 +24,19 @@
         (expand-file-name "projectile-bookmarks.eld" user-emacs-directory))
 
   ;; ✅ ~/workspace 외부 디렉토리는 프로젝트로 인식하지 않음
+  ;; (단, ~/.emacs.d는 예외적으로 허용)
   (setq projectile-ignored-projects
         (list "~/" "/tmp/" "/usr/" "/opt/" "/etc/"
-              (expand-file-name "~/.emacs.d/")
               (expand-file-name "~/.config/")))
 
-  ;; ✅ ~/workspace 외부의 모든 디렉토리를 프로젝트에서 제외
+  ;; ✅ ~/workspace 또는 ~/.emacs.d만 프로젝트로 허용
   (setq projectile-ignored-project-function
         (lambda (project-root)
-          (let ((workspace-path (expand-file-name "~/workspace/")))
-            ;; ~/workspace/ 아래가 아니면 무시
-            (not (string-prefix-p workspace-path project-root)))))
+          (let ((workspace-path (expand-file-name "~/workspace/"))
+                (emacs-path (expand-file-name "~/.emacs.d/")))
+            ;; ~/workspace/ 또는 ~/.emacs.d/ 아래가 아니면 무시
+            (not (or (string-prefix-p workspace-path project-root)
+                     (string-prefix-p emacs-path project-root))))))
 
   ;; ✅ 인덱싱/캐시: 대체로 가장 빠른 조합
   (setq projectile-indexing-method 'alien
