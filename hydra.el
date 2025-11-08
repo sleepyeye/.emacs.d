@@ -141,7 +141,7 @@
 ║                      Workspaces                               ║
 ╠═══════════════════════════════════════════════════════════════╣
 ║  Navigate  │ _n_ next   _p_ prev   _l_ list                   ║
-║  Switch    │ _0-9_ workspace by number                        ║
+║  Switch    │ 0-9 workspace by number                          ║
 ║  Create    │ _c_ create   _r_ rename                          ║
 ║  Delete    │ _d_ delete   _k_ kill                            ║
 ║  Quit      │ _q_ quit                                         ║
