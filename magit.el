@@ -49,7 +49,7 @@
         magit-todos-depth 100)
   ;; Use ripgrep scanner explicitly if available
   (when (executable-find "rg")
-    (setq magit-todos-scanner 'magit-todos--scan-with-rg))))
+    (setq magit-todos-scanner 'magit-todos--scan-with-rg)))
 
 ;; git-gutter (VC-independent, lightweight)
 (use-package git-gutter
