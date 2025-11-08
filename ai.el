@@ -50,11 +50,14 @@
   (setq claude-code-ide-cli-path "claude"              ; Claude CLI command
         claude-code-ide-terminal-backend 'eat          ; Use eat for terminal (no flickering)
         claude-code-ide-use-side-window t              ; Use side window (reduces flickering)
-        claude-code-ide-window-side 'bottom            ; Open at the bottom
-        claude-code-ide-window-height 20               ; Custom height (30 lines)
+        claude-code-ide-window-side 'right             ; Open on the right side
+        claude-code-ide-window-width 90                ; Side window width (90 chars)
         claude-code-ide-use-ide-diff t                 ; Enable ediff for diffs
         claude-code-ide-diagnostics-backend 'auto      ; Auto-detect flycheck/flymake
-        claude-code-ide-prevent-reflow-glitch t)       ; Prevent resize glitches (default: t)
+        claude-code-ide-prevent-reflow-glitch t        ; Prevent resize glitches (default: t)
+        claude-code-ide-vterm-anti-flicker t           ; Enable vterm anti-flicker (also helps eat)
+        claude-code-ide-vterm-render-delay 0.01        ; Slightly longer render delay for smoother output
+        claude-code-ide-terminal-initialization-delay 0.15)  ; Brief delay for proper layout
 
   ;; Writing-specific helper functions
   (defun sleepy/claude-write ()
@@ -145,17 +148,40 @@
     ;; Optimize eat performance for Claude Code
     (add-hook 'eat-mode-hook
               (lambda ()
+                ;; Scrolling optimizations
                 (setq-local scroll-margin 0)
                 (setq-local scroll-conservatively 0)
                 (setq-local hscroll-margin 0)
+                (setq-local scroll-step 1)
+                (setq-local auto-window-vscroll nil)
+
                 ;; Disable modes that might cause redraw issues
                 (when (bound-and-true-p hl-line-mode)
                   (hl-line-mode -1))
                 (when (bound-and-true-p solaire-mode)
                   (solaire-mode -1))
-                ;; Additional optimizations
+                (when (bound-and-true-p global-hl-line-mode)
+                  (setq-local global-hl-line-mode nil))
+
+                ;; Cursor and display optimizations
                 (setq-local cursor-in-non-selected-windows nil)
-                (setq-local show-trailing-whitespace nil))))
+                (setq-local show-trailing-whitespace nil)
+                (setq-local indicate-empty-lines nil)
+                (setq-local indicate-buffer-boundaries nil)
+
+                ;; Font and composition optimizations
+                (when (fboundp 'font-lock-mode)
+                  (font-lock-mode -1))
+                (when (fboundp 'auto-composition-mode)
+                  (auto-composition-mode -1))
+
+                ;; Bidirectional text optimization (LTR only)
+                (setq-local bidi-paragraph-direction 'left-to-right)
+                (setq-local bidi-inhibit-bpa t)
+
+                ;; Redisplay optimizations
+                (setq-local redisplay-skip-fontification-on-input t)
+                (setq-local fast-but-imprecise-scrolling t))))
 
   ;; Helper functions for writing assistance
   (defun claude-code-ide-improve-writing ()
