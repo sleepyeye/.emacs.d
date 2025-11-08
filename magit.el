@@ -144,24 +144,18 @@ Generate only the commit message, no extra explanation." branch recent-commits d
 (with-eval-after-load 'git-commit
   (add-hook 'git-commit-setup-hook #'sleepy/git-commit-setup-with-ai))
 
-;; Add AI option to magit-commit transient menu
+;; Define a transient suffix for AI commit
 (with-eval-after-load 'magit-commit
-  (transient-append-suffix 'magit-commit '(1 -1)
-    '("=a" "Generate with AI" "--ai-message")))
+  (transient-define-suffix sleepy/magit-commit-with-ai ()
+    "Commit with AI-generated message."
+    :description "commit with AI"
+    (interactive)
+    (setq sleepy/ai-commit-enabled t)
+    (call-interactively #'magit-commit-create))
 
-;; Advice to capture --ai-message flag from transient
-(defun sleepy/magit-commit-capture-ai-flag (args)
-  "Capture --ai-message flag and set sleepy/ai-commit-enabled."
-  (when (member "--ai-message" args)
-    (setq sleepy/ai-commit-enabled t))
-  ;; Remove --ai-message from args so it doesn't get passed to git
-  (remove "--ai-message" args))
-
-(with-eval-after-load 'magit-commit
-  (advice-add 'magit-commit-create :filter-args
-              (lambda (args)
-                (sleepy/magit-commit-capture-ai-flag (car args))
-                args)))
+  ;; Add to magit-commit transient menu after "c" (commit)
+  (transient-append-suffix 'magit-commit "c"
+    '("A" "Commit with AI" sleepy/magit-commit-with-ai)))
 
 ;; Keybindings
 (with-eval-after-load 'general
