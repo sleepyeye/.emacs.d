@@ -86,11 +86,24 @@ Returns the generated message as a string, or nil on error."
          (prompt (format "Analyze the following git diff and generate a concise commit message following these guidelines:
 
 **Commit Message Format:**
-- First line: MAXIMUM 50 characters (preferably shorter), imperative mood (e.g., 'Add feature' not 'Added feature')
-- Keep the title SHORT and focused - prioritize brevity over detail
-- Blank line (if detailed explanation needed)
-- Detailed explanation if needed (wrap at 72 characters per line)
-- Focus on WHY the change was made, not just WHAT changed (the diff shows what)
+- First line: Brief summary (MAXIMUM 50 characters), imperative mood
+- Blank line
+- Summary section with bulleted list of changes:
+  * Use bullet points (-, *, or •) for each distinct change
+  * Keep each bullet concise (one line when possible)
+  * Focus on WHAT changed in each bullet
+  * Use imperative mood (e.g., 'Add feature' not 'Added feature')
+- Optional: Additional details section explaining WHY (wrap at 72 chars)
+
+**Example format:**
+```
+Add user authentication feature
+
+- Implement JWT token generation and validation
+- Add login/logout endpoints to API
+- Create user session management middleware
+- Update database schema for user credentials
+```
 
 **Context:**
 - Current branch: %s
@@ -102,7 +115,7 @@ Returns the generated message as a string, or nil on error."
 %s
 ```
 
-IMPORTANT: The first line must be 50 characters or less. Generate only the commit message, no extra explanation." branch recent-commits diff)))
+IMPORTANT: Use bulleted lists in the body, not prose paragraphs. Generate only the commit message, no extra explanation." branch recent-commits diff)))
     (if (string-empty-p (string-trim diff))
         nil
       ;; Use call-process-region to pipe prompt via stdin (shell-independent)
@@ -115,7 +128,8 @@ IMPORTANT: The first line must be 50 characters or less. Generate only the commi
           (if (and (= exit-code 0)
                    (not (string-empty-p ai-message))
                    (not (string-prefix-p "Error" ai-message)))
-              ai-message
+              ;; Ensure message ends with blank line to separate from git's comment section
+              (concat ai-message "\n\n")
             nil))))))
 
 (defun sleepy/ai-commit-message ()
