@@ -38,13 +38,14 @@
   (setq claude-code-ide-cli-path "claude"              ; Claude CLI command
         claude-code-ide-terminal-backend 'vterm        ; Use vterm for terminal
         claude-code-ide-use-side-window t              ; Use side window (reduces flickering)
-        claude-code-ide-window-side 'bottom             ; Open on the right side
-        claude-code-ide-window-height 20                ; Side window width (90 chars)
+        claude-code-ide-window-side 'bottom            ; Open at the bottom (more stable than right)
+        claude-code-ide-window-width 0.4               ; Window proportion (40% of frame)
         claude-code-ide-use-ide-diff t                 ; Enable ediff for diffs
         claude-code-ide-diagnostics-backend 'auto      ; Auto-detect flycheck/flymake
         claude-code-ide-prevent-reflow-glitch t        ; Prevent resize glitches (default: t)
         claude-code-ide-vterm-anti-flicker t           ; Enable vterm anti-flicker
-        claude-code-ide-terminal-initialization-delay 0.15)  ; Brief delay for proper layout
+        claude-code-ide-vterm-render-delay 0.1         ; Longer render delay to reduce flicker
+        claude-code-ide-terminal-initialization-delay 0.5)  ; Longer delay for proper layout
 
   ;; Writing-specific helper functions
   (defun sleepy/claude-write ()
