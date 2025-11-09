@@ -121,15 +121,19 @@ IMPORTANT: Use bulleted lists in the body, not prose paragraphs. Generate only t
       ;; Use call-process-region to pipe prompt via stdin (shell-independent)
       (with-temp-buffer
         (insert prompt)
-        (let ((exit-code (call-process-region (point-min) (point-max)
-                                              "claude" t t nil
-                                              "--print"))
-              (ai-message (string-trim (buffer-string))))
+        (let* ((exit-code (call-process-region (point-min) (point-max)
+                                               "claude" t t nil
+                                               "--print"))
+               (raw-message (string-trim (buffer-string)))
+               ;; Remove markdown code fences if present
+               (ai-message (replace-regexp-in-string
+                           "^```[a-z]*\n\\|^```\n\\|^```$\\|\n```$" ""
+                           raw-message)))
           (if (and (= exit-code 0)
                    (not (string-empty-p ai-message))
                    (not (string-prefix-p "Error" ai-message)))
               ;; Ensure message ends with blank line to separate from git's comment section
-              (concat ai-message "\n\n")
+              (concat (string-trim ai-message) "\n\n")
             nil))))))
 
 (defun sleepy/ai-commit-message ()
