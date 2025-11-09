@@ -10,6 +10,9 @@
 (use-package vterm
   :ensure t
   :config
+  (with-eval-after-load 'evil
+	(evil-set-initial-state 'vterm-mode 'emacs))
+
   ;; Optimize vterm for better performance
   (setq vterm-max-scrollback 5000
         vterm-timer-delay 0.01)
