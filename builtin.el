@@ -45,7 +45,8 @@
               truncate-lines t
               fill-column 80)
 
-(global-hl-line-mode 1)
+(add-hook 'prog-mode-hook #'hl-line-mode)
+(add-hook 'text-mode-hook #'hl-line-mode)
 
 (when (display-graphic-p)
   (setq-default frame-title-format nil
