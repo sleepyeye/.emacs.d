@@ -16,21 +16,6 @@
   ;; Disable line numbers in vterm buffers
   (add-hook 'vterm-mode-hook (lambda () (display-line-numbers-mode -1))))
 
-;; Eat terminal - pure Elisp terminal emulator (no flickering issues)
-(use-package eat
-  :ensure (:host codeberg :repo "akib/emacs-eat"
-           :files ("*.el" ("term" "term/*.el") "*.texi"
-                   "*.ti" ("terminfo/e" "terminfo/e/*")
-                   ("terminfo/65" "terminfo/65/*")
-                   ("integration" "integration/*")
-                   (:exclude ".dir-locals.el" "*-tests.el")))
-  :config
-  ;; Eat-specific optimizations for better performance
-  (setq eat-kill-buffer-on-exit t
-        eat-enable-yank-to-terminal t)
-  ;; Disable line numbers in eat buffers
-  (add-hook 'eat-mode-hook (lambda () (display-line-numbers-mode -1))))
-
 ;; Install claude-code-ide from GitHub using elpaca
 (use-package claude-code-ide
   :ensure (:host github :repo "manzaltu/claude-code-ide.el")
@@ -142,46 +127,6 @@
                   (buffer-substring-no-properties (point-min) (point-max)))))
       (claude-code-ide-send-prompt
        (format "Please improve the following text's clarity, flow, and style while maintaining its meaning:\n\n%s" text))))
-
-  ;; Eat optimizations for Claude Code
-  (with-eval-after-load 'eat
-    ;; Optimize eat performance for Claude Code
-    (add-hook 'eat-mode-hook
-              (lambda ()
-                ;; Scrolling optimizations
-                (setq-local scroll-margin 0)
-                (setq-local scroll-conservatively 0)
-                (setq-local hscroll-margin 0)
-                (setq-local scroll-step 1)
-                (setq-local auto-window-vscroll nil)
-
-                ;; Disable modes that might cause redraw issues
-                (when (bound-and-true-p hl-line-mode)
-                  (hl-line-mode -1))
-                (when (bound-and-true-p solaire-mode)
-                  (solaire-mode -1))
-                (when (bound-and-true-p global-hl-line-mode)
-                  (setq-local global-hl-line-mode nil))
-
-                ;; Cursor and display optimizations
-                (setq-local cursor-in-non-selected-windows nil)
-                (setq-local show-trailing-whitespace nil)
-                (setq-local indicate-empty-lines nil)
-                (setq-local indicate-buffer-boundaries nil)
-
-                ;; Font and composition optimizations
-                (when (fboundp 'font-lock-mode)
-                  (font-lock-mode -1))
-                (when (fboundp 'auto-composition-mode)
-                  (auto-composition-mode -1))
-
-                ;; Bidirectional text optimization (LTR only)
-                (setq-local bidi-paragraph-direction 'left-to-right)
-                (setq-local bidi-inhibit-bpa t)
-
-                ;; Redisplay optimizations
-                (setq-local redisplay-skip-fontification-on-input t)
-                (setq-local fast-but-imprecise-scrolling t))))
 
   ;; Helper functions for writing assistance
   (defun claude-code-ide-improve-writing ()
