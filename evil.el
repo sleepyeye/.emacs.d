@@ -182,7 +182,7 @@
   (define-key evil-motion-state-map "0" 'evil-beginning-of-line)
 
   ;; Evil state exceptions
-  (dolist (mode '(custom-mode eshell-mode shell-mode term-mode vterm-mode eat-mode
+  (dolist (mode '(custom-mode eshell-mode shell-mode term-mode vterm-mode
                   elpaca-ui-mode calc-mode inferior-python-mode wdired-mode
                   log-edit-mode))
     (add-to-list 'evil-emacs-state-modes mode))

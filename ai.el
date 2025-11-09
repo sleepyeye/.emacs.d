@@ -36,14 +36,14 @@
 
   ;; Configuration options
   (setq claude-code-ide-cli-path "claude"              ; Claude CLI command
-        claude-code-ide-terminal-backend 'eat          ; Use eat for terminal (no flickering)
+        claude-code-ide-terminal-backend 'vterm        ; Use vterm for terminal
         claude-code-ide-use-side-window t              ; Use side window (reduces flickering)
         claude-code-ide-window-side 'right             ; Open on the right side
         claude-code-ide-window-width 90                ; Side window width (90 chars)
         claude-code-ide-use-ide-diff t                 ; Enable ediff for diffs
         claude-code-ide-diagnostics-backend 'auto      ; Auto-detect flycheck/flymake
         claude-code-ide-prevent-reflow-glitch t        ; Prevent resize glitches (default: t)
-        claude-code-ide-vterm-anti-flicker t           ; Enable vterm anti-flicker (also helps eat)
+        claude-code-ide-vterm-anti-flicker t           ; Enable vterm anti-flicker
         claude-code-ide-vterm-render-delay 0.01        ; Slightly longer render delay for smoother output
         claude-code-ide-terminal-initialization-delay 0.15)  ; Brief delay for proper layout
 
