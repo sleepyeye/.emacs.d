@@ -40,6 +40,7 @@ Each `.el` file is self-contained and focused on a specific domain:
 - **general.el** - Leader key (`SPC`) bindings and global keymaps
 - **evil.el** - Evil mode + extensions (surround, exchange, textobj, etc.)
 - **completion.el** - Minibuffer (Vertico, Consult) + in-buffer (Corfu, Cape)
+- **register.el** - Enhanced register system with file+position support and completion integration
 - **eglot.el** - LSP configuration for Python (basedpyright), C/C++ (clangd), LaTeX (texlab)
 - **projectile.el** - Git-root-only project management
 - **workspace.el** - Perspective integration with project-based workspace switching
@@ -67,6 +68,7 @@ Key leader prefixes:
 - `SPC s` - Search (consult-line, consult-ripgrep, etc.)
 - `SPC g` - Git (magit)
 - `SPC p` - Projectile command map
+- `SPC r` - Registers (save/jump/insert with completion)
 - `SPC TAB [0-9]` - Workspace switching
 - `SPC h` - Help/describe commands
 
@@ -150,11 +152,15 @@ Always use `with-eval-after-load 'general` to ensure general is loaded first.
 
 ## File Naming Conventions
 
-- Main config modules: `lowercase.el` (e.g., `evil.el`, `completion.el`)
-- Headers include: `;;; filename --- description -*- lexical-binding: t; -*-`
-- All modules should end with: `;;; filename ends here` (or equivalent provide)
-- Use `lexical-binding: t` in all files
-- Mark main config files with `no-byte-compile: t` if needed
+- **Main config modules**: `lowercase.el` (e.g., `evil.el`, `completion.el`, `register.el`)
+  - Use simple, descriptive names without prefixes
+  - Examples: `python.el`, `magit.el`, `workspace.el`
+  - **DO NOT** use prefixed names like `sleepy-*.el` or `my-*.el`
+- **Headers include**: `;;; filename --- description -*- lexical-binding: t; -*-`
+- **All modules should end with**: `;;; filename ends here` (or equivalent provide)
+- **Use** `lexical-binding: t` in all files
+- **Mark main config files** with `no-byte-compile: t` if needed
+- **Provide statement**: Use `(provide 'filename)` matching the file name (e.g., `(provide 'register)` in `register.el`)
 
 ## Dependencies
 
