@@ -16,6 +16,7 @@
 (load "~/.emacs.d/search.el")
 (load "~/.emacs.d/misc.el")
 (load "~/.emacs.d/tree-sitter.el")
+(load "~/.emacs.d/register.el")
 (load "~/.emacs.d/ai.el")
 
 ;;; Platform-specific configuration
@@ -25,6 +26,7 @@
 
 ;;; setup languages
 ;; (load "~/.emacs.d/yaml.el")
+(load "~/.emacs.d/markdown.el")
 (load "~/.emacs.d/tex.el")
 ;; (load "~/.emacs.d/quarto.el")
 ;; (load "~/.emacs.d/cc.el")
