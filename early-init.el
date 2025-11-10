@@ -1,5 +1,25 @@
 ;;; early-init.el --- early-init.el -*- no-byte-compile: t; lexical-binding: t; -*-
 
+;; --- Startup Performance Optimizations (restore after init) ----------------
+;; Temporarily disable GC during startup for faster boot
+(defvar sleepy--initial-gc-cons-threshold gc-cons-threshold
+  "Store initial GC threshold to restore later.")
+(defvar sleepy--initial-gc-cons-percentage gc-cons-percentage
+  "Store initial GC percentage to restore later.")
+(defvar sleepy--initial-file-name-handler-alist file-name-handler-alist
+  "Store initial file-name-handler-alist to restore later.")
+
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.6
+      file-name-handler-alist nil)
+
+;; Restore GC settings and file-name-handler-alist after startup
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold (* 100 100 8)  ; 80MB
+                  gc-cons-percentage 0.1
+                  file-name-handler-alist sleepy--initial-file-name-handler-alist)))
+
 ;; Basic Startup Settings
 (setq package-enable-at-startup nil
       native-comp-async-report-warnings-errors nil
@@ -12,8 +32,6 @@
       initial-major-mode 'fundamental-mode
       initial-scratch-message nil
       auto-mode-case-fold nil
-      scroll-bar-mode nil
-      tool-bar-mode nil
       frame-inhibit-implied-resize t)
 
 ;; Performance and Optimization
@@ -32,8 +50,7 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
-(setq frame-inhibit-implied-resize t
-      frame-resize-pixelwise t)
+(setq frame-resize-pixelwise t)
 
 ;; Frame Size
 (add-to-list 'default-frame-alist '(height . 60))
