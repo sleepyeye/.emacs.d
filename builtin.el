@@ -9,12 +9,24 @@
       user-mail-address "wonjunlee.0729@gmail.com")
 
 ;; --- Backups / Autosave -----------------------------------------------------
-(setq make-backup-files nil
-      create-lockfiles nil
-      vc-make-backup-files nil
+(setq make-backup-files t                ; Enable backups for safety
+      backup-by-copying t                ; Don't clobber symlinks
+      version-control t                  ; Use version numbers for backups
+      delete-old-versions t              ; Don't ask to delete excess backups
+      kept-new-versions 6                ; Keep 6 newest versions
+      kept-old-versions 2                ; Keep 2 oldest versions
+      create-lockfiles nil               ; Disable lockfiles (optional: set to t for collision protection)
+      vc-make-backup-files nil           ; Don't backup version-controlled files
       auto-save-default t
       auto-save-include-big-deletions t
       kill-buffer-delete-auto-save-files t)
+
+;; Backup directory (separate from autosave)
+(defconst sleepy/backup-dir (expand-file-name "backups/" user-emacs-directory))
+(unless (file-directory-p sleepy/backup-dir)
+  (make-directory sleepy/backup-dir t))
+
+(setq backup-directory-alist `(("." . ,sleepy/backup-dir)))
 
 ;; Autosave directory
 (defconst sleepy/autosave-dir (expand-file-name "autosave/" user-emacs-directory))
@@ -92,7 +104,7 @@
 
 ;; --- recentf / savehist / saveplace ----------------------------------------
 (setq recentf-max-saved-items 100
-      recentf-auto-cleanup 'mode     ; 모드 기반 클린업
+      recentf-auto-cleanup 'never    ; Manual cleanup only (more reliable)
       recentf-show-file-shortcuts-flag t
       history-length 300
       savehist-save-minibuffer-history t
