@@ -26,4 +26,12 @@
       mac-redisplay-dont-reset-vscroll t         ; Keep scroll position
       mac-mouse-wheel-smooth-scroll nil)         ; Disable smooth scrolling
 
+;; Korean input method - Use macOS native input
+(setq default-input-method nil                   ; Use macOS input instead of Emacs
+      mac-pass-command-to-system t)              ; Let macOS handle Cmd key for input switching
+
+;; Optional: If you prefer Emacs builtin Korean input, uncomment:
+;; (setq default-input-method "korean-hangul")   ; 2-bul (두벌식)
+;; (global-set-key (kbd "C-;") 'toggle-input-method)
+
 ;;; macos.el ends here
