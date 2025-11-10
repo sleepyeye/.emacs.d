@@ -161,7 +161,7 @@
          (register (if registers
                        (register-read-with-preview "Insert from register: ")
                      (user-error "No text/number registers"))))
-    (insert-register register))
+    (insert-register register)))
 
 ;; Better register listing with consult integration
 (with-eval-after-load 'consult
