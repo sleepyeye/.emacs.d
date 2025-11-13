@@ -317,3 +317,10 @@
     (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "class.outer" nil t)))
   (define-key evil-normal-state-map (kbd "[G")
     (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "class.outer" t t))))
+
+(use-package evil-numbers
+  :ensure t
+  :after evil
+  :config
+  (define-key evil-visual-state-map (kbd "g C-a") 'evil-numbers/inc-at-pt-incremental)
+  (define-key evil-visual-state-map (kbd "g C-A") 'evil-numbers/dec-at-pt-incremental))
