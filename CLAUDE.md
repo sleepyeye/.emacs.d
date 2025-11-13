@@ -2,6 +2,16 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Quick Start for Claude Instances
+
+**First time here?** Read these files in order:
+1. **This file (CLAUDE.md)** - How to work with this configuration
+2. **PLANNING.md** - System architecture overview
+3. **KNOWLEDGE.md** - Documentation index and navigation
+4. **docs/quick_reference.md** - Common patterns and workflows
+
+**For detailed technical information**, see the docs/ directory.
+
 ## Overview
 
 This is a personal Emacs configuration that emphasizes:
@@ -12,6 +22,28 @@ This is a personal Emacs configuration that emphasizes:
 - **LSP via Eglot** for Python, C/C++, LaTeX
 - **Workspace management** via Perspective with Projectile integration
 - **Claude Code IDE** integration for AI-assisted development
+
+## Documentation Structure
+
+```
+~/.emacs.d/
+├── CLAUDE.md (this file)    - Guide for Claude Code instances
+├── PLANNING.md              - System architecture overview
+├── RULES.md                 - Coding standards and conventions
+├── TASK.md                  - Current tasks and priorities
+├── KNOWLEDGE.md             - Documentation index
+└── docs/                    - Detailed technical documentation
+    ├── architecture_overview.md  - Complete system architecture
+    ├── module_reference.md       - All 27 modules documented
+    └── quick_reference.md        - Common patterns and workflows
+```
+
+**Navigation**:
+- Want architecture details? → docs/architecture_overview.md
+- Need module information? → docs/module_reference.md
+- Looking for keybindings? → docs/quick_reference.md
+- Current work status? → TASK.md
+- Coding standards? → RULES.md
 
 ## Architecture
 
