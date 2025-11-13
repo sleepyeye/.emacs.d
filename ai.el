@@ -13,11 +13,16 @@
   (with-eval-after-load 'evil
 	(evil-set-initial-state 'vterm-mode 'emacs))
 
-  ;; Optimize vterm for better performance
+  ;; Optimize vterm for better performance and reduce flickering
   (setq vterm-max-scrollback 5000
-        vterm-timer-delay 0.01)
-  ;; Disable line numbers in vterm buffers
-  (add-hook 'vterm-mode-hook (lambda () (display-line-numbers-mode -1))))
+        vterm-timer-delay nil)  ; nil = use default (reduces flickering)
+
+  ;; Disable visual elements that can cause flickering in vterm buffers
+  (add-hook 'vterm-mode-hook
+            (lambda ()
+              (display-line-numbers-mode -1)
+              (setq-local fast-but-imprecise-scrolling nil)  ; Disable fast scrolling in vterm
+              (setq-local scroll-conservatively 101))))
 
 ;; Install claude-code-ide from GitHub using elpaca
 (use-package claude-code-ide
@@ -44,8 +49,8 @@
         claude-code-ide-diagnostics-backend 'auto      ; Auto-detect flycheck/flymake
         claude-code-ide-prevent-reflow-glitch t        ; Prevent resize glitches (default: t)
         claude-code-ide-vterm-anti-flicker t           ; Enable vterm anti-flicker
-        claude-code-ide-vterm-render-delay 0.1         ; Longer render delay to reduce flicker
-        claude-code-ide-terminal-initialization-delay 0.5)  ; Longer delay for proper layout
+        claude-code-ide-vterm-render-delay 0.2         ; Increased render delay to reduce flicker (was 0.1)
+        claude-code-ide-terminal-initialization-delay 0.8)  ; Longer delay for proper layout (was 0.5)
 
   ;; Writing-specific helper functions
   (defun sleepy/claude-write ()
