@@ -22,7 +22,8 @@
             (lambda ()
               (display-line-numbers-mode -1)
               (setq-local fast-but-imprecise-scrolling nil)  ; Disable fast scrolling in vterm
-              (setq-local scroll-conservatively 101))))
+              (setq-local scroll-conservatively 101)
+              (setq-local cursor-type 'box)))              ; Consistent cursor type
 
 ;; Install claude-code-ide from GitHub using elpaca
 (use-package claude-code-ide
@@ -42,8 +43,8 @@
   ;; Configuration options
   (setq claude-code-ide-cli-path "claude"              ; Claude CLI command
         claude-code-ide-terminal-backend 'vterm        ; Use vterm for terminal
-        claude-code-ide-use-side-window t              ; Use side window (reduces flickering)
-        claude-code-ide-window-side 'bottom            ; Open at the bottom (more stable than right)
+        claude-code-ide-use-side-window nil            ; DISABLED: Use regular split instead (less flickering)
+        claude-code-ide-window-side 'bottom            ; Open at the bottom (when side-window is enabled)
         claude-code-ide-window-width 0.4               ; Window proportion (40% of frame)
         claude-code-ide-use-ide-diff t                 ; Enable ediff for diffs
         claude-code-ide-diagnostics-backend 'auto      ; Auto-detect flycheck/flymake
