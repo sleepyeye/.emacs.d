@@ -15,20 +15,29 @@
 
   ;; Optimize vterm for better performance and reduce flickering
   (setq vterm-max-scrollback 5000
-        vterm-timer-delay nil          ; nil = use default (reduces flickering)
-        vterm-copy-exclude-prompt t)   ; Reduce unnecessary rendering
+        vterm-timer-delay 0.1          ; Set explicit delay to batch updates (was nil)
+        vterm-copy-exclude-prompt t    ; Reduce unnecessary rendering
+        vterm-disable-bold-font t      ; Disable bold fonts (reduces rendering complexity)
+        vterm-disable-underline t      ; Disable underlines (reduces rendering complexity)
+        vterm-use-vterm-prompt-detection-method 'builtin)  ; Use faster prompt detection
 
   ;; Disable visual elements that can cause flickering in vterm buffers
   (add-hook 'vterm-mode-hook
             (lambda ()
               (display-line-numbers-mode -1)
+              (when (fboundp 'which-key-mode) (which-key-mode -1))  ; Disable which-key in vterm
               (setq-local fast-but-imprecise-scrolling nil)   ; Disable fast scrolling in vterm
               (setq-local scroll-conservatively 101)
               (setq-local cursor-type 'box)                   ; Consistent cursor type
-              (setq-local mode-line-format nil)               ; CRITICAL: Disable mode-line (main cause of flicker)
+              (setq-local mode-line-format nil)               ; Disable mode-line
               (setq-local global-hl-line-mode nil)            ; Disable line highlighting
               (setq-local redisplay-skip-fontification-on-input t)  ; Skip fontification during input
-              (setq-local inhibit-compacting-font-caches t))) ; Don't compact font caches
+              (setq-local inhibit-compacting-font-caches t)   ; Don't compact font caches
+              (setq-local redisplay-dont-pause t)             ; Don't interrupt redisplay
+              (setq-local jit-lock-defer-time 0)              ; Disable deferred fontification
+              (setq-local jit-lock-stealth-time nil)          ; Disable stealth fontification
+              (setq-local auto-window-vscroll nil)            ; Disable automatic vertical scrolling
+              (buffer-disable-undo)))                         ; Disable undo (vterm doesn't need it)
 
 ;; Install claude-code-ide from GitHub using elpaca
 (use-package claude-code-ide
