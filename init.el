@@ -11,6 +11,7 @@
 (load "~/.emacs.d/font.el")
 (load "~/.emacs.d/projectile.el")
 (load "~/.emacs.d/eglot.el")
+(load "~/.emacs.d/tags.el")
 (load "~/.emacs.d/magit.el")
 (load "~/.emacs.d/workspace.el")
 (load "~/.emacs.d/search.el")

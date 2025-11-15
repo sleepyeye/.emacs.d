@@ -107,7 +107,11 @@ Temporary Items
 /.persp
 /bookmarks
 
+# Tag files (Citre/ctags)
 .tags/
+tags
+TAGS
+.tags
 
 ext/
 /history
