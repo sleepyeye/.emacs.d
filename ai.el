@@ -57,12 +57,15 @@ the current major mode."
     (interactive)
     (unless (fboundp 'claude-code-ide-session-active-p)
       (user-error "Claude Code IDE is not available"))
-    (unless (claude-code-ide-session-active-p)
-      (claude-code-ide))
     (let ((mode (symbol-name major-mode))
           (topic (read-string "What would you like to write about? ")))
-      (when (string-empty-p topic)
+      (when (string-empty-p (string-trim topic))
         (user-error "Topic cannot be empty"))
+      ;; Ensure session is active
+      (unless (claude-code-ide-session-active-p)
+        (claude-code-ide)
+        (sit-for 0.5))
+      ;; Send prompt
       (claude-code-ide-send-prompt
        (format "Help me write about: %s. I'm in %s mode. Please provide well-structured content."
                topic mode))))
@@ -78,9 +81,16 @@ The region must be active and non-empty. Claude Code IDE must be available."
       (user-error "No active region"))
     (when (= start end)
       (user-error "Region is empty"))
-    (unless (claude-code-ide-session-active-p)
-      (claude-code-ide))
     (let ((text (buffer-substring-no-properties start end)))
+      (when (string-empty-p (string-trim text))
+        (user-error "Selected text is empty"))
+      ;; Deactivate mark to avoid interference
+      (deactivate-mark)
+      ;; Ensure session is active
+      (unless (claude-code-ide-session-active-p)
+        (claude-code-ide)
+        (sit-for 0.5))  ; Wait for session to initialize
+      ;; Send prompt
       (claude-code-ide-send-prompt
        (format "Please rewrite the following text to be clearer and more concise:\n\n%s" text))))
 
@@ -95,9 +105,16 @@ The region must be active and non-empty. Claude Code IDE must be available."
       (user-error "No active region"))
     (when (= start end)
       (user-error "Region is empty"))
-    (unless (claude-code-ide-session-active-p)
-      (claude-code-ide))
     (let ((text (buffer-substring-no-properties start end)))
+      (when (string-empty-p (string-trim text))
+        (user-error "Selected text is empty"))
+      ;; Deactivate mark to avoid interference
+      (deactivate-mark)
+      ;; Ensure session is active
+      (unless (claude-code-ide-session-active-p)
+        (claude-code-ide)
+        (sit-for 0.5))  ; Wait for session to initialize
+      ;; Send prompt
       (claude-code-ide-send-prompt
        (format "Please proofread the following text for grammar, spelling, and style issues. Provide corrections and suggestions:\n\n%s" text))))
 
@@ -109,13 +126,18 @@ Otherwise, prompts for input. Claude Code IDE must be available."
     (interactive)
     (unless (fboundp 'claude-code-ide-session-active-p)
       (user-error "Claude Code IDE is not available"))
-    (unless (claude-code-ide-session-active-p)
-      (claude-code-ide))
     (let ((topic (if (use-region-p)
-                     (buffer-substring-no-properties (region-beginning) (region-end))
+                     (prog1
+                         (buffer-substring-no-properties (region-beginning) (region-end))
+                       (deactivate-mark))
                    (read-string "What would you like explained? "))))
-      (when (string-empty-p topic)
+      (when (string-empty-p (string-trim topic))
         (user-error "Nothing to explain"))
+      ;; Ensure session is active
+      (unless (claude-code-ide-session-active-p)
+        (claude-code-ide)
+        (sit-for 0.5))
+      ;; Send prompt
       (claude-code-ide-send-prompt
        (format "Please explain the following in detail:\n\n%s" topic))))
 
@@ -127,15 +149,22 @@ Otherwise, summarizes the entire buffer. Claude Code IDE must be available."
     (interactive)
     (unless (fboundp 'claude-code-ide-session-active-p)
       (user-error "Claude Code IDE is not available"))
-    (unless (claude-code-ide-session-active-p)
-      (claude-code-ide))
-    (if (use-region-p)
-        (let ((text (buffer-substring-no-properties (region-beginning) (region-end))))
-          (when (string-empty-p text)
-            (user-error "Region is empty"))
+    (let ((text (if (use-region-p)
+                    (prog1
+                        (buffer-substring-no-properties (region-beginning) (region-end))
+                      (deactivate-mark))
+                  nil)))
+      (when (and text (string-empty-p (string-trim text)))
+        (user-error "Selected text is empty"))
+      ;; Ensure session is active
+      (unless (claude-code-ide-session-active-p)
+        (claude-code-ide)
+        (sit-for 0.5))
+      ;; Send prompt
+      (if text
           (claude-code-ide-send-prompt
-           (format "Please provide a concise summary of the following:\n\n%s" text)))
-      (claude-code-ide-send-prompt "Please summarize the current buffer's content.")))
+           (format "Please provide a concise summary of the following:\n\n%s" text))
+        (claude-code-ide-send-prompt "Please summarize the current buffer's content."))))
 
   ;; Additional writing templates
   (defun sleepy/claude-email ()
@@ -145,12 +174,15 @@ Prompts for subject and optional recipient. Claude Code IDE must be available."
     (interactive)
     (unless (fboundp 'claude-code-ide-session-active-p)
       (user-error "Claude Code IDE is not available"))
-    (unless (claude-code-ide-session-active-p)
-      (claude-code-ide))
     (let ((recipient (read-string "Recipient (optional): "))
           (subject (read-string "Subject/Topic: ")))
-      (when (string-empty-p subject)
+      (when (string-empty-p (string-trim subject))
         (user-error "Subject cannot be empty"))
+      ;; Ensure session is active
+      (unless (claude-code-ide-session-active-p)
+        (claude-code-ide)
+        (sit-for 0.5))
+      ;; Send prompt
       (claude-code-ide-send-prompt
        (format "Help me write a professional email about: %s%s"
                subject
@@ -164,13 +196,18 @@ Otherwise, improves the entire buffer. Claude Code IDE must be available."
     (interactive)
     (unless (fboundp 'claude-code-ide-session-active-p)
       (user-error "Claude Code IDE is not available"))
-    (unless (claude-code-ide-session-active-p)
-      (claude-code-ide))
     (let ((text (if (use-region-p)
-                    (buffer-substring-no-properties (region-beginning) (region-end))
+                    (prog1
+                        (buffer-substring-no-properties (region-beginning) (region-end))
+                      (deactivate-mark))
                   (buffer-substring-no-properties (point-min) (point-max)))))
-      (when (string-empty-p text)
+      (when (string-empty-p (string-trim text))
         (user-error "No text to improve"))
+      ;; Ensure session is active
+      (unless (claude-code-ide-session-active-p)
+        (claude-code-ide)
+        (sit-for 0.5))
+      ;; Send prompt
       (claude-code-ide-send-prompt
        (format "Please improve the following text's clarity, flow, and style while maintaining its meaning:\n\n%s" text))))
 
@@ -184,14 +221,19 @@ Otherwise, improves the current paragraph. Claude Code IDE must be available."
     (unless (fboundp 'claude-code-ide-session-active-p)
       (user-error "Claude Code IDE is not available"))
     (let ((text (if (use-region-p)
-                    (buffer-substring-no-properties (region-beginning) (region-end))
+                    (prog1
+                        (buffer-substring-no-properties (region-beginning) (region-end))
+                      (deactivate-mark))
                   (thing-at-point 'paragraph t))))
       (unless text
         (user-error "No text found to improve"))
       (when (string-empty-p (string-trim text))
         (user-error "Text is empty"))
+      ;; Ensure session is active
       (unless (claude-code-ide-session-active-p)
-        (claude-code-ide))
+        (claude-code-ide)
+        (sit-for 0.5))
+      ;; Send prompt
       (claude-code-ide-send-prompt
        (format "Please improve the following text for clarity, grammar, and academic style:\n\n%s" text))))
 
@@ -204,14 +246,19 @@ Otherwise, checks the current paragraph. Claude Code IDE must be available."
     (unless (fboundp 'claude-code-ide-session-active-p)
       (user-error "Claude Code IDE is not available"))
     (let ((text (if (use-region-p)
-                    (buffer-substring-no-properties (region-beginning) (region-end))
+                    (prog1
+                        (buffer-substring-no-properties (region-beginning) (region-end))
+                      (deactivate-mark))
                   (thing-at-point 'paragraph t))))
       (unless text
         (user-error "No text found to check"))
       (when (string-empty-p (string-trim text))
         (user-error "Text is empty"))
+      ;; Ensure session is active
       (unless (claude-code-ide-session-active-p)
-        (claude-code-ide))
+        (claude-code-ide)
+        (sit-for 0.5))
+      ;; Send prompt
       (claude-code-ide-send-prompt
        (format "Check grammar and suggest corrections:\n\n%s" text))))
 
@@ -224,14 +271,19 @@ Otherwise, processes the current paragraph. Claude Code IDE must be available."
     (unless (fboundp 'claude-code-ide-session-active-p)
       (user-error "Claude Code IDE is not available"))
     (let ((text (if (use-region-p)
-                    (buffer-substring-no-properties (region-beginning) (region-end))
+                    (prog1
+                        (buffer-substring-no-properties (region-beginning) (region-end))
+                      (deactivate-mark))
                   (thing-at-point 'paragraph t))))
       (unless text
         (user-error "No text found to make concise"))
       (when (string-empty-p (string-trim text))
         (user-error "Text is empty"))
+      ;; Ensure session is active
       (unless (claude-code-ide-session-active-p)
-        (claude-code-ide))
+        (claude-code-ide)
+        (sit-for 0.5))
+      ;; Send prompt
       (claude-code-ide-send-prompt
        (format "Make this text more concise while preserving meaning:\n\n%s" text))))
 
@@ -244,14 +296,19 @@ Otherwise, expands the current paragraph. Claude Code IDE must be available."
     (unless (fboundp 'claude-code-ide-session-active-p)
       (user-error "Claude Code IDE is not available"))
     (let ((text (if (use-region-p)
-                    (buffer-substring-no-properties (region-beginning) (region-end))
+                    (prog1
+                        (buffer-substring-no-properties (region-beginning) (region-end))
+                      (deactivate-mark))
                   (thing-at-point 'paragraph t))))
       (unless text
         (user-error "No text found to expand"))
       (when (string-empty-p (string-trim text))
         (user-error "Text is empty"))
+      ;; Ensure session is active
       (unless (claude-code-ide-session-active-p)
-        (claude-code-ide))
+        (claude-code-ide)
+        (sit-for 0.5))
+      ;; Send prompt
       (claude-code-ide-send-prompt
        (format "Expand on this text with more detail and examples:\n\n%s" text))))
 
@@ -265,8 +322,6 @@ and sends that content to Claude for review. Claude Code IDE must be available."
       (user-error "Claude Code IDE is not available"))
     (unless (derived-mode-p 'latex-mode 'LaTeX-mode)
       (user-error "Not in a LaTeX buffer"))
-    (unless (claude-code-ide-session-active-p)
-      (claude-code-ide))
     (save-excursion
       (goto-char (point-min))
       (unless (re-search-forward "\\\\begin{abstract}" nil t)
@@ -279,6 +334,11 @@ and sends that content to Claude for review. Claude Code IDE must be available."
         (let ((abstract (buffer-substring-no-properties start end)))
           (when (string-empty-p (string-trim abstract))
             (user-error "Abstract is empty"))
+          ;; Ensure session is active
+          (unless (claude-code-ide-session-active-p)
+            (claude-code-ide)
+            (sit-for 0.5))
+          ;; Send prompt
           (claude-code-ide-send-prompt
            (format "Review this LaTeX abstract and suggest improvements:\n\n%s" abstract)))))))
 
