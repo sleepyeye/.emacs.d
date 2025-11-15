@@ -56,32 +56,29 @@
 			   '((python-mode python-ts-mode)
 				 . ("basedpyright-langserver" "--stdio")))
   :config
-  ;; Only enable eglot hooks if the language server is available
-  (when (executable-find "basedpyright-langserver")
-    (add-hook 'python-mode-hook #'eglot-ensure)
-    (add-hook 'python-ts-mode-hook #'eglot-ensure))
+  ;; Helper function to conditionally enable eglot for a language server
+  (defun sleepy/eglot-setup-server (executable-name language-name &rest mode-hooks)
+    "Enable eglot for EXECUTABLE-NAME if available, warn otherwise.
+LANGUAGE-NAME is used in warning messages.
+MODE-HOOKS is a list of mode hooks to add eglot-ensure to."
+    (if (executable-find executable-name)
+        (dolist (hook mode-hooks)
+          (add-hook hook #'eglot-ensure))
+      (display-warning 'eglot
+                       (format "%s not found. %s LSP disabled."
+                               executable-name language-name)
+                       :warning)))
 
-  (unless (executable-find "basedpyright-langserver")
-    (display-warning 'eglot "basedpyright-langserver not found. Python LSP disabled." :warning))
-
-  (when (executable-find "clangd")
-    (add-hook 'c-mode-hook #'eglot-ensure)
-    (add-hook 'c++-mode-hook #'eglot-ensure)
-    (add-hook 'c-ts-mode-hook #'eglot-ensure)
-    (add-hook 'c++-ts-mode-hook #'eglot-ensure))
-
-  (unless (executable-find "clangd")
-    (display-warning 'eglot "clangd not found. C/C++ LSP disabled." :warning))
-
-  (when (executable-find "texlab")
-    (add-hook 'LaTeX-mode-hook #'eglot-ensure))
-
-  (unless (executable-find "texlab")
-    (display-warning 'eglot "texlab not found. LaTeX LSP disabled." :warning))
-
-  (when (executable-find "cmake-language-server")
-    (add-hook 'cmake-mode-hook #'eglot-ensure)
-    (add-hook 'cmake-ts-mode-hook #'eglot-ensure)))
+  ;; Setup language servers
+  (sleepy/eglot-setup-server "basedpyright-langserver" "Python"
+                              'python-mode-hook 'python-ts-mode-hook)
+  (sleepy/eglot-setup-server "clangd" "C/C++"
+                              'c-mode-hook 'c++-mode-hook
+                              'c-ts-mode-hook 'c++-ts-mode-hook)
+  (sleepy/eglot-setup-server "texlab" "LaTeX"
+                              'LaTeX-mode-hook)
+  (sleepy/eglot-setup-server "cmake-language-server" "CMake"
+                              'cmake-mode-hook 'cmake-ts-mode-hook))
 
 (use-package consult-eglot
   :after eglot

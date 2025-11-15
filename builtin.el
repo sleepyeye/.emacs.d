@@ -9,12 +9,18 @@
       user-mail-address "wonjunlee.0729@gmail.com")
 
 ;; --- Backups / Autosave -----------------------------------------------------
+(defconst sleepy/backup-kept-new-versions 6
+  "Number of newest backup versions to keep.")
+
+(defconst sleepy/backup-kept-old-versions 2
+  "Number of oldest backup versions to keep.")
+
 (setq make-backup-files t                ; Enable backups for safety
       backup-by-copying t                ; Don't clobber symlinks
       version-control t                  ; Use version numbers for backups
       delete-old-versions t              ; Don't ask to delete excess backups
-      kept-new-versions 6                ; Keep 6 newest versions
-      kept-old-versions 2                ; Keep 2 oldest versions
+      kept-new-versions sleepy/backup-kept-new-versions
+      kept-old-versions sleepy/backup-kept-old-versions
       create-lockfiles nil               ; Disable lockfiles (optional: set to t for collision protection)
       vc-make-backup-files nil           ; Don't backup version-controlled files
       auto-save-default t
@@ -52,10 +58,19 @@
 (add-hook 'elpaca-after-init-hook (lambda () (load custom-file 'noerror)))
 
 ;; --- Appearance -------------------------------------------------------------
-(setq-default display-line-numbers-width 3
-              tab-width 4
+(defconst sleepy/line-numbers-width 3
+  "Default width for line number display in columns.")
+
+(defconst sleepy/tab-width 4
+  "Number of spaces per tab character.")
+
+(defconst sleepy/fill-column 80
+  "Column beyond which automatic line-wrapping should happen.")
+
+(setq-default display-line-numbers-width sleepy/line-numbers-width
+              tab-width sleepy/tab-width
               truncate-lines t
-              fill-column 80)
+              fill-column sleepy/fill-column)
 
 (add-hook 'prog-mode-hook #'hl-line-mode)
 (add-hook 'text-mode-hook #'hl-line-mode)
@@ -72,10 +87,13 @@
 (set-keyboard-coding-system 'utf-8)
 
 ;; --- Cursor / Blink / Visual noise -----------------------------------------
+(defconst sleepy/delete-pair-blink-delay 0.03
+  "Delay in seconds for blinking when deleting a pair of delimiters.")
+
 (blink-cursor-mode -1)
 (setq blink-matching-paren nil
       x-stretch-cursor nil
-      delete-pair-blink-delay 0.03
+      delete-pair-blink-delay sleepy/delete-pair-blink-delay
       cursor-in-non-selected-windows nil
       highlight-nonselected-windows nil)
 
@@ -125,13 +143,22 @@
       auto-revert-check-vc-info t)
 
 ;; --- recentf / savehist / saveplace ----------------------------------------
-(setq recentf-max-saved-items 100
+(defconst sleepy/recentf-max-items 100
+  "Maximum number of recent files to remember.")
+
+(defconst sleepy/history-length 300
+  "Maximum length of minibuffer history.")
+
+(defconst sleepy/save-place-limit 600
+  "Maximum number of saved places to remember.")
+
+(setq recentf-max-saved-items sleepy/recentf-max-items
       recentf-auto-cleanup 'never    ; Manual cleanup only (more reliable)
       recentf-show-file-shortcuts-flag t
-      history-length 300
+      history-length sleepy/history-length
       savehist-save-minibuffer-history t
       save-place-file (expand-file-name "saveplace" user-emacs-directory)
-      save-place-limit 600)
+      save-place-limit sleepy/save-place-limit)
 
 ;; --- Better Defaults --------------------------------------------------------
 ;; Uniquify: better buffer names when files have same name
@@ -147,7 +174,11 @@
       ibuffer-use-other-window nil)
 
 ;; Better scrolling
-(setq scroll-conservatively 101
+(defconst sleepy/scroll-conservatively 101
+  "Scroll threshold to avoid recentering.
+Values > 100 prevent automatic recentering when cursor moves off screen.")
+
+(setq scroll-conservatively sleepy/scroll-conservatively
       scroll-margin 0
       scroll-preserve-screen-position t
       auto-window-vscroll nil)

@@ -18,16 +18,14 @@
     "Switch to perspective NAME (create if missing)."
     (interactive) (persp-switch name))
 
-  (defun sleepy/persp-0 () (interactive) (sleepy/persp--switch "0"))
-  (defun sleepy/persp-1 () (interactive) (sleepy/persp--switch "1"))
-  (defun sleepy/persp-2 () (interactive) (sleepy/persp--switch "2"))
-  (defun sleepy/persp-3 () (interactive) (sleepy/persp--switch "3"))
-  (defun sleepy/persp-4 () (interactive) (sleepy/persp--switch "4"))
-  (defun sleepy/persp-5 () (interactive) (sleepy/persp--switch "5"))
-  (defun sleepy/persp-6 () (interactive) (sleepy/persp--switch "6"))
-  (defun sleepy/persp-7 () (interactive) (sleepy/persp--switch "7"))
-  (defun sleepy/persp-8 () (interactive) (sleepy/persp--switch "8"))
-  (defun sleepy/persp-9 () (interactive) (sleepy/persp--switch "9"))
+  ;; Generate workspace switching functions for 0-9
+  (dotimes (i 10)
+    (let ((num (number-to-string i)))
+      (defalias (intern (format "sleepy/persp-%s" num))
+        (lambda ()
+          (interactive)
+          (sleepy/persp--switch num))
+        (format "Switch to workspace %s." num))))
 
   ;; Auto workspace when entering a project
   (defun sleepy/persp-for-project ()
