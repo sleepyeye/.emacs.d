@@ -33,4 +33,17 @@
   (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-ts-mode))
   (add-to-list 'auto-mode-alist '("\\.y[a]?ml\\'" . yaml-ts-mode)))
 
+;; Leader keybindings for tree-sitter functions
+(with-eval-after-load 'general
+  (sleepy/leader-def
+    "t"   '(:ignore t :which-key "Tree-sitter")
+    "t i" '(treesit-inspect-mode :which-key "inspect mode")
+    "t e" '(treesit-explore-mode :which-key "explore mode")
+    "t q" '(treesit-query-builder :which-key "query builder")
+    "t n" '(treesit-defun-name :which-key "defun name")
+    "t g" '(treesit-install-language-grammar :which-key "install grammar")
+    "t b" '(treesit-beginning-of-defun :which-key "defun begin")
+    "t E" '(treesit-end-of-defun :which-key "defun end")
+    "t t" '(treesit-transpose-sexps :which-key "transpose sexps")))
+
 ;;; tree-sitter.el ends here
