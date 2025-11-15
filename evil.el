@@ -30,8 +30,8 @@
 ;;
 ;; ---- NAVIGATION PAIRS [ AND ] -----------------------------------------------
 ;; [b/]b     - Previous/next buffer
-;; [f/]f     - Previous/next function (configured with tree-sitter)
-;; [g/]g     - Previous/next class (configured with tree-sitter)
+;; [f/]f     - Previous/next function (tree-sitter)
+;; [g/]g     - Previous/next class (tree-sitter)
 ;; [[/]]     - Previous/next section/function
 ;; [{/]}     - Previous/next unmatched brace
 ;; [(/])     - Previous/next unmatched parenthesis
