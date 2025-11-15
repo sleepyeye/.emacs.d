@@ -55,16 +55,33 @@
   (add-to-list 'eglot-server-programs
 			   '((python-mode python-ts-mode)
 				 . ("basedpyright-langserver" "--stdio")))
-  :hook
-  ((python-mode . eglot-ensure)
-   (python-ts-mode . eglot-ensure)
-   (LaTeX-mode . eglot-ensure)
-   (cmake-mode . eglot-ensure)
-   (cmake-ts-mode . eglot-ensure)
-   (c-mode . eglot-ensure)
-   (c++-mode . eglot-ensure)
-   (c-ts-mode . eglot-ensure)
-   (c++-ts-mode . eglot-ensure)))
+  :config
+  ;; Only enable eglot hooks if the language server is available
+  (when (executable-find "basedpyright-langserver")
+    (add-hook 'python-mode-hook #'eglot-ensure)
+    (add-hook 'python-ts-mode-hook #'eglot-ensure))
+
+  (unless (executable-find "basedpyright-langserver")
+    (display-warning 'eglot "basedpyright-langserver not found. Python LSP disabled." :warning))
+
+  (when (executable-find "clangd")
+    (add-hook 'c-mode-hook #'eglot-ensure)
+    (add-hook 'c++-mode-hook #'eglot-ensure)
+    (add-hook 'c-ts-mode-hook #'eglot-ensure)
+    (add-hook 'c++-ts-mode-hook #'eglot-ensure))
+
+  (unless (executable-find "clangd")
+    (display-warning 'eglot "clangd not found. C/C++ LSP disabled." :warning))
+
+  (when (executable-find "texlab")
+    (add-hook 'LaTeX-mode-hook #'eglot-ensure))
+
+  (unless (executable-find "texlab")
+    (display-warning 'eglot "texlab not found. LaTeX LSP disabled." :warning))
+
+  (when (executable-find "cmake-language-server")
+    (add-hook 'cmake-mode-hook #'eglot-ensure)
+    (add-hook 'cmake-ts-mode-hook #'eglot-ensure)))
 
 (use-package consult-eglot
   :after eglot
@@ -75,22 +92,23 @@
 ;; Additional eglot keybindings for common LSP operations
 (with-eval-after-load 'eglot
   (with-eval-after-load 'general
-    (sleepy/leader-def
-      ;; Code actions and refactoring
-      "c a" '(eglot-code-actions :which-key "code actions")
-      "c r" '(eglot-rename :which-key "rename symbol")
-      "c f" '(eglot-format :which-key "format buffer/region")
-      "c o" '(eglot-code-action-organize-imports :which-key "organize imports")
-      ;; Navigation
-      "c d" '(xref-find-definitions :which-key "find definitions")
-      "c D" '(xref-find-references :which-key "find references")
-      "c i" '(eglot-find-implementation :which-key "find implementation")
-      "c t" '(eglot-find-typeDefinition :which-key "find type definition")
-      ;; Documentation and help
-      "c h" '(eldoc-doc-buffer :which-key "show documentation")
-      ;; Server management
-      "c R" '(eglot-reconnect :which-key "restart LSP server")
-      "c S" '(eglot-shutdown :which-key "shutdown LSP server"))))
+    (when (fboundp 'sleepy/leader-def)
+      (sleepy/leader-def
+        ;; Code actions and refactoring
+        "c a" '(eglot-code-actions :which-key "code actions")
+        "c r" '(eglot-rename :which-key "rename symbol")
+        "c f" '(eglot-format :which-key "format buffer/region")
+        "c o" '(eglot-code-action-organize-imports :which-key "organize imports")
+        ;; Navigation
+        "c d" '(xref-find-definitions :which-key "find definitions")
+        "c D" '(xref-find-references :which-key "find references")
+        "c i" '(eglot-find-implementation :which-key "find implementation")
+        "c t" '(eglot-find-typeDefinition :which-key "find type definition")
+        ;; Documentation and help
+        "c h" '(eldoc-doc-buffer :which-key "show documentation")
+        ;; Server management
+        "c R" '(eglot-reconnect :which-key "restart LSP server")
+        "c S" '(eglot-shutdown :which-key "shutdown LSP server")))))
 
 (use-package eglot-booster
   :ensure (eglot-booster :host github :repo "jdtsmith/eglot-booster")

@@ -3,49 +3,49 @@
 (use-package projectile
   :ensure t
   :init
-  ;; ✅ Git 루트만 프로젝트로 인정 (원치 않는 상위 폴더 자동 등록 방지)
+  ;; Only recognize Git root as project (prevent unwanted parent folder auto-registration)
   (setq projectile-project-root-files-bottom-up '(".git")
         projectile-project-root-files-top-down nil
         projectile-project-root-files-top-down-recurring nil)
 
-  ;; ✅ 파일 열었다고 자동으로 known-projects에 추가하지 않음
+  ;; Don't automatically add to known-projects when opening files
   (setq projectile-track-known-projects-automatically nil)
 
-  ;; ✅ 프로젝트 루트가 아닐 땐 Projectile 명령 자체가 동작하지 않게
+  ;; Projectile commands don't work when not in project root
   (setq projectile-require-project-root t)
 
-  ;; ✅ 검색 경로/깊이: ~/workspace 바로 아래 2단계까지만
+  ;; Search path/depth: Only 2 levels below ~/workspace
   (setq projectile-project-search-path '(("~/workspace" . 2)))
 
-  ;; ✅ 캐시 디렉토리 명시적 설정 (홈 폴더 대신 ~/.emacs.d/projectile-cache)
+  ;; Explicit cache directory (in ~/.emacs.d/ instead of home folder)
   (setq projectile-cache-file
         (expand-file-name "projectile.cache" user-emacs-directory)
         projectile-known-projects-file
         (expand-file-name "projectile-bookmarks.eld" user-emacs-directory))
 
-  ;; ✅ ~/workspace 외부 디렉토리는 프로젝트로 인식하지 않음
-  ;; (단, ~/.emacs.d는 예외적으로 허용)
+  ;; Don't recognize directories outside ~/workspace as projects
+  ;; (Exception: ~/.emacs.d is allowed)
   (setq projectile-ignored-projects
         (list "~/" "/tmp/" "/usr/" "/opt/" "/etc/"
               (expand-file-name "~/.config/")))
 
-  ;; ✅ ~/workspace 또는 ~/.emacs.d만 프로젝트로 허용
+  ;; Only allow ~/workspace or ~/.emacs.d as projects
   (setq projectile-ignored-project-function
         (lambda (project-root)
           (let ((workspace-path (expand-file-name "~/workspace/"))
                 (emacs-path (expand-file-name "~/.emacs.d/")))
-            ;; ~/workspace/ 또는 ~/.emacs.d/ 아래가 아니면 무시
+            ;; Ignore if not under ~/workspace/ or ~/.emacs.d/
             (not (or (string-prefix-p workspace-path project-root)
                      (string-prefix-p emacs-path project-root))))))
 
-  ;; ✅ 인덱싱/캐시: 대체로 가장 빠른 조합
+  ;; Indexing/cache: Generally the fastest combination
   (setq projectile-indexing-method 'alien
         projectile-enable-caching t)
 
-  ;; ✅ 완료 시스템은 Emacs 기본(vertico/orderless와 충돌 없음)
+  ;; Completion system: Emacs default (no conflict with vertico/orderless)
   (setq projectile-completion-system 'default)
 
-  ;; ripgrep 쓰면 파일 목록 명령도 rg로
+  ;; Use ripgrep for file listing commands if available
   (when (executable-find "rg")
     (setq projectile-generic-command "rg --files --hidden --follow --color=never -0"
           projectile-git-command     "rg --files --hidden --follow --color=never -z"))
@@ -53,33 +53,44 @@
   :config
   (projectile-mode 1)
 
-  ;; 전역 무시 디렉터리(이름 기준) — 정규식보다 안전
+  ;; Globally ignored directories (by name) - safer than regex
   (dolist (name '("build" "dist" "target" "node_modules" "__pycache__"
                   ".venv" ".direnv" "elpa" "url"))
     (add-to-list 'projectile-globally-ignored-directories name))
 
-  ;; 프로젝트 전환 시 동작(기본은 dired). 선호하면 find-file로 바꾸기:
+  ;; Project switch action (default is dired). Change to find-file if preferred:
   ;; (setq projectile-switch-project-action #'projectile-find-file)
 
-  ;; ── 편의 함수: 루트 todo.org 열기/생성 ─────────────────────────────
-  (defun open-project-todo ()
-    "Open or create `todo.org` at current Projectile project root."
+  ;; Convenience function: Open or create todo.org at project root
+  (defun sleepy/open-project-todo ()
+    "Open or create `todo.org` at current Projectile project root.
+
+This function:
+- Validates that you are in a Projectile project
+- Creates todo.org with a proper title if it doesn't exist
+- Opens the file in the current window
+
+The todo.org file is created at the project root directory."
     (interactive)
-    (let ((root (projectile-project-root)))
-      (unless root (user-error "Not in a Projectile project"))
-      (let ((path (expand-file-name "todo.org" root)))
-        (unless (file-exists-p path)
-          (with-temp-buffer
-            (insert "#+TITLE: TODOs for "
-                    (file-name-nondirectory (directory-file-name root)) "\n\n")
-            (write-file path)))
-        (find-file path))))
+    (condition-case err
+        (let ((root (projectile-project-root)))
+          (unless root
+            (user-error "Not in a Projectile project"))
+          (let ((path (expand-file-name "todo.org" root)))
+            (unless (file-exists-p path)
+              (with-temp-buffer
+                (insert "#+TITLE: TODOs for "
+                        (file-name-nondirectory (directory-file-name root)) "\n\n")
+                (write-file path)))
+            (find-file path)))
+      (error
+       (user-error "Failed to open project todo: %s" (error-message-string err)))))
 
-  ;; Commander에 't' 추가: M-x projectile-commander → t
+  ;; Add 't' to Commander: M-x projectile-commander → t
   (add-to-list 'projectile-commander-methods
-               '(?t "Open or create todo.org at project root" open-project-todo))
+               '(?t "Open or create todo.org at project root" sleepy/open-project-todo))
 
-  ;; ── 표준 키바인딩(C-c p …) 중 자주 쓰는 것만 명시 ─────────────────
+  ;; Standard keybindings (C-c p ...) - only the most frequently used
   (let ((map projectile-command-map))
     (define-key map (kbd "p") #'projectile-switch-project)
     (define-key map (kbd "f") #'projectile-find-file)
@@ -89,9 +100,9 @@
     (define-key map (kbd "r") #'projectile-recentf)
     (define-key map (kbd "s r") #'projectile-ripgrep)
     (define-key map (kbd ":") #'projectile-commander)
-    (define-key map (kbd "'") #'open-project-todo))
+    (define-key map (kbd "'") #'sleepy/open-project-todo))
 
-  ;; 리더키 연동(있을 때만): SPC p → projectile-command-map
+  ;; Leader key integration (if available): SPC p → projectile-command-map
   (when (fboundp 'sleepy/leader-def)
     (sleepy/leader-def "p" '(projectile-command-map :which-key "Project"))))
 

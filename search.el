@@ -85,12 +85,13 @@
 
 ;; Keybindings for search functions
 (with-eval-after-load 'general
-  (sleepy/leader-def
-    "s t" '(sleepy/search-todos :which-key "search TODOs")
-    "s y" '(sleepy/search-symbol-at-point :which-key "search symbol")
-    "s P" '(sleepy/search-in-python :which-key "search in Python")
-    "s L" '(sleepy/search-in-latex :which-key "search in LaTeX")
-    "s C" '(sleepy/search-in-cpp :which-key "search in C/C++")
-    "s x" '(sleepy/search-exclude-tests :which-key "search exclude tests")))
+  (when (fboundp 'sleepy/leader-def)
+    (sleepy/leader-def
+      "s t" '(sleepy/search-todos :which-key "search TODOs")
+      "s y" '(sleepy/search-symbol-at-point :which-key "search symbol")
+      "s P" '(sleepy/search-in-python :which-key "search in Python")
+      "s L" '(sleepy/search-in-latex :which-key "search in LaTeX")
+      "s C" '(sleepy/search-in-cpp :which-key "search in C/C++")
+      "s x" '(sleepy/search-exclude-tests :which-key "search exclude tests"))))
 
 ;;; search.el ends here

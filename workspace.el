@@ -8,12 +8,12 @@
   :config
   (persp-mode 1)
 
-  ;; 세션 저장/복원
+  ;; Session save/restore
   (add-hook 'kill-emacs-hook #'persp-state-save)
   (when (file-exists-p persp-state-default-file)
     (ignore-errors (persp-state-load persp-state-default-file)))
 
-  ;; ── 숫자 워크스페이스 전환 ──
+  ;; Numeric workspace switching
   (defun sleepy/persp--switch (name)
     "Switch to perspective NAME (create if missing)."
     (interactive) (persp-switch name))
@@ -29,7 +29,7 @@
   (defun sleepy/persp-8 () (interactive) (sleepy/persp--switch "8"))
   (defun sleepy/persp-9 () (interactive) (sleepy/persp--switch "9"))
 
-  ;; ── 프로젝트 진입 시 자동 워크스페이스 ──
+  ;; Auto workspace when entering a project
   (defun sleepy/persp-for-project ()
     "Switch to a workspace named after the current project."
     (when-let ((proj (project-current)))
@@ -38,15 +38,15 @@
         (persp-switch name))))
   (add-hook 'project-switch-project-hook #'sleepy/persp-for-project)
 
-  ;; ── 이름으로 전환 ──
+  ;; Switch by name
   (defun sleepy/persp-switch-completing ()
     "Switch to workspace chosen via minibuffer completion."
     (interactive)
     (persp-switch (completing-read "Switch to workspace: " (persp-names))))
 
-  ;; ── consult: 현재 워크스페이스 버퍼 우선 노출 ──
+  ;; Consult: Prioritize current workspace buffers
   (with-eval-after-load 'consult
-    ;; 기본 버퍼 소스는 숨기지 않고 우선순위만 낮춤
+    ;; Don't hide default buffer source, just lower its priority
     (consult-customize consult--source-buffer :hidden nil :default nil)
     (defvar consult--source-perspective
       (list :name     "Workspace Buffers"
@@ -61,7 +61,7 @@
                                     (persp-buffers (persp-curr)))
                           ;; Return empty list instead of nil
                           '()))))
-    ;; perspective 소스를 앞에 추가
+    ;; Add perspective source to the front
     ;; Ensure consult-buffer-sources is initialized first
     (unless (boundp 'consult-buffer-sources)
       (require 'consult))
@@ -70,10 +70,11 @@
                 (delq 'consult--source-perspective consult-buffer-sources))))
 
 
-  ;; ── Workspace leader: SPC TAB … ──
+  ;; Workspace leader: SPC TAB ...
   (with-eval-after-load 'general
-	(sleepy/leader-def
-      ;; ── 숫자 워크스페이스 전환 ──
+    (when (fboundp 'sleepy/leader-def)
+      (sleepy/leader-def
+        ;; Numeric workspace switching
       "TAB 1" #'sleepy/persp-1
       "TAB 2" #'sleepy/persp-2
       "TAB 3" #'sleepy/persp-3
@@ -85,6 +86,5 @@
       "TAB 9" #'sleepy/persp-9
       "TAB 0" #'sleepy/persp-0
 
-      ;; ── 워크스페이스 유틸 ──
-      "TAB TAB" #'sleepy/persp-switch-completing))
-  )
+        ;; Workspace utilities
+        "TAB TAB" #'sleepy/persp-switch-completing))))
