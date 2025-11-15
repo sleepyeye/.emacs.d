@@ -4,7 +4,8 @@
   :demand t
   :init
   (setq persp-state-default-file (expand-file-name ".persp" user-emacs-directory)
-        persp-suppress-no-prefix-key-warning t)
+        persp-suppress-no-prefix-key-warning t
+        persp-initial-frame-name "1")  ; Start with workspace "1" instead of "main"
   :config
   (persp-mode 1)
 
