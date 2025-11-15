@@ -9,15 +9,29 @@
 (defvar sleepy--initial-file-name-handler-alist file-name-handler-alist
   "Store initial file-name-handler-alist to restore later.")
 
+;; GC configuration constants
+(defconst sleepy/gc-cons-threshold-mb 80
+  "Normal GC threshold in megabytes.
+Used after startup completes. During startup, GC is effectively disabled
+for maximum performance.")
+
+(defconst sleepy/gc-cons-percentage-normal 0.1
+  "Normal GC percentage of heap size.
+Lower values mean more frequent but shorter GC pauses.")
+
+(defconst sleepy/gc-cons-percentage-startup 0.6
+  "GC percentage during startup.
+Higher value defers GC until more memory is allocated.")
+
 (setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.6
+      gc-cons-percentage sleepy/gc-cons-percentage-startup
       file-name-handler-alist nil)
 
 ;; Restore GC settings and file-name-handler-alist after startup
 (add-hook 'emacs-startup-hook
           (lambda ()
-            (setq gc-cons-threshold (* 100 100 8)  ; 80MB
-                  gc-cons-percentage 0.1
+            (setq gc-cons-threshold (* sleepy/gc-cons-threshold-mb 1024 1024)
+                  gc-cons-percentage sleepy/gc-cons-percentage-normal
                   file-name-handler-alist sleepy--initial-file-name-handler-alist)))
 
 ;; Basic Startup Settings
@@ -35,7 +49,15 @@
       frame-inhibit-implied-resize t)
 
 ;; Performance and Optimization
-(setq idle-update-delay 1.0
+(defconst sleepy/idle-update-delay 1.0
+  "Delay in seconds before updating idle timers.
+Higher values reduce CPU usage but may feel less responsive.")
+
+(defconst sleepy/read-process-output-max-mb 4
+  "Maximum bytes to read from subprocess in one chunk, in megabytes.
+Higher values improve LSP performance but use more memory.")
+
+(setq idle-update-delay sleepy/idle-update-delay
       bidi-display-reordering 'left-to-right
       bidi-paragraph-direction 'left-to-right
       bidi-inhibit-bpa t
@@ -44,7 +66,7 @@
       fast-but-imprecise-scrolling t
       inhibit-compacting-font-caches t
       load-prefer-newer t
-      read-process-output-max (* 4 1024 1024))
+      read-process-output-max (* sleepy/read-process-output-max-mb 1024 1024))
 
 ;; UI Tweaks
 (tool-bar-mode -1)
@@ -53,8 +75,14 @@
 (setq frame-resize-pixelwise t)
 
 ;; Frame Size
-(add-to-list 'default-frame-alist '(height . 60))
-(add-to-list 'default-frame-alist '(width . 100))
+(defconst sleepy/default-frame-height 60
+  "Default frame height in lines.")
+
+(defconst sleepy/default-frame-width 100
+  "Default frame width in columns.")
+
+(add-to-list 'default-frame-alist (cons 'height sleepy/default-frame-height))
+(add-to-list 'default-frame-alist (cons 'width sleepy/default-frame-width))
 
 ;; System Type Detection
 (defconst IS-MAC     (eq system-type 'darwin))
@@ -63,40 +91,36 @@
 (defconst IS-BSD     (memq system-type '(darwin berkeley-unix gnu/kfreebsd)))
 
 ;; PATH and exec-path Setup
-(cond
- ((and IS-MAC)
-  (setenv "PATH" (concat "/opt/homebrew/bin" path-separator
-                         (expand-file-name "~/.cargo/bin") path-separator
-                         "/Library/TeX/texbin" path-separator
-                         (expand-file-name "~/miniforge3/bin") path-separator
-                         (expand-file-name "~/.local/bin") path-separator
-                         "/usr/local/bin" path-separator
-                         (getenv "PATH")))
-  (dolist (path '("/opt/homebrew/bin"
-                  "~/.cargo/bin"
-                  "/Library/TeX/texbin"
-                  "~/miniforge3/bin"
-                  "~/.local/bin"
-                  "/usr/local/bin"))
-    (add-to-list 'exec-path (expand-file-name path))))
+(defun sleepy--add-paths-to-env (paths)
+  "Add PATHS to both PATH environment variable and exec-path.
+PATHS should be a list of directory path strings.
+Paths are expanded and prepended to the existing PATH."
+  (let ((path-string (mapconcat (lambda (p) (expand-file-name p))
+                                paths
+                                path-separator)))
+    (setenv "PATH" (concat path-string path-separator (getenv "PATH")))
+    (dolist (path paths)
+      (add-to-list 'exec-path (expand-file-name path)))))
 
- ((and IS-LINUX)
-  (setenv "PATH" (concat (expand-file-name "~/.local/bin") path-separator
-                         (expand-file-name "~/.cargo/bin") path-separator
-                         (expand-file-name "~/miniconda3/bin") path-separator
-                         "/usr/local/bin" path-separator
-                         "/usr/local/sbin" path-separator
-                         "/usr/sbin" path-separator
-                         "/sbin" path-separator
-                         (getenv "PATH")))
-  (dolist (path '("~/.cargo/bin"
-                  "~/.local/bin"
-                  "~/miniconda3/bin"
-                  "/usr/local/bin"
-                  "/usr/local/sbin"
-                  "/usr/sbin"
-                  "/sbin"))
-    (add-to-list 'exec-path (expand-file-name path)))))
+(cond
+ (IS-MAC
+  (sleepy--add-paths-to-env
+   '("/opt/homebrew/bin"
+     "~/.cargo/bin"
+     "/Library/TeX/texbin"
+     "~/miniforge3/bin"
+     "~/.local/bin"
+     "/usr/local/bin")))
+
+ (IS-LINUX
+  (sleepy--add-paths-to-env
+   '("~/.local/bin"
+     "~/.cargo/bin"
+     "~/miniconda3/bin"
+     "/usr/local/bin"
+     "/usr/local/sbin"
+     "/usr/sbin"
+     "/sbin"))))
 
 ;; macOS-specific Frame Appearance
 (when IS-MAC
