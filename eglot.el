@@ -3,28 +3,34 @@
 (use-package eglot
   :ensure nil
   :commands (eglot eglot-ensure)
+  :hook
+  ;; Auto-start eglot for configured modes
+  ((python-mode python-ts-mode) . eglot-ensure)
+  ((c-mode c++-mode c-ts-mode c++-ts-mode) . eglot-ensure)
+  (LaTeX-mode . eglot-ensure)
+  ((cmake-mode cmake-ts-mode) . eglot-ensure)
   :custom
   (eglot-report-progress nil)
   (eglot-events-buffer-size 0)
   :init
   (setq eglot-autoshutdown t
-		eglot-sync-connect 0
-		eglot-workspace-configuration
-		'(:basedpyright
-		  (:typeCheckingMode "standard"
-							 :disableOrganizeImports t
-							 :analysis
-							 (:inlayHints (:callArgumentNames :json-false)
-										  :diagnosticSeverityOverrides
-										  (:reportCallIssue "none"
-															:reportUnusedCallResult "none"
-															:reportGeneralTypeIssues "none"
-															:reportArgumentType "none")
-										  :useLibraryCodeForTypes t
-										  :autoImportCompletions :json-false
-										  :stubPath ["./" "./typings"]
-										  :diagnosticMode "workspace"
-										  :autoSearchPaths t))))
+	eglot-sync-connect 0
+	eglot-workspace-configuration
+	'(:basedpyright
+	  (:typeCheckingMode "standard"
+			     :disableOrganizeImports t
+			     :analysis
+			     (:inlayHints (:callArgumentNames :json-false)
+					  :diagnosticSeverityOverrides
+					  (:reportCallIssue "none"
+							    :reportUnusedCallResult "none"
+							    :reportGeneralTypeIssues "none"
+							    :reportArgumentType "none")
+					  :useLibraryCodeForTypes t
+					  :autoImportCompletions :json-false
+					  :stubPath ["./" "./typings"]
+					  :diagnosticMode "workspace"
+					  :autoSearchPaths t))))
 
   :config
 
@@ -46,39 +52,15 @@
   ;; Cape integration for better completion
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
 
-  ;; C/C++/LaTeX language servers
+  ;; Language server program configurations
   (add-to-list 'eglot-server-programs
     '((c-mode c-ts-mode c++-mode c++-ts-mode)
       . ("clangd" "-j=2" "--log=error" "--completion-style=bundled"
          "--background-index" "--header-insertion=never" "--header-insertion-decorators=0")))
   (add-to-list 'eglot-server-programs '((LaTeX-mode) . ("texlab")))
   (add-to-list 'eglot-server-programs
-			   '((python-mode python-ts-mode)
-				 . ("basedpyright-langserver" "--stdio")))
-  :config
-  ;; Helper function to conditionally enable eglot for a language server
-  (defun sleepy/eglot-setup-server (executable-name language-name &rest mode-hooks)
-    "Enable eglot for EXECUTABLE-NAME if available, warn otherwise.
-LANGUAGE-NAME is used in warning messages.
-MODE-HOOKS is a list of mode hooks to add eglot-ensure to."
-    (if (executable-find executable-name)
-        (dolist (hook mode-hooks)
-          (add-hook hook #'eglot-ensure))
-      (display-warning 'eglot
-                       (format "%s not found. %s LSP disabled."
-                               executable-name language-name)
-                       :warning)))
-
-  ;; Setup language servers
-  (sleepy/eglot-setup-server "basedpyright-langserver" "Python"
-                              'python-mode-hook 'python-ts-mode-hook)
-  (sleepy/eglot-setup-server "clangd" "C/C++"
-                              'c-mode-hook 'c++-mode-hook
-                              'c-ts-mode-hook 'c++-ts-mode-hook)
-  (sleepy/eglot-setup-server "texlab" "LaTeX"
-                              'LaTeX-mode-hook)
-  (sleepy/eglot-setup-server "cmake-language-server" "CMake"
-                              'cmake-mode-hook 'cmake-ts-mode-hook))
+		   '((python-mode python-ts-mode)
+		     . ("basedpyright-langserver" "--stdio"))))
 
 (use-package consult-eglot
   :after eglot
