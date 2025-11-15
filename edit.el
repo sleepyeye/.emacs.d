@@ -107,10 +107,11 @@
         yas-verbosity 1)
   ;; Keybindings
   (with-eval-after-load 'general
-    (sleepy/leader-def
-      "i s" '(yas-insert-snippet :which-key "insert snippet")
-      "i n" '(yas-new-snippet :which-key "new snippet")
-      "i v" '(yas-visit-snippet-file :which-key "visit snippet"))))
+    (when (fboundp 'sleepy/leader-def)
+      (sleepy/leader-def
+        "i s" '(yas-insert-snippet :which-key "insert snippet")
+        "i n" '(yas-new-snippet :which-key "new snippet")
+        "i v" '(yas-visit-snippet-file :which-key "visit snippet")))))
 
 ;; Collection of snippets for many languages
 (use-package yasnippet-snippets

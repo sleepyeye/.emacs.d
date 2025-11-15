@@ -4,21 +4,50 @@
 (defconst sleepy/global-leader-key "M-SPC")
 
 ;; Helper function for renaming visited file
-(defun rename-visited-file (new-name)
+(defun sleepy/rename-visited-file (new-name)
   "Rename the file being visited to NEW-NAME.
-The buffer name is also updated to match the new file name."
+The buffer name is also updated to match the new file name.
+
+This function performs comprehensive validation before renaming:
+- Ensures buffer is visiting a file
+- Validates new filename is not empty
+- Checks target directory exists and is writable
+- Confirms overwrite if target file exists
+- Handles errors gracefully
+
+NEW-NAME should be an absolute or relative file path."
   (interactive "FNew name: ")
   (let ((old-name (buffer-file-name)))
+    ;; Validate preconditions
     (unless old-name
-      (error "Buffer is not visiting a file"))
+      (user-error "Buffer is not visiting a file"))
+    (when (string-empty-p new-name)
+      (user-error "New filename cannot be empty"))
+    (when (file-directory-p new-name)
+      (user-error "Target is a directory, not a file"))
+
+    ;; Ensure target directory exists and is writable
+    (let ((target-dir (file-name-directory (expand-file-name new-name))))
+      (unless (file-directory-p target-dir)
+        (user-error "Target directory does not exist: %s" target-dir))
+      (unless (file-writable-p target-dir)
+        (user-error "Target directory is not writable: %s" target-dir)))
+
+    ;; Confirm overwrite if file exists
     (when (file-exists-p new-name)
       (unless (y-or-n-p (format "File %s already exists. Overwrite? " new-name))
         (user-error "Rename cancelled")))
-    (rename-file old-name new-name 1)
-    (set-visited-file-name new-name)
-    (rename-buffer (file-name-nondirectory new-name))
-    (set-buffer-modified-p nil)
-    (message "File renamed to %s" new-name)))
+
+    ;; Perform rename with error handling
+    (condition-case err
+        (progn
+          (rename-file old-name new-name 1)
+          (set-visited-file-name new-name)
+          (rename-buffer (file-name-nondirectory new-name))
+          (set-buffer-modified-p nil)
+          (message "File renamed to %s" new-name))
+      (file-error
+       (user-error "Failed to rename file: %s" (error-message-string err))))))
 
 (use-package general
   :ensure (:wait t)
@@ -32,14 +61,14 @@ The buffer name is also updated to match the new file name."
     :prefix sleepy/leader-key
     :global-prefix sleepy/global-leader-key)
 
-  ;; 최소 전역 키
+  ;; Minimal global keys
   (general-define-key
    "M-x" 'execute-extended-command
    "s-x" 'execute-extended-command
    "C-=" 'text-scale-increase
    "C--" 'text-scale-decrease)
 
-  ;; Leader 메뉴
+  ;; Leader menu
   (sleepy/leader-def
     "SPC" '(find-file :which-key "find file")
     "-"   '(dired-jump :which-key "dired here")
@@ -58,7 +87,7 @@ The buffer name is also updated to match the new file name."
 	"fd"  'dired-jump
 	"fs"  'save-buffer
 	"fu"  'revert-buffer
-	"fR"  'rename-visited-file
+	"fR"  'sleepy/rename-visited-file
 	"fx"  'delete-file)
 
 

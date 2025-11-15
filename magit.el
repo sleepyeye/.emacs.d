@@ -189,11 +189,12 @@ IMPORTANT: Use bulleted lists in the body, not prose paragraphs. Generate only t
 
 ;; Keybindings
 (with-eval-after-load 'general
-  (sleepy/leader-def
-    "gd" 'git-timemachine-toggle      ;; View current file's history
-    "gD" 'magit-diff-buffer-file      ;; Diff current file in Magit UI
-    "gE" 'ediff-buffers               ;; Manually diff current buffer vs timemachine buffer
-    "g c" 'sleepy/ai-commit-message)) ;; Generate AI commit message
+  (when (fboundp 'sleepy/leader-def)
+    (sleepy/leader-def
+      "gd" 'git-timemachine-toggle      ;; View current file's history
+      "gD" 'magit-diff-buffer-file      ;; Diff current file in Magit UI
+      "gE" 'ediff-buffers               ;; Manually diff current buffer vs timemachine buffer
+      "g c" 'sleepy/ai-commit-message))) ;; Generate AI commit message
 
 ;; Add keybinding in git-commit-mode
 (with-eval-after-load 'git-commit

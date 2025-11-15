@@ -250,5 +250,6 @@
   :config
   ;; Better integration with other modes
   (with-eval-after-load 'general
-    (sleepy/leader-def
-      "t z" '(writeroom-mode :which-key "zen mode"))))
+    (when (fboundp 'sleepy/leader-def)
+      (sleepy/leader-def
+        "t z" '(writeroom-mode :which-key "zen mode")))))

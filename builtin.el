@@ -47,7 +47,7 @@
       what-cursor-show-names t
       find-file-suppress-same-file-warnings t)
 
-;; custom.el 분리 로드 (elpaca 이후)
+;; Load custom.el separately (after elpaca initialization)
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (add-hook 'elpaca-after-init-hook (lambda () (load custom-file 'noerror)))
 
@@ -87,8 +87,30 @@
 (add-hook 'LaTeX-mode-hook #'electric-quote-mode)
 
 ;; --- External tools ---------------------------------------------------------
-(when (executable-find "rg") (setq grep-program "rg"))
-(when (executable-find "fd") (setq find-program "fd"))
+;; Prefer modern tools over traditional ones with proper fallback
+(defconst sleepy/grep-program
+  (cond ((executable-find "rg") "rg")
+        ((executable-find "grep") "grep")
+        (t nil))
+  "Preferred grep program (ripgrep > grep).")
+
+(defconst sleepy/find-program
+  (cond ((executable-find "fd") "fd")
+        ((executable-find "find") "find")
+        (t nil))
+  "Preferred find program (fd > find).")
+
+(when sleepy/grep-program
+  (setq grep-program sleepy/grep-program))
+
+(when sleepy/find-program
+  (setq find-program sleepy/find-program))
+
+(unless sleepy/grep-program
+  (display-warning 'builtin "No grep program found. Search functionality will be limited." :warning))
+
+(unless sleepy/find-program
+  (display-warning 'builtin "No find program found. File search functionality will be limited." :warning))
 
 ;; --- Compilation ------------------------------------------------------------
 (setq compilation-always-kill t
@@ -142,7 +164,7 @@
 
 (setq calendar-date-style 'iso)
 
-;; --- Mode hooks (after-init에 일원화) ---------------------------------------
+;; --- Mode hooks (consolidated in after-init) --------------------------------
 (add-hook 'after-init-hook #'global-auto-revert-mode)
 (add-hook 'after-init-hook #'recentf-mode)
 (add-hook 'after-init-hook #'savehist-mode)
@@ -155,7 +177,7 @@
       show-paren-when-point-inside-paren t
       show-paren-when-point-in-periphery t)
 
-;; imenu: 일부 모드에서 자동 재스캔 + 정렬
+;; imenu: Auto-rescan and sorting in certain modes
 (dolist (hook '(markdown-mode-hook makefile-mode-hook prog-mode-hook))
   (add-hook hook
             (lambda ()
@@ -163,7 +185,7 @@
               (when (derived-mode-p 'prog-mode)
                 (setq-local imenu-sort-function #'imenu--sort-by-name)))))
 
-;; --- macOS 전용: GUI일 때만 ---
+;; --- macOS specific: GUI mode only ---
 (when (and (eq system-type 'darwin) (display-graphic-p))
   (cond
    ((boundp 'ns-command-modifier)
