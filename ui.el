@@ -158,6 +158,16 @@
    "C-M-'" #'popper-toggle-type
    "C-;" #'popper-toggle
    "C-'" #'popper-cycle)
+
+  ;; Prevent which-key from showing when in a popper window
+  (defun sleepy/which-key-inhibit-in-popper (orig-fun &rest args)
+    "Inhibit which-key popup when current window is a popper."
+    (unless (and (bound-and-true-p popper-mode)
+                 (popper-popup-p (current-buffer)))
+      (apply orig-fun args)))
+
+  (advice-add 'which-key--show-popup :around #'sleepy/which-key-inhibit-in-popper)
+
   :init
   (setq popper-reference-buffers
 		'(help-mode
