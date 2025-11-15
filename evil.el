@@ -30,8 +30,13 @@
 ;;
 ;; ---- NAVIGATION PAIRS [ AND ] -----------------------------------------------
 ;; [b/]b     - Previous/next buffer
-;; [f/]f     - Previous/next function (configured with tree-sitter)
-;; [g/]g     - Previous/next class (configured with tree-sitter)
+;; [f/]f     - Previous/next function (tree-sitter)
+;; [g/]g     - Previous/next class (tree-sitter)
+;; [p/]p     - Previous/next parameter (tree-sitter)
+;; [o/]o     - Previous/next conditional/if (tree-sitter)
+;; [L/]L     - Previous/next loop (tree-sitter)
+;; [//]/     - Previous/next comment (tree-sitter)
+;; [C/]C     - Previous/next function call (tree-sitter)
 ;; [[/]]     - Previous/next section/function
 ;; [{/]}     - Previous/next unmatched brace
 ;; [(/])     - Previous/next unmatched parenthesis
@@ -60,17 +65,21 @@
 ;; iw/aw     - Inner/around word
 ;; iW/aW     - Inner/around WORD (includes special chars)
 ;; is/as     - Inner/around sentence
-;; ip/ap     - Inner/around paragraph
+;; ip/ap     - Inner/around parameter (tree-sitter)
 ;; i"/a"     - Inner/around double quotes
 ;; i'/a'     - Inner/around single quotes
 ;; i`/a`     - Inner/around backticks
 ;; ib/ab     - Inner/around () parentheses (same as i(/a()
 ;; iB/aB     - Inner/around {} braces (same as i{/a{)
 ;; it/at     - Inner/around HTML/XML tags
-;; ia/aa     - Inner/around argument (evil-args - installed)
-;; il/al     - Inner/around line (evil-textobj-line - installed)
-;; if/af     - Inner/around function (tree-sitter - installed)
-;; ig/ag     - Inner/around class (tree-sitter - installed)
+;; ia/aa     - Inner/around argument (evil-args)
+;; il/al     - Inner/around line (evil-textobj-line)
+;; if/af     - Inner/around function (tree-sitter)
+;; ig/ag     - Inner/around class (tree-sitter)
+;; io/ao     - Inner/around conditional/if (tree-sitter)
+;; iL/aL     - Inner/around loop (tree-sitter)
+;; i//a/     - Inner/around comment (tree-sitter)
+;; iC/aC     - Inner/around function call (tree-sitter)
 ;;
 ;; ---- WINDOW COMMANDS (C-w PREFIX) -------------------------------------------
 ;; C-w v     - Vertical split
@@ -316,7 +325,57 @@
   (define-key evil-normal-state-map (kbd "]G")
     (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "class.outer" nil t)))
   (define-key evil-normal-state-map (kbd "[G")
-    (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "class.outer" t t))))
+    (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "class.outer" t t)))
+
+  ;; parameter
+  (define-key evil-outer-text-objects-map "p"
+    (evil-textobj-tree-sitter-get-textobj "parameter.outer"))
+  (define-key evil-inner-text-objects-map "p"
+    (evil-textobj-tree-sitter-get-textobj "parameter.inner"))
+  (define-key evil-normal-state-map (kbd "]p")
+    (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "parameter.outer")))
+  (define-key evil-normal-state-map (kbd "[p")
+    (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "parameter.outer" t)))
+
+  ;; conditional (if/else/switch)
+  (define-key evil-outer-text-objects-map "o"
+    (evil-textobj-tree-sitter-get-textobj "conditional.outer"))
+  (define-key evil-inner-text-objects-map "o"
+    (evil-textobj-tree-sitter-get-textobj "conditional.inner"))
+  (define-key evil-normal-state-map (kbd "]o")
+    (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "conditional.outer")))
+  (define-key evil-normal-state-map (kbd "[o")
+    (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "conditional.outer" t)))
+
+  ;; loop (for/while)
+  (define-key evil-outer-text-objects-map "L"
+    (evil-textobj-tree-sitter-get-textobj "loop.outer"))
+  (define-key evil-inner-text-objects-map "L"
+    (evil-textobj-tree-sitter-get-textobj "loop.inner"))
+  (define-key evil-normal-state-map (kbd "]L")
+    (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "loop.outer")))
+  (define-key evil-normal-state-map (kbd "[L")
+    (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "loop.outer" t)))
+
+  ;; comment
+  (define-key evil-outer-text-objects-map "/"
+    (evil-textobj-tree-sitter-get-textobj "comment.outer"))
+  (define-key evil-inner-text-objects-map "/"
+    (evil-textobj-tree-sitter-get-textobj "comment.inner"))
+  (define-key evil-normal-state-map (kbd "]/")
+    (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "comment.outer")))
+  (define-key evil-normal-state-map (kbd "[/")
+    (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "comment.outer" t)))
+
+  ;; function call
+  (define-key evil-outer-text-objects-map "C"
+    (evil-textobj-tree-sitter-get-textobj "call.outer"))
+  (define-key evil-inner-text-objects-map "C"
+    (evil-textobj-tree-sitter-get-textobj "call.inner"))
+  (define-key evil-normal-state-map (kbd "]C")
+    (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "call.outer")))
+  (define-key evil-normal-state-map (kbd "[C")
+    (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "call.outer" t))))
 
 (use-package evil-numbers
   :ensure t
