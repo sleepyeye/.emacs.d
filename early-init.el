@@ -36,6 +36,7 @@ Higher value defers GC until more memory is allocated.")
 
 ;; Basic Startup Settings
 (setq package-enable-at-startup nil
+      native-comp-deferred-compilation nil  ; Disable background native compilation
       native-comp-async-report-warnings-errors nil
       ring-bell-function 'ignore
       inhibit-startup-screen t

@@ -216,6 +216,16 @@ Values > 100 prevent automatic recentering when cursor moves off screen.")
               (when (derived-mode-p 'prog-mode)
                 (setq-local imenu-sort-function #'imenu--sort-by-name)))))
 
+;; --- Performance: JIT Lock and Font Lock optimization ---
+;; Reduce lag during scrolling and editing by optimizing syntax highlighting
+(setq jit-lock-stealth-time 1.0        ; Fontify idle buffers after 1s (instead of 16s)
+      jit-lock-defer-time 0.05         ; Delay fontification slightly for smoother scrolling
+      jit-lock-stealth-nice 0.5)       ; Seconds to pause between fontification chunks
+
+;; Font lock optimizations
+(setq font-lock-maximum-decoration 2   ; Use medium decoration (1=minimal, 2=normal, 3=maximum)
+      font-lock-support-mode 'jit-lock-mode)
+
 ;; --- macOS specific: GUI mode only ---
 (when (and (eq system-type 'darwin) (display-graphic-p))
   (cond
