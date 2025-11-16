@@ -132,8 +132,6 @@ Disable in comments, strings, and non-code contexts."
   :init
   ;; Setup completion-at-point functions with auto-trigger transformers
   (defun sleepy/cape-setup ()
-    ;; Add cape-dabbrev for dynamic abbreviation completion
-    (add-hook 'completion-at-point-functions #'cape-dabbrev -20 t)
     ;; Disable auto-trigger for file completion, but keep it available manually
     (add-hook 'completion-at-point-functions
               (cape-capf-noninterruptible
@@ -155,7 +153,6 @@ Disable in comments, strings, and non-code contexts."
 
   (define-key sleepy/cape-prefix-map (kbd "f") #'cape-file)
   (define-key sleepy/cape-prefix-map (kbd "k") #'cape-keyword)
-  (define-key sleepy/cape-prefix-map (kbd "d") #'cape-dabbrev)
   (define-key sleepy/cape-prefix-map (kbd "s") #'cape-symbol)
   (define-key sleepy/cape-prefix-map (kbd "l") #'cape-line)
   (define-key sleepy/cape-prefix-map (kbd "w") #'cape-dict)
@@ -170,7 +167,6 @@ Disable in comments, strings, and non-code contexts."
         "ic" '(:ignore t :which-key "cape")
         "icf" '(cape-file :which-key "file")
         "ick" '(cape-keyword :which-key "keyword")
-        "icd" '(cape-dabbrev :which-key "dabbrev")
         "ics" '(cape-symbol :which-key "symbol")
         "icl" '(cape-line :which-key "line")
         "icw" '(cape-dict :which-key "dict")))))
