@@ -90,6 +90,7 @@
         "c S" '(eglot-shutdown :which-key "shutdown LSP server")))))
 
 (use-package eglot-booster
+  :disabled t  ; Temporarily disabled - causing freezing issues with gd/gr
   :ensure (eglot-booster :host github :repo "jdtsmith/eglot-booster")
   :after eglot
   :config

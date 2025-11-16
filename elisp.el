@@ -15,7 +15,10 @@
   ;; (overriding citre-imenu from tags.el prog-mode-hook)
   (setq-local imenu-create-index-function nil)
   ;; Ensure imenu auto-rescans
-  (setq-local imenu-auto-rescan t))
+  (setq-local imenu-auto-rescan t)
+  ;; Disable dumb-jump for elisp - use built-in elisp-xref instead
+  ;; This prevents freezing when using gd/gr in elisp files
+  (remove-hook 'xref-backend-functions #'dumb-jump-xref-activate t))
 
 ;; elisp mode does not use eglot.
 (add-hook 'emacs-lisp-mode-hook #'sleepy/elisp-setup)
