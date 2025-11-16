@@ -19,7 +19,7 @@
 		which-key-min-display-lines 6
 		which-key-side-window-slot -10
 		which-key-side-window-max-width 0.25
-		which-key-idle-delay 0.5
+		which-key-idle-delay 0.1
 		which-key-max-description-length 25
 		which-key-allow-imprecise-window-fit t)
   :diminish which-key-mode)

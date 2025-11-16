@@ -49,7 +49,7 @@ Higher value defers GC until more memory is allocated.")
       frame-inhibit-implied-resize t)
 
 ;; Performance and Optimization
-(defconst sleepy/idle-update-delay 1.0
+(defconst sleepy/idle-update-delay 0.5
   "Delay in seconds before updating idle timers.
 Higher values reduce CPU usage but may feel less responsive.")
 
