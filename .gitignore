@@ -118,3 +118,4 @@ ext/
 /places
 /saveplace
 /undo-fu-session/
+/.ctags.d/
