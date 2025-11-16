@@ -54,12 +54,15 @@
             :state    #'consult--buffer-state
             :default  t
             :items    (lambda ()
-                        (if (and (fboundp 'persp-curr)
-                                 (persp-curr))
-                            (mapcar #'buffer-name
-                                    (persp-buffers (persp-curr)))
-                          ;; Return empty list instead of nil
-                          '()))))
+                        (condition-case nil
+                            (when-let* ((persp (and (fboundp 'persp-curr)
+                                                    (persp-curr)))
+                                        (bufs (persp-buffers persp)))
+                              (delq nil (mapcar (lambda (buf)
+                                                  (and (buffer-live-p buf)
+                                                       (buffer-name buf)))
+                                                bufs)))
+                          (error nil)))))
     ;; Add perspective source to the front
     ;; Ensure consult-buffer-sources is initialized first
     (unless (boundp 'consult-buffer-sources)

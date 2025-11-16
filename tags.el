@@ -151,6 +151,21 @@
     (lambda ()
       (setq-local citre-find-definition-backends '(tags eglot))))
 
+  ;; Fallback to default imenu when tags file is not available
+  (defun sleepy/citre-imenu-or-default ()
+    "Use citre-imenu if tags file exists, otherwise use default imenu."
+    (if (citre-tags-file-path)
+        (citre-imenu-create-index-function)
+      ;; Fallback to default imenu for the current mode
+      (let ((default-fn (cdr (assq major-mode imenu-generic-expression))))
+        (if default-fn
+            (funcall default-fn)
+          (imenu-default-create-index-function)))))
+
+  ;; Replace citre-imenu with our fallback version
+  (with-eval-after-load 'citre-config
+    (setq imenu-create-index-function #'sleepy/citre-imenu-or-default)))
+
   ;; Languages without LSP: tags only
   (dolist (mode '(sh-mode bash-ts-mode))
     (add-hook (intern (concat (symbol-name mode) "-hook"))
