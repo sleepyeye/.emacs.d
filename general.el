@@ -131,7 +131,8 @@ NEW-NAME should be an absolute or relative file path."
     "sp" '(consult-ripgrep :which-key "ripgrep proj")
     "sd" '(consult-ripgrep-current :which-key "ripgrep here")
     "si" '(consult-imenu :which-key "imenu")
-    "sI" '(consult-imenu-multi :which-key "imenu*"))
+    "sI" '(consult-imenu-multi :which-key "imenu*")
+    "sr" '(vertico-repeat :which-key "repeat last"))
 
   (sleepy/leader-def
     "g"   '(:ignore t :which-key "Git")
