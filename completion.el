@@ -18,8 +18,7 @@
           (execute-extended-command flat)))
 
   (setq vertico-multiform-categories
-        '((file grid)
-          (buffer flat)
+        '((buffer flat)
           (imenu reverse)))
 
   ;; Enable useful extensions
