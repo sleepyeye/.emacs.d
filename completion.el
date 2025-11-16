@@ -90,27 +90,4 @@
               corfu-prescient-enable-sorting t
               corfu-prescient-override-sorting t))
 
-;; Embark - Contextual actions on completions
-(use-package embark
-  :ensure t
-  :bind
-  (("C-." . embark-act)         ; Act on current completion candidate
-   ("C-;" . embark-dwim)        ; Do What I Mean - smart default action
-   ("C-h B" . embark-bindings)) ; Show all available keybindings
-  :init
-  ;; Replace default prefix help with embark
-  (setq prefix-help-command #'embark-prefix-help-command)
-  :config
-  ;; Hide mode line in Embark collect buffers
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none)))))
-
-;; Embark integration with Consult
-(use-package embark-consult
-  :ensure t
-  :hook
-  (embark-collect-mode . consult-preview-at-point-mode))
-
 ;;; completion.el ends here
