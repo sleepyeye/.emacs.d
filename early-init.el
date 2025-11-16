@@ -49,7 +49,7 @@ Higher value defers GC until more memory is allocated.")
       frame-inhibit-implied-resize t)
 
 ;; Performance and Optimization
-(defconst sleepy/idle-update-delay 0.3
+(defconst sleepy/idle-update-delay 1.0
   "Delay in seconds before updating idle timers.
 Higher values reduce CPU usage but may feel less responsive.")
 
@@ -139,17 +139,6 @@ Paths are expanded and prepended to the existing PATH."
 (load (concat user-emacs-directory "bootstraps"))
 (defvar local-package-directory (expand-file-name "~/.emacs.d/local-packages/"))
 (elpaca-wait)
-
-;; GCMH - Garbage Collector Magic Hack
-;; Run GC only when Emacs is idle to avoid pauses during typing
-(use-package gcmh
-  :ensure t
-  :demand t
-  :config
-  (setq gcmh-idle-delay 'auto       ; GC after idle time (auto = 15s)
-        gcmh-auto-idle-delay-factor 10
-        gcmh-high-cons-threshold (* 128 1024 1024)) ; 128MB
-  (gcmh-mode 1))
 
 ;; evil keybinding setup for elpaca
 (with-eval-after-load 'evil
