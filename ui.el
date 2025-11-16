@@ -19,7 +19,7 @@
 		which-key-min-display-lines 6
 		which-key-side-window-slot -10
 		which-key-side-window-max-width 0.25
-		which-key-idle-delay 0.05
+		which-key-idle-delay 0.5
 		which-key-max-description-length 25
 		which-key-allow-imprecise-window-fit t)
   :diminish which-key-mode)
@@ -156,7 +156,7 @@
   (setq popper-display-control t)
   (general-define-key
    "C-M-'" #'popper-toggle-type
-   "C-;" #'popper-toggle
+   "C-`" #'popper-toggle
    "C-'" #'popper-cycle)
 
   ;; Prevent which-key from showing when in a popper window
