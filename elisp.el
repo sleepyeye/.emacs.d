@@ -8,7 +8,16 @@
 					 #'cape-elisp-symbol
 					 #'cape-file))))
 
+(defun sleepy/elisp-setup ()
+  "Setup Emacs Lisp mode configuration."
+  (sleepy/elisp-capf)
+  ;; Reset imenu to use Emacs Lisp's default imenu implementation
+  ;; (overriding citre-imenu from tags.el prog-mode-hook)
+  (setq-local imenu-create-index-function nil)
+  ;; Ensure imenu auto-rescans
+  (setq-local imenu-auto-rescan t))
+
 ;; elisp mode does not use eglot.
-(add-hook 'emacs-lisp-mode-hook #'sleepy/elisp-capf)
+(add-hook 'emacs-lisp-mode-hook #'sleepy/elisp-setup)
 
 ;;; elisp.el ends here
