@@ -26,6 +26,7 @@
 
 ;; Modern modeline with icons, LSP info, and Git status
 (use-package doom-modeline
+  :disabled t  ; Disabled for performance - very heavy package
   :ensure t
   :hook (after-init . doom-modeline-mode)
   :init
@@ -105,6 +106,7 @@
 
 
 (use-package pulsar
+  :disabled t  ; Disabled for performance - too many hooks causing lag
   :hook
   ((consult-after-jump-hook . pulsar-recenter-top)
    (consult-after-jump-hook . pulsar-reveal-entry))
@@ -232,6 +234,7 @@
   (dired-mode . nerd-icons-dired-mode))
 
 (use-package breadcrumb
+  :disabled t  ; Disabled for performance - header-line updates cause lag
   :ensure (:host github :repo "joaotavora/breadcrumb")
   :hook ((prog-mode . breadcrumb-mode)
          (text-mode . breadcrumb-mode))
