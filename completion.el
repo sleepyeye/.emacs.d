@@ -7,7 +7,6 @@
   (vertico-mode 1))
 
 (use-package consult
-  :demand t
   :init
   (setq register-preview-delay 0.1
         register-preview-function #'consult-register-format)
@@ -70,8 +69,8 @@
   (corfu-on-exact-match nil)
   :bind (:map corfu-map
          ("M-SPC" . corfu-insert-separator))
+  :hook (after-init . global-corfu-mode)
   :init
-  (global-corfu-mode 1)
   (corfu-history-mode 1))
 
 (use-package cape

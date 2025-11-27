@@ -11,8 +11,10 @@
 
   ;; Session save/restore
   (add-hook 'kill-emacs-hook #'persp-state-save)
-  (when (file-exists-p persp-state-default-file)
-    (ignore-errors (persp-state-load persp-state-default-file)))
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (when (file-exists-p persp-state-default-file)
+                (ignore-errors (persp-state-load persp-state-default-file)))))
 
   ;; Numeric workspace switching
   (defun sleepy/persp--switch (name)

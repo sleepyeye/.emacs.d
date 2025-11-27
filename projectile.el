@@ -2,6 +2,7 @@
 
 (use-package projectile
   :ensure t
+  :hook (after-init . projectile-mode)
   :init
   ;; Only recognize Git root as project (prevent unwanted parent folder auto-registration)
   (setq projectile-project-root-files-bottom-up '(".git")
@@ -51,8 +52,6 @@
           projectile-git-command     "rg --files --hidden --follow --color=never -z"))
 
   :config
-  (projectile-mode 1)
-
   ;; Globally ignored directories (by name) - safer than regex
   (dolist (name '("build" "dist" "target" "node_modules" "__pycache__"
                   ".venv" ".direnv" "elpa" "url"))

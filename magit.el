@@ -2,6 +2,7 @@
 
 ;; transient
 (use-package transient
+  :defer t
   :config
   (transient-bind-q-to-quit))
 
@@ -53,7 +54,7 @@
 
 ;; git-gutter (VC-independent, lightweight)
 (use-package git-gutter
-  :hook (emacs-startup . global-git-gutter-mode)
+  :hook (after-init . global-git-gutter-mode)
   :init
   ;; Minimize symbols to avoid visual clutter
   (setq git-gutter:modified-sign " "

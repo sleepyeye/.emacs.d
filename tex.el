@@ -12,7 +12,7 @@
 (add-hook 'LaTeX-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/tex-capf)))
 
 (use-package auctex
-  :demand t
+  :defer t
   :ensure (auctex :pre-build (("./autogen.sh")
 							  ("./configure"
 							   "--without-texmf-dir"

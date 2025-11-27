@@ -49,5 +49,7 @@ Only hides display. For actual conversion, use `set-buffer-file-coding-system`."
   (gcmh-high-cons-threshold (* 128 1024 1024))) ;; 128MB
 
 ;; Mitigate rendering bottlenecks from long lines (built-in Emacs)
-(when (fboundp 'global-so-long-mode)
-  (global-so-long-mode 1))
+(add-hook 'after-init-hook
+          (lambda ()
+            (when (fboundp 'global-so-long-mode)
+              (global-so-long-mode 1))))

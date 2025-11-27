@@ -15,20 +15,19 @@
 ;; Dark mode aware titlebar
 (use-package ns-auto-titlebar
   :ensure t
-  :config
-  (when (or (daemonp) (display-graphic-p))
-    (ns-auto-titlebar-mode +1)))
+  :hook (after-init . ns-auto-titlebar-mode))
 
-;; macOS-specific settings
-(setq locate-command "mdfind"                    ; Use Spotlight for locate
-      ns-use-native-fullscreen nil               ; Don't use native fullscreen
-      ns-pop-up-frames nil                       ; Don't create new frames
-      mac-redisplay-dont-reset-vscroll t         ; Keep scroll position
-      mac-mouse-wheel-smooth-scroll nil)         ; Disable smooth scrolling
-
-;; Korean input method - Use macOS native input
-(setq default-input-method nil                   ; Use macOS input instead of Emacs
-      mac-pass-command-to-system t)              ; Let macOS handle Cmd key for input switching
+;; macOS-specific settings (deferred for startup performance)
+(add-hook 'after-init-hook
+          (lambda ()
+            (setq locate-command "mdfind"                    ; Use Spotlight for locate
+                  ns-use-native-fullscreen nil               ; Don't use native fullscreen
+                  ns-pop-up-frames nil                       ; Don't create new frames
+                  mac-redisplay-dont-reset-vscroll t         ; Keep scroll position
+                  mac-mouse-wheel-smooth-scroll nil          ; Disable smooth scrolling
+                  ;; Korean input method - Use macOS native input
+                  default-input-method nil                   ; Use macOS input instead of Emacs
+                  mac-pass-command-to-system t)))            ; Let macOS handle Cmd key for input switching
 
 ;; Optional: If you prefer Emacs builtin Korean input, uncomment:
 ;; (setq default-input-method "korean-hangul")   ; 2-bul (두벌식)

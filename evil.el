@@ -146,7 +146,7 @@
 (use-package undo-fu :ensure t)
 (use-package undo-fu-session
   :ensure t
-  :config (undo-fu-session-global-mode 1))
+  :hook (after-init . undo-fu-session-global-mode))
 
 ;; ---- Evil core --------------------------------------------------------------
 (use-package evil
@@ -221,9 +221,8 @@
 (use-package evil-surround
   :ensure t
   :after (evil general)
+  :hook (evil-mode . global-evil-surround-mode)
   :config
-  (global-evil-surround-mode 1)
-
   (general-define-key
    :states 'visual
    "s" 'evil-surround-region
@@ -233,7 +232,10 @@
    "s" 'evil-surround-edit))
 
 ;; ---- Other text objects/tools -----------------------------------------------
-(use-package evil-textobj-line :ensure t :after evil)
+(use-package evil-textobj-line
+  :ensure t
+  :after evil
+  :commands (evil-a-line evil-inner-line))
 
 (use-package evil-args
   :ensure t
@@ -257,6 +259,7 @@
 
 (use-package evil-exchange
   :ensure t
+  :commands (evil-exchange evil-exchange-cancel)
   :init
   (setq evil-exchange-key (kbd "gx")
         evil-exchange-cancel-key (kbd "gX"))
@@ -266,6 +269,10 @@
 (use-package evil-multiedit
   :ensure t
   :after evil
+  :commands (evil-multiedit-match-all
+             evil-multiedit-match-symbol-and-next
+             evil-multiedit-match-symbol-and-prev
+             evil-multiedit-toggle-marker-here)
   :config
   (evil-multiedit-default-keybinds))
 
@@ -340,6 +347,10 @@
 (use-package evil-numbers
   :ensure t
   :after (evil general)
+  :commands (evil-numbers/inc-at-pt
+             evil-numbers/dec-at-pt
+             evil-numbers/inc-at-pt-incremental
+             evil-numbers/dec-at-pt-incremental)
   :config
   (general-define-key
    :states 'visual

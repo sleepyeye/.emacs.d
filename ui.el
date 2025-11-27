@@ -2,6 +2,7 @@
 
 (use-package which-key
   :ensure t
+  :defer 1
   :config
   (which-key-mode)
   (which-key-setup-minibuffer)
@@ -107,8 +108,9 @@
 
 (use-package pulsar
   :hook
-  ((consult-after-jump-hook . pulsar-recenter-top)
-   (consult-after-jump-hook . pulsar-reveal-entry))
+  ((after-init . pulsar-global-mode)
+   (consult-after-jump . pulsar-recenter-top)
+   (consult-after-jump . pulsar-reveal-entry))
   :init
   (setq pulsar-pulse t)
   (setq pulsar-delay 0.055)
@@ -136,20 +138,19 @@
 								 evil-window-right
 								 evil-window-left
 								 evil-window-up
-								 evil-window-down))
-  :config
-  (pulsar-global-mode 1))
+								 evil-window-down)))
 
 (use-package hl-todo
-  :config
-  (global-hl-todo-mode))
+  :hook (prog-mode . hl-todo-mode))
 
 (use-package solaire-mode
+  :hook (after-init . solaire-global-mode)
   :config
-  (solaire-global-mode +1)
   (add-hook 'ediff-prepare-buffer-hook #'solaire-mode))
 
 (use-package popper
+  :hook ((after-init . popper-mode)
+         (after-init . popper-echo-mode))
   :init
   (setq popper-reference-buffers
 		'(help-mode
@@ -169,8 +170,6 @@
 		  "Output\\*$"
 		  ))
   (setq popper-window-height 20)
-  (popper-mode +1)
-  (popper-echo-mode +1)
   :config
   ;; Group by projects
   (setq popper-group-function #'popper-group-by-projectile)
@@ -224,6 +223,7 @@
   :hook (dired-mode . diredfl-mode))
 
 (use-package nerd-icons-completion
+  :after marginalia
   :config
   (nerd-icons-completion-mode))
 
@@ -243,8 +243,7 @@
         breadcrumb-imenu-max-length 30))
 
 (use-package spacious-padding
-  :config
-  (spacious-padding-mode 1))
+  :hook (after-init . spacious-padding-mode))
 
 ;; Zen/distraction-free writing mode
 (use-package writeroom-mode

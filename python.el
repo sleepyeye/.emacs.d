@@ -12,6 +12,7 @@
 
 (use-package exec-path-from-shell
   :if (memq (window-system) '(mac ns))
+  :defer 2
   :init
   (defvar sleepy/exec-path-from-shell-did-init nil)
   :config
@@ -62,8 +63,6 @@
 
 
 ;;; --- Run current Python file asynchronously (uv-aware) ---
-(require 'ansi-color)
-(require 'compile)
 
 (defgroup sleepy-python-run nil
   "Async runner for Python buffers."
@@ -120,7 +119,9 @@
     (let ((inhibit-read-only t))
       (ansi-color-apply-on-region compilation-filter-start (point)))))
 
-(add-hook 'compilation-filter-hook #'sleepy/python--colorize-compilation)
+(with-eval-after-load 'compile
+  (require 'ansi-color)
+  (add-hook 'compilation-filter-hook #'sleepy/python--colorize-compilation))
 
 (defun sleepy/python-run-file-async (&optional prefix)
   "Run current Python file asynchronously in a compilation buffer.
