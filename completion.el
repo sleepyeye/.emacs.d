@@ -48,7 +48,8 @@
   :commands (marginalia-mode marginalia-cycle)
   :init
   (setq marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
-  :hook (after-init . marginalia-mode))
+  ;; Use elpaca-after-init instead of after-init (elpaca loads async)
+  :hook (elpaca-after-init . marginalia-mode))
 
 (use-package corfu
   :ensure (corfu :host github :repo "minad/corfu" :files (:defaults "extensions/*"))
@@ -69,8 +70,9 @@
   (corfu-on-exact-match nil)
   :bind (:map corfu-map
          ("M-SPC" . corfu-insert-separator))
-  :hook (after-init . global-corfu-mode)
-  :init
+  ;; Use elpaca-after-init instead of after-init (elpaca loads async)
+  :hook (elpaca-after-init . global-corfu-mode)
+  :config
   (corfu-history-mode 1))
 
 (use-package cape
