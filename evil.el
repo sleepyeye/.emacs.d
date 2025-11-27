@@ -194,6 +194,7 @@
     (add-to-list 'evil-emacs-state-modes mode))
   (evil-set-initial-state 'debugger-mode 'motion)
   (evil-set-initial-state 'pdf-view-mode 'motion)
+  (evil-set-initial-state 'image-mode 'motion)
   (evil-set-initial-state 'git-commit-mode 'insert)
 
   ;; Comment toggle operator: gc

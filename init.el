@@ -16,6 +16,7 @@
 (load "~/.emacs.d/workspace.el")
 (load "~/.emacs.d/search.el")
 (load "~/.emacs.d/misc.el")
+(load "~/.emacs.d/media.el")
 (load "~/.emacs.d/tree-sitter.el")
 (load "~/.emacs.d/register.el")
 ;; (load "~/.emacs.d/ai.el")
