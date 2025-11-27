@@ -29,7 +29,7 @@
 					  :useLibraryCodeForTypes t
 					  :autoImportCompletions :json-false
 					  :stubPath ["./" "./typings"]
-					  :diagnosticMode "workspace"
+					  :diagnosticMode "openFilesOnly"  ; was "workspace" - too expensive
 					  :autoSearchPaths t))))
 
   :config

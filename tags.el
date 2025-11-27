@@ -31,8 +31,7 @@
   :ensure t
   :defer t
   :init
-  ;; Load recommended configuration
-  (require 'citre-config)
+  ;; citre-config moved to :config to avoid bypassing :defer
 
   ;; Backend configuration: Eglot + tags hybrid approach
   ;; Try Eglot first for accuracy, fall back to tags for speed/coverage
@@ -59,6 +58,9 @@
   (setq citre-project-root-function #'projectile-project-root)
 
   :config
+  ;; Load recommended configuration (moved from :init to respect :defer)
+  (require 'citre-config)
+
   ;; ============================================================================
   ;; Evil Integration: Vim-style tag navigation
   ;; ============================================================================

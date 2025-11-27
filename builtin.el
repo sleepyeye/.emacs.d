@@ -140,7 +140,7 @@
       auto-revert-stop-on-user-input nil
       auto-revert-verbose t
       global-auto-revert-non-file-buffers t
-      auto-revert-check-vc-info t)
+      auto-revert-check-vc-info nil)  ; was t - runs git status on every tick
 
 ;; --- recentf / savehist / saveplace ----------------------------------------
 (defconst sleepy/recentf-max-items 100
@@ -208,11 +208,11 @@ Values > 100 prevent automatic recentering when cursor moves off screen.")
       show-paren-when-point-inside-paren t
       show-paren-when-point-in-periphery t)
 
-;; imenu: Auto-rescan and sorting in certain modes
+;; imenu: sorting in certain modes (auto-rescan disabled for performance)
 (dolist (hook '(markdown-mode-hook makefile-mode-hook prog-mode-hook))
   (add-hook hook
             (lambda ()
-              (setq-local imenu-auto-rescan t)
+              ;; imenu-auto-rescan disabled - rescans buffer repeatedly causing lag
               (when (derived-mode-p 'prog-mode)
                 (setq-local imenu-sort-function #'imenu--sort-by-name)))))
 

@@ -31,7 +31,7 @@
   (setq TeX-engine 'xetex ;; Use XeTeX
 		latex-run-command "xetex")
   (setq TeX-parse-self t ; parse on load
-		TeX-auto-save t  ; parse on save
+		TeX-auto-save nil  ; was t - causes lag on every save
 		TeX-source-correlate-mode t
 		TeX-source-correlate-method 'synctex
 		TeX-show-compilation nil
@@ -41,8 +41,8 @@
 		TeX-electric-sub-and-superscript t
 		;; Just save, don't ask before each compilation.
 		TeX-save-query nil
-		TeX-electric-sub-and-superscript t
-		TeX-electric-math '("$" . "$")
+		;; TeX-electric-math disabled - conflicts with smartparens (edit.el)
+		TeX-electric-math nil
 		;; Use LatexMk as default command for C-c C-c
 		TeX-command-default "LatexMk"
 		;; Always use PDF mode
@@ -77,7 +77,7 @@
 		reftex-toc-split-windows-fraction 0.2))
 
 ;; LaTeX mode hooks
-(add-hook 'LaTeX-mode-hook #'electric-pair-local-mode) ; Auto-close brackets
+;; electric-pair-local-mode removed - conflicts with smartparens (edit.el)
 
 ;; Apheleia - Auto-formatting (latexindent)
 (use-package apheleia
@@ -103,6 +103,11 @@
   (setf (alist-get 'latex-mode apheleia-mode-alist) 'latexindent)
   (setf (alist-get 'LaTeX-mode apheleia-mode-alist) 'latexindent)
   :hook (LaTeX-mode . apheleia-mode))
+
+;; Refresh git-gutter after apheleia async formatting completes
+;; Without this, git-gutter updates before apheleia finishes, showing stale diff
+(with-eval-after-load 'apheleia
+  (add-hook 'apheleia-post-format-hook #'git-gutter))
 
 ;; ;; CDLatex settings
 ;; (use-package cdlatex

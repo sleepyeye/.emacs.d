@@ -35,7 +35,9 @@
   :ensure t
   :after (evil general)
   :config
-  (global-evil-mc-mode 1)
+  ;; global-evil-mc-mode disabled - post-command-hook overhead on every keystroke
+  ;; Enable locally with gm keybindings when needed
+  ;; (global-evil-mc-mode 1)
 
   ;; Evil style: gm prefix (multiple cursors - consistent with other packages)
   (general-define-key

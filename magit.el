@@ -46,7 +46,7 @@
         magit-todos-exclude-globs '("*.map" "*.min.js" "*.lock")
         magit-todos-branch-list nil  ; Only scan current branch
         magit-todos-recursive t
-        magit-todos-depth 100)
+        magit-todos-depth 3)  ; was 100 - scans too deep on every magit-status
   ;; Use ripgrep scanner explicitly if available
   (when (executable-find "rg")
     (setq magit-todos-scanner 'magit-todos--scan-with-rg)))
