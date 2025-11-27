@@ -72,6 +72,89 @@
                 (delq 'consult--source-perspective consult-buffer-sources))))
 
 
+  ;; Close workspace (kill perspective and its buffers)
+  (defun sleepy/close-workspace (&optional name)
+    "Close workspace NAME, killing all its exclusive buffers.
+If NAME is nil, close the current workspace.
+Switches to another workspace after closing, or creates \"1\" if none left.
+Prompts to save modified buffers before closing."
+    (interactive)
+    (let* ((target (or name (persp-current-name)))
+           (all-persps (persp-names))
+           (is-current (string= target (persp-current-name))))
+      ;; Validate workspace exists
+      (unless (member target all-persps)
+        (user-error "Workspace '%s' does not exist" target))
+      ;; Don't close if it's the only workspace
+      (when (= (length all-persps) 1)
+        (user-error "Cannot close the only workspace"))
+      ;; Check for unsaved buffers in target workspace
+      (let ((unsaved-buffers
+             (with-perspective target
+               (cl-remove-if-not
+                (lambda (buf)
+                  (and (buffer-file-name buf)
+                       (buffer-modified-p buf)))
+                (persp-current-buffers)))))
+        (when unsaved-buffers
+          (if (yes-or-no-p
+               (format "Workspace '%s' has %d unsaved buffer(s). Save them? "
+                       target (length unsaved-buffers)))
+              (dolist (buf unsaved-buffers)
+                (with-current-buffer buf (save-buffer)))
+            (unless (yes-or-no-p "Close anyway without saving? ")
+              (user-error "Workspace close cancelled")))))
+      ;; Switch away if closing current workspace
+      (when is-current
+        (let ((other (cl-find-if (lambda (p) (not (string= p target))) all-persps)))
+          (persp-switch (or other "1"))))
+      ;; Kill the workspace
+      (persp-kill target)
+      (message "Closed workspace '%s'" target)))
+
+  (defun sleepy/close-workspace-prompt ()
+    "Prompt for a workspace to close."
+    (interactive)
+    (let ((name (completing-read "Close workspace: " (persp-names) nil t)))
+      (sleepy/close-workspace name)))
+
+  (defun sleepy/close-other-workspaces ()
+    "Close all workspaces except the current one.
+Prompts for confirmation and handles unsaved buffers."
+    (interactive)
+    (let* ((current (persp-current-name))
+           (others (cl-remove-if (lambda (p) (string= p current)) (persp-names))))
+      (when (null others)
+        (user-error "No other workspaces to close"))
+      (when (yes-or-no-p
+             (format "Close %d other workspace(s)? " (length others)))
+        ;; Collect all unsaved buffers across other workspaces
+        (let ((all-unsaved nil))
+          (dolist (persp-name others)
+            (with-perspective persp-name
+              (dolist (buf (persp-current-buffers))
+                (when (and (buffer-file-name buf)
+                           (buffer-modified-p buf))
+                  (push buf all-unsaved)))))
+          (when all-unsaved
+            (if (yes-or-no-p
+                 (format "%d unsaved buffer(s) in other workspaces. Save all? "
+                         (length all-unsaved)))
+                (dolist (buf all-unsaved)
+                  (with-current-buffer buf (save-buffer)))
+              (unless (yes-or-no-p "Close anyway without saving? ")
+                (user-error "Operation cancelled")))))
+        ;; Kill all other workspaces
+        (dolist (persp-name others)
+          (persp-kill persp-name))
+        (message "Closed %d workspace(s), kept '%s'" (length others) current))))
+
+  ;; Rename workspace
+  (defun sleepy/rename-workspace (new-name)
+    "Rename the current workspace to NEW-NAME."
+    (interactive "sNew workspace name: ")
+    (persp-rename new-name))
+
   ;; Workspace leader: SPC TAB ...
   (with-eval-after-load 'general
     (when (fboundp 'sleepy/leader-def)
@@ -89,4 +172,9 @@
       "TAB 0" #'sleepy/persp-0
 
         ;; Workspace utilities
-        "TAB TAB" #'sleepy/persp-switch-completing))))
+        "TAB TAB" #'sleepy/persp-switch-completing
+        "TAB d"   '(sleepy/close-workspace :which-key "close current")
+        "TAB D"   '(sleepy/close-workspace-prompt :which-key "close...")
+        "TAB o"   '(sleepy/close-other-workspaces :which-key "close others")
+        "TAB r"   '(sleepy/rename-workspace :which-key "rename")
+        "TAB n"   '(persp-switch :which-key "new/switch")))))

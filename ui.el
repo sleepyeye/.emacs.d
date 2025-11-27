@@ -150,25 +150,6 @@
   (add-hook 'ediff-prepare-buffer-hook #'solaire-mode))
 
 (use-package popper
-  :config
-  ;; Group by projects
-  (setq popper-group-function #'popper-group-by-projectile)
-  (setq popper-mode-line nil)
-  (setq popper-display-control t)
-  (general-define-key
-   "C-M-'" #'popper-toggle-type
-   "C-`" #'popper-toggle
-   "C-'" #'popper-cycle)
-
-  ;; Prevent which-key from showing when in a popper window
-  (defun sleepy/which-key-inhibit-in-popper (orig-fun &rest args)
-    "Inhibit which-key popup when current window is a popper."
-    (unless (and (bound-and-true-p popper-mode)
-                 (popper-popup-p (current-buffer)))
-      (apply orig-fun args)))
-
-  (advice-add 'which-key--show-popup :around #'sleepy/which-key-inhibit-in-popper)
-
   :init
   (setq popper-reference-buffers
 		'(help-mode
@@ -189,7 +170,25 @@
 		  ))
   (setq popper-window-height 20)
   (popper-mode +1)
-  (popper-echo-mode +1))
+  (popper-echo-mode +1)
+  :config
+  ;; Group by projects
+  (setq popper-group-function #'popper-group-by-projectile)
+  (setq popper-mode-line nil)
+  (setq popper-display-control t)
+  (general-define-key
+   "C-M-'" #'popper-toggle-type
+   "C-`" #'popper-toggle
+   "C-'" #'popper-cycle)
+
+  ;; Prevent which-key from showing when in a popper window
+  (defun sleepy/which-key-inhibit-in-popper (orig-fun &rest args)
+    "Inhibit which-key popup when current window is a popper."
+    (unless (and (bound-and-true-p popper-mode)
+                 (popper-popup-p (current-buffer)))
+      (apply orig-fun args)))
+
+  (advice-add 'which-key--show-popup :around #'sleepy/which-key-inhibit-in-popper))
 
 (use-package frame
   :ensure nil

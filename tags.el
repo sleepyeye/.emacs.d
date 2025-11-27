@@ -67,15 +67,17 @@
 
   (with-eval-after-load 'evil
     ;; Traditional Vim tag bindings
-    (evil-define-key 'normal 'global
-      (kbd "C-]") 'citre-jump          ; Jump to tag (Vim standard)
-      (kbd "C-t") 'citre-jump-back     ; Pop tag stack (Vim standard)
-      (kbd "g]") 'citre-peek           ; Peek without jumping
-      (kbd "gK") 'citre-query-jump)    ; Query-based jump
+    (general-define-key
+     :states 'normal
+     "C-]" 'citre-jump                 ; Jump to tag (Vim standard)
+     "C-t" 'citre-jump-back            ; Pop tag stack (Vim standard)
+     "g]" 'citre-peek                  ; Peek without jumping
+     "gK" 'citre-query-jump)           ; Query-based jump
 
     ;; Visual mode: ace-peek for quick multi-definition navigation
-    (evil-define-key 'visual 'global
-      (kbd "K") 'citre-ace-peek)
+    (general-define-key
+     :states 'visual
+     "K" 'citre-ace-peek)
 
     ;; Mark citre navigation commands as jumps (integrate with jump list)
     (evil-set-command-property 'citre-jump :jump t)

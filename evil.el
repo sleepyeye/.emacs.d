@@ -146,7 +146,7 @@
 (use-package undo-fu :ensure t)
 (use-package undo-fu-session
   :ensure t
-  :init (undo-fu-session-global-mode 1))
+  :config (undo-fu-session-global-mode 1))
 
 ;; ---- Evil core --------------------------------------------------------------
 (use-package evil
@@ -170,16 +170,22 @@
   (evil-set-command-property 'xref-find-references :jump t)
 
   ;; Some Emacs-style keys (preserve original settings)
-  (define-key evil-normal-state-map (kbd "C-b") 'evil-scroll-up)
-  (define-key evil-normal-state-map (kbd "C-f") 'evil-scroll-down)
-  (define-key evil-normal-state-map (kbd "C-n") 'evil-next-line)
-  (define-key evil-normal-state-map (kbd "C-p") 'evil-previous-line)
-  (define-key evil-normal-state-map (kbd "C-a") 'evil-beginning-of-line)
-  (define-key evil-normal-state-map (kbd "C-e") 'evil-end-of-line)
-  (define-key evil-normal-state-map (kbd "C-A") 'evil-beginning-of-visual-line)
-  (define-key evil-normal-state-map (kbd "C-E") 'evil-end-of-visual-line)
-  (define-key evil-motion-state-map "_" 'evil-end-of-line)
-  (define-key evil-motion-state-map "0" 'evil-beginning-of-line)
+  (general-define-key
+   :states 'normal
+   :keymaps 'override
+   "C-b" 'evil-scroll-up
+   "C-f" 'evil-scroll-down
+   "C-n" 'evil-next-line
+   "C-p" 'evil-previous-line
+   "C-a" 'evil-beginning-of-line
+   "C-e" 'evil-end-of-line
+   "C-A" 'evil-beginning-of-visual-line
+   "C-E" 'evil-end-of-visual-line)
+
+  (general-define-key
+   :states 'motion
+   "_" 'evil-end-of-line
+   "0" 'evil-beginning-of-line)
 
   ;; Evil state exceptions
   (dolist (mode '(custom-mode eshell-mode shell-mode term-mode vterm-mode
@@ -195,10 +201,13 @@
     "Toggle comment for region."
     (interactive "<r>")
     (comment-or-uncomment-region beg end))
-  (evil-define-key 'normal 'global (kbd "gc") 'my-evil-comment-or-uncomment)
 
-  ;; Go to file under cursor with gf (standard Vim behavior)
-  (evil-define-key 'normal 'global (kbd "gf") 'find-file-at-point))
+  ;; gc and gf bindings
+  (general-define-key
+   :states 'normal
+   :keymaps 'global
+   "gc" 'my-evil-comment-or-uncomment
+   "gf" 'find-file-at-point))
 
 ;; ---- Evil collection (use package default evil bindings) -------------------
 (use-package evil-collection
@@ -228,17 +237,23 @@
 
 (use-package evil-args
   :ensure t
-  :after evil
+  :after (evil general)
   :config
-  ;; text object
-  (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
-  (define-key evil-outer-text-objects-map "a" 'evil-outer-arg)
+  ;; text objects
+  (general-define-key
+   :keymaps 'evil-inner-text-objects-map
+   "a" 'evil-inner-arg)
+  (general-define-key
+   :keymaps 'evil-outer-text-objects-map
+   "a" 'evil-outer-arg)
   ;; movement/jump
-  (define-key evil-normal-state-map "L" 'evil-forward-arg)
-  (define-key evil-motion-state-map "L" 'evil-forward-arg)
-  (define-key evil-normal-state-map "H" 'evil-backward-arg)
-  (define-key evil-motion-state-map "H" 'evil-backward-arg)
-  (define-key evil-normal-state-map "K" 'evil-jump-out-args))
+  (general-define-key
+   :states '(normal motion)
+   "L" 'evil-forward-arg
+   "H" 'evil-backward-arg)
+  (general-define-key
+   :states 'normal
+   "K" 'evil-jump-out-args))
 
 (use-package evil-exchange
   :ensure t
@@ -270,57 +285,63 @@
 
 ;; ---- Motion map cleanup -----------------------------------------------------
 (with-eval-after-load 'evil-maps
-  (define-key evil-motion-state-map (kbd "SPC") nil)
-  (define-key evil-motion-state-map (kbd "RET") nil)
-  (define-key evil-motion-state-map (kbd "TAB") nil))
+  (general-define-key
+   :states 'motion
+   "SPC" nil
+   "RET" nil
+   "TAB" nil))
 
 ;; ---- Better-jumper (prevent C-i conflict) -----------------------------------
 (use-package better-jumper
   :ensure t
-  :init (better-jumper-mode 1)
+  :after general
   :config
+  (better-jumper-mode 1)
   (with-eval-after-load 'evil-maps
-    (define-key evil-motion-state-map (kbd "C-o") 'better-jumper-jump-backward)
-    ;; <C-i> can conflict with TAB → use alternative key
-    (define-key evil-motion-state-map (kbd "M-]") 'better-jumper-jump-forward)))
+    (general-define-key
+     :states 'motion
+     "C-o" 'better-jumper-jump-backward
+     ;; <C-i> can conflict with TAB - use alternative key
+     "M-]" 'better-jumper-jump-forward)))
 
 ;; ---- Tree-sitter text objects (optional) ------------------------------------
 (use-package evil-textobj-tree-sitter
   :ensure t
-  :after evil
+  :after (evil general)
   :config
+  ;; function text objects
+  (general-define-key
+   :keymaps 'evil-outer-text-objects-map
+   "f" (evil-textobj-tree-sitter-get-textobj "function.outer"))
+  (general-define-key
+   :keymaps 'evil-inner-text-objects-map
+   "f" (evil-textobj-tree-sitter-get-textobj "function.inner"))
 
-  ;; function
-  (define-key evil-outer-text-objects-map "f"
-    (evil-textobj-tree-sitter-get-textobj "function.outer"))
-  (define-key evil-inner-text-objects-map "f"
-    (evil-textobj-tree-sitter-get-textobj "function.inner"))
-  (define-key evil-normal-state-map (kbd "]f")
-    (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "function.outer")))
-  (define-key evil-normal-state-map (kbd "[f")
-    (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "function.outer" t)))
-  (define-key evil-normal-state-map (kbd "]F")
-    (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "function.outer" nil t)))
-  (define-key evil-normal-state-map (kbd "[F")
-    (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "function.outer" t t)))
+  ;; class text objects
+  (general-define-key
+   :keymaps 'evil-outer-text-objects-map
+   "g" (evil-textobj-tree-sitter-get-textobj "class.outer"))
+  (general-define-key
+   :keymaps 'evil-inner-text-objects-map
+   "g" (evil-textobj-tree-sitter-get-textobj "class.inner"))
 
-  ;; class
-  (define-key evil-outer-text-objects-map "g"
-    (evil-textobj-tree-sitter-get-textobj "class.outer"))
-  (define-key evil-inner-text-objects-map "g"
-    (evil-textobj-tree-sitter-get-textobj "class.inner"))
-  (define-key evil-normal-state-map (kbd "]g")
-    (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "class.outer")))
-  (define-key evil-normal-state-map (kbd "[g")
-    (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "class.outer" t)))
-  (define-key evil-normal-state-map (kbd "]G")
-    (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "class.outer" nil t)))
-  (define-key evil-normal-state-map (kbd "[G")
-    (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "class.outer" t t))))
+  ;; function/class navigation
+  (general-define-key
+   :states 'normal
+   "]f" (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "function.outer"))
+   "[f" (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "function.outer" t))
+   "]F" (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "function.outer" nil t))
+   "[F" (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "function.outer" t t))
+   "]g" (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "class.outer"))
+   "[g" (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "class.outer" t))
+   "]G" (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "class.outer" nil t))
+   "[G" (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "class.outer" t t))))
 
 (use-package evil-numbers
   :ensure t
-  :after evil
+  :after (evil general)
   :config
-  (define-key evil-visual-state-map (kbd "g C-a") 'evil-numbers/inc-at-pt-incremental)
-  (define-key evil-visual-state-map (kbd "g C-A") 'evil-numbers/dec-at-pt-incremental))
+  (general-define-key
+   :states 'visual
+   "g C-a" 'evil-numbers/inc-at-pt-incremental
+   "g C-A" 'evil-numbers/dec-at-pt-incremental))

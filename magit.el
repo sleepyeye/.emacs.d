@@ -198,6 +198,8 @@ IMPORTANT: Use bulleted lists in the body, not prose paragraphs. Generate only t
 
 ;; Add keybinding in git-commit-mode
 (with-eval-after-load 'git-commit
-  (define-key git-commit-mode-map (kbd "C-c C-a") 'sleepy/ai-commit-message))
+  (general-define-key
+   :keymaps 'git-commit-mode-map
+   "C-c C-a" 'sleepy/ai-commit-message))
 
 ;;; magit.el ends here
