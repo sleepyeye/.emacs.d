@@ -19,13 +19,14 @@
 		which-key-min-display-lines 6
 		which-key-side-window-slot -10
 		which-key-side-window-max-width 0.25
-		which-key-idle-delay 0.5
+		which-key-idle-delay 0.2
 		which-key-max-description-length 25
 		which-key-allow-imprecise-window-fit t)
   :diminish which-key-mode)
 
 ;; Modern modeline with icons, LSP info, and Git status
 (use-package doom-modeline
+  :disabled t
   :ensure t
   :hook (after-init . doom-modeline-mode)
   :init

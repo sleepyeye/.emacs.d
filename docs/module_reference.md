@@ -1,29 +1,199 @@
-# Module Reference Guide
+# Module Reference
 
-Complete reference for all 27 configuration modules. See architecture_overview.md for system design.
+Complete documentation for all 27 configuration modules in the Emacs configuration.
 
-## Quick Module Index
+## Core System Modules
 
-**Infrastructure**: early-init.el, bootstraps.el, builtin.el  
-**UI/Interaction**: general.el, evil.el, completion.el, edit.el, font.el  
-**Dev Tools**: projectile.el, eglot.el, magit.el, workspace.el, search.el, tree-sitter.el, register.el, ai.el  
-**Languages**: python.el, tex.el, elisp.el, markdown.el  
-**UI Polish**: ui.el, macos.el
+### early-init.el
+**Purpose**: Pre-package initialization and performance optimizations
+**Load Order**: First (automatic by Emacs)
+**Key Features**:
+- GC tuning (disabled during startup, 80MB after)
+- PATH configuration for macOS and Linux
+- UI tweaks (disable toolbar, scrollbar, menu)
+- System detection constants (IS-MAC, IS-LINUX)
 
-## Module Details
+### bootstraps.el
+**Purpose**: Elpaca package manager installation and setup
+**Dependencies**: None
+**Key Features**:
+- Elpaca installer bootstrap
+- use-package integration
+- Async package operations
 
-For complete module documentation including dependencies, keybindings, and integration points, see the full module_reference stored in Serena memory.
+### init.el
+**Purpose**: Main entry point and module orchestration
+**Dependencies**: All other modules
+**Key Features**:
+- Sequential module loading
+- Platform-specific conditional loading
+- Language module configuration
 
-Key patterns:
-- All modules use lexical-binding
-- Leader key bindings via sleepy/leader-def
-- Integration via with-eval-after-load
-- Namespace: sleepy/ prefix for custom functions
+### builtin.el
+**Purpose**: Core Emacs settings and built-in packages
+**Key Features**:
+- Backup and autosave configuration
+- Recentf (recent files)
+- Savehist (minibuffer history)
+- Dired enhancements
+- UTF-8 encoding defaults
 
-## Common Integration Points
+## Editor Framework Modules
 
-**Completion Stack**: Vertico + Consult + Corfu + Orderless  
-**Project Management**: Projectile + Perspective (workspaces)  
-**LSP**: Eglot + Consult-eglot  
-**Git**: Magit + git-gutter + diff-hl  
-**Evil**: Evil-collection for mode bindings
+### general.el
+**Purpose**: Keybinding framework with leader key support
+**Provides**: `sleepy/leader-def` macro
+**Leader Key**: SPC (normal/visual/motion), M-SPC (global)
+
+### evil.el
+**Purpose**: Vim emulation layer
+**Dependencies**: general.el
+**Key Features**:
+- Evil-surround (cs, ds, ys operators)
+- Evil-exchange (gx, gX operators)
+- Evil-commentary (gc operator)
+- Better-jumper (C-o, M-] for jumps)
+
+### edit.el
+**Purpose**: Editor enhancements and productivity tools
+**Key Features**:
+- Multiple-cursors integration
+- YASnippet for templates
+- Aggressive-indent for auto-formatting
+- Paredit for Lisp editing
+
+### completion.el
+**Purpose**: Modern completion system
+**Key Components**:
+- **Vertico**: Vertical minibuffer completion
+- **Consult**: Enhanced commands
+- **Corfu**: In-buffer popup completion
+- **Orderless**: Fuzzy matching
+- **Cape**: Completion backends
+- **Embark**: Contextual actions
+
+### register.el
+**Purpose**: Enhanced register system
+**Dependencies**: general.el, consult
+**Key Features**:
+- Save file + position to registers
+- Completion support for register selection
+- Persistent registers across sessions
+
+## Development Tool Modules
+
+### projectile.el
+**Purpose**: Project management
+**Key Features**:
+- Git-only project detection
+- Alien indexing with caching
+- Project search paths (~/workspace)
+- Consult-projectile integration
+
+### workspace.el
+**Purpose**: Workspace isolation with Perspective
+**Dependencies**: projectile.el
+**Key Features**:
+- Per-project workspaces
+- Automatic workspace creation
+- Buffer isolation
+- State persistence
+
+### magit.el
+**Purpose**: Git interface
+**Key Features**:
+- Full Git workflow
+- Evil keybindings
+- Forge for GitHub/GitLab
+- Performance optimizations
+
+### eglot.el
+**Purpose**: LSP client configuration
+**Language Servers**:
+- **Python**: basedpyright-langserver
+- **C/C++**: clangd
+- **LaTeX**: texlab
+
+### search.el
+**Purpose**: Search utilities
+**Key Features**:
+- ag (Silver Searcher) integration
+- wgrep for editable grep buffers
+- Project-aware searching
+
+### tags.el
+**Purpose**: Code navigation via tags
+**Key Features**:
+- Citre for ctags integration
+- Xref backend configuration
+- Auto-update on save
+
+## Language Modules
+
+### python.el
+**Purpose**: Python development
+**Dependencies**: eglot.el
+**Features**: basedpyright LSP, virtual env support
+
+### elisp.el
+**Purpose**: Emacs Lisp development
+**Features**: Lispy, Helpful, Macrostep
+
+### tex.el
+**Purpose**: LaTeX editing with AUCTeX
+**Dependencies**: eglot.el
+**Features**: CDLaTeX, texlab LSP, PDF tools
+
+### markdown.el
+**Purpose**: Markdown editing
+**Features**: Live preview, GFM support
+
+### cc.el
+**Purpose**: C/C++ development (disabled by default)
+**Dependencies**: eglot.el
+**Features**: clangd LSP, Modern C++ support
+
+## UI & Appearance Modules
+
+### ui.el
+**Purpose**: UI configuration and themes
+**Features**: doom-modeline, doom-one theme, dashboard
+
+### font.el
+**Purpose**: Font configuration
+**Features**: Font scaling (C-- / C-=), mixed-pitch support
+
+### tree-sitter.el
+**Purpose**: Tree-sitter syntax highlighting
+**Features**: Grammar auto-installation, enhanced highlighting
+
+## Utility Modules
+
+### misc.el
+**Purpose**: Miscellaneous utilities
+**Features**: Popper, which-key, helpful, rainbow-delimiters
+
+### macos.el
+**Purpose**: macOS-specific settings
+**Features**: Meta key config, native fullscreen
+
+### ai.el
+**Purpose**: AI assistant integration (disabled)
+**Features**: Claude Code IDE integration
+
+### custom.el
+**Purpose**: Custom variable storage
+**Features**: Auto-generated by Customize
+
+## Module Dependencies
+
+### Direct Dependencies
+- evil.el → general.el (keybindings)
+- workspace.el → projectile.el (projects)
+- eglot.el → project.el (detection)
+- python.el, tex.el, cc.el → eglot.el (LSP)
+
+### Soft Dependencies
+- Most modules → general.el (leader keys)
+- Search tools → consult (UI)
+- Navigation → evil.el (bindings)

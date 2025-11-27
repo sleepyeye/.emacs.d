@@ -10,7 +10,7 @@
   "Store initial file-name-handler-alist to restore later.")
 
 ;; GC configuration constants
-(defconst sleepy/gc-cons-threshold-mb 80
+(defconst sleepy/gc-cons-threshold-mb 150
   "Normal GC threshold in megabytes.
 Used after startup completes. During startup, GC is effectively disabled
 for maximum performance.")
@@ -49,7 +49,7 @@ Higher value defers GC until more memory is allocated.")
       frame-inhibit-implied-resize t)
 
 ;; Performance and Optimization
-(defconst sleepy/idle-update-delay 1.0
+(defconst sleepy/idle-update-delay 0.2
   "Delay in seconds before updating idle timers.
 Higher values reduce CPU usage but may feel less responsive.")
 
