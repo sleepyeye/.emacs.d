@@ -108,9 +108,8 @@
 
 (use-package pulsar
   :hook
-  ((after-init . pulsar-global-mode)
-   (consult-after-jump . pulsar-recenter-top)
-   (consult-after-jump . pulsar-reveal-entry))
+  ((consult-after-jump-hook . pulsar-recenter-top)
+   (consult-after-jump-hook . pulsar-reveal-entry))
   :init
   (setq pulsar-pulse t)
   (setq pulsar-delay 0.055)
@@ -138,14 +137,16 @@
 								 evil-window-right
 								 evil-window-left
 								 evil-window-up
-								 evil-window-down)))
+								 evil-window-down))
+  :config
+  (pulsar-global-mode 1))
 
 (use-package hl-todo
   :hook (prog-mode . hl-todo-mode))
 
 (use-package solaire-mode
-  :hook (after-init . solaire-global-mode)
   :config
+  (solaire-global-mode +1)
   (add-hook 'ediff-prepare-buffer-hook #'solaire-mode))
 
 (use-package popper
@@ -243,7 +244,8 @@
         breadcrumb-imenu-max-length 30))
 
 (use-package spacious-padding
-  :hook (after-init . spacious-padding-mode))
+  :config
+  (spacious-padding-mode 1))
 
 ;; Zen/distraction-free writing mode
 (use-package writeroom-mode
