@@ -1,15 +1,12 @@
 ;;; search.el --- ripgrep / dumb-jump setup -*- lexical-binding: t; -*-
 
-;; dumb-jump (use as xref backend)
+;; dumb-jump (used as xref backend fallback via xref.el)
 (use-package dumb-jump
   :commands dumb-jump-xref-activate
   :init
   ;; Prefer ripgrep (faster)
   (setq dumb-jump-prefer-searcher 'rg
-        dumb-jump-force-searcher  'rg)
-  :config
-  ;; Register as xref backend → integrates with default xref UI/keys
-  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+        dumb-jump-force-searcher  'rg))
 
 
 ;;; --- Imenu: only classes & functions ---------------------------------

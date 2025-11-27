@@ -2,7 +2,7 @@
 
 ;;; Commentary:
 ;; Citre integration for tag-based navigation and completion.
-;; Designed to work alongside Eglot with configurable backend priorities.
+;; Designed to work alongside Eglot (xref backends configured in xref.el).
 ;;
 ;; Evil Keybindings:
 ;;   C-]     - citre-jump (jump to tag under cursor, Vim standard)
@@ -15,15 +15,12 @@
 ;;   SPC p T - Create tags for current project
 ;;   SPC p t - Update tags for current project
 ;;
-;; Backend Strategy:
-;;   - Definitions: Try Eglot first, fall back to tags
-;;   - References: Try Eglot first, fall back to Global
+;; Note: xref backend priorities are configured in xref.el
 ;;   - Completion: Tags only (avoid duplicating LSP completions)
 ;;
 ;; Requirements:
 ;;   - universal-ctags (brew install universal-ctags)
 ;;   - readtags (comes with universal-ctags)
-;;   - Optional: GNU Global for reference finding
 
 ;;; Code:
 
@@ -31,14 +28,13 @@
   :ensure t
   :defer t
   :init
-  ;; citre-config moved to :config to avoid bypassing :defer
+  ;; Load citre-config in :init to set up find-file-hook early
+  ;; This ensures citre-auto-enable-citre-mode runs for all file opens
+  (require 'citre-config)
 
-  ;; Backend configuration: Eglot + tags hybrid approach
-  ;; Try Eglot first for accuracy, fall back to tags for speed/coverage
-  (setq citre-find-definition-backends '(eglot tags)
-        citre-find-reference-backends '(eglot global)
-        ;; Use tags for completion only (avoid duplicating Eglot completions)
-        citre-completion-backends '(tags))
+  ;; Completion backend (xref backends are configured in xref.el)
+  ;; Use tags for completion only (avoid duplicating Eglot completions)
+  (setq citre-completion-backends '(tags))
 
   ;; Auto-enable citre-mode for programming modes
   (setq citre-auto-enable-citre-mode-modes '(prog-mode))
@@ -58,9 +54,6 @@
   (setq citre-project-root-function #'projectile-project-root)
 
   :config
-  ;; Load recommended configuration (moved from :init to respect :defer)
-  (require 'citre-config)
-
   ;; ============================================================================
   ;; Evil Integration: Vim-style tag navigation
   ;; ============================================================================
@@ -133,34 +126,6 @@
         (sleepy/leader-def
           "p T" '(sleepy/citre-create-tags-for-project :which-key "create tags")
           "p t" '(sleepy/citre-update-tags-for-project :which-key "update tags")))))
-
-  ;; ============================================================================
-  ;; Language-Specific Backend Configuration
-  ;; ============================================================================
-
-  ;; Python: LSP first, tags fallback (basedpyright is comprehensive)
-  (add-hook 'python-mode-hook
-    (lambda ()
-      (setq-local citre-find-definition-backends '(eglot tags)
-                  citre-find-reference-backends '(eglot))))
-
-  ;; C/C++: Dual mode - LSP for accuracy, tags for cross-file navigation
-  (add-hook 'c-mode-common-hook
-    (lambda ()
-      (setq-local citre-find-definition-backends '(eglot tags)
-                  citre-find-reference-backends '(eglot global))))
-
-  ;; Emacs Lisp: Tags preferred (often faster than Eglot for elisp)
-  (add-hook 'emacs-lisp-mode-hook
-    (lambda ()
-      (setq-local citre-find-definition-backends '(tags eglot))))
-
-  ;; Languages without LSP: tags only
-  (dolist (mode '(sh-mode bash-ts-mode))
-    (add-hook (intern (concat (symbol-name mode) "-hook"))
-      (lambda ()
-        (setq-local citre-find-definition-backends '(tags)
-                    citre-find-reference-backends '(global)))))
 
   ;; ============================================================================
   ;; Utility: Ensure tags are gitignored
