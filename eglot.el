@@ -14,23 +14,35 @@
   (eglot-events-buffer-size 0)
   :init
   (setq eglot-autoshutdown t
-	eglot-sync-connect 0
-	eglot-workspace-configuration
-	'(:basedpyright
-	  (:typeCheckingMode "standard"
-			     :disableOrganizeImports t
-			     :analysis
-			     (:inlayHints (:callArgumentNames :json-false)
-					  :diagnosticSeverityOverrides
-					  (:reportCallIssue "none"
-							    :reportUnusedCallResult "none"
-							    :reportGeneralTypeIssues "none"
-							    :reportArgumentType "none")
-					  :useLibraryCodeForTypes t
-					  :autoImportCompletions :json-false
-					  :stubPath ["./" "./typings"]
-					  :diagnosticMode "openFilesOnly"  ; was "workspace" - too expensive
-					  :autoSearchPaths t))))
+	eglot-sync-connect 0)
+
+  ;; Per-server workspace configuration (prevents config bleeding between servers)
+  (defun sleepy/eglot-workspace-config (_server)
+    "Return workspace configuration based on major mode.
+Each LSP server only receives its relevant configuration."
+    (cond
+     ;; Python: basedpyright configuration
+     ((derived-mode-p 'python-base-mode)
+      '(:basedpyright (:typeCheckingMode "standard"
+		       :disableOrganizeImports t)
+	:basedpyright.analysis (:inlayHints (:callArgumentNames :json-false)
+			        :diagnosticSeverityOverrides
+			        (:reportCallIssue "none"
+				 :reportUnusedCallResult "none"
+				 :reportGeneralTypeIssues "none"
+				 :reportArgumentType "none")
+			        :useLibraryCodeForTypes t
+			        :autoImportCompletions :json-false
+			        :stubPath ["./" "./typings"]
+			        :diagnosticMode "openFilesOnly"
+			        :autoSearchPaths t)))
+     ;; LaTeX: texlab configuration (use defaults, just ensure completion works)
+     ((derived-mode-p 'latex-mode 'LaTeX-mode)
+      '(:texlab (:completion (:matcher "fuzzy"))))
+     ;; Default: no special configuration
+     (t nil)))
+
+  (setq eglot-workspace-configuration #'sleepy/eglot-workspace-config)
 
   :config
 
@@ -50,7 +62,14 @@
           (eglot (styles orderless basic))))
 
   ;; Cape integration for better completion
-  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+  ;; Note: cape-wrap-buster can interfere with some LSP servers' completion
+  ;; Exclude LaTeX/texlab where it causes issues with label completion
+  (defun sleepy/cape-wrap-buster-maybe (orig-fun &rest args)
+    "Apply cape-wrap-buster except in LaTeX mode where it interferes with texlab."
+    (if (derived-mode-p 'latex-mode 'LaTeX-mode)
+        (apply orig-fun args)
+      (cape-wrap-buster (apply orig-fun args))))
+  (advice-add 'eglot-completion-at-point :around #'sleepy/cape-wrap-buster-maybe)
 
   ;; Language server program configurations
   (add-to-list 'eglot-server-programs

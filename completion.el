@@ -83,7 +83,12 @@
   :hook ((prog-mode . sleepy/cape-setup)
          (text-mode . sleepy/cape-setup)))
 
-(use-package prescient :init (setq prescient-sort-full-matches-first nil))
+(use-package prescient
+  :init
+  (setq prescient-sort-full-matches-first t    ; exact matches first
+        prescient-history-length 1000)          ; remember more candidates
+  :config
+  (prescient-persist-mode 1))                   ; persist history across sessions
 (use-package corfu-prescient
   :after (corfu prescient)
   :hook (corfu-mode . corfu-prescient-mode)

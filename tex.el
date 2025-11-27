@@ -1,16 +1,5 @@
 ;;; tex.el --- LaTeX editing configuration -*- lexical-binding: t; -*-
 
-(defun sleepy/tex-capf ()
-  "Setup completion-at-point for LaTeX mode."
-  (setq-local completion-at-point-functions
-			  (list (cape-capf-super
-					 #'eglot-completion-at-point
-					 #'cape-file))))
-
-
-(add-hook 'latex-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/tex-capf)))
-(add-hook 'LaTeX-mode-hook (lambda () (add-hook 'eglot-managed-mode-hook #'sleepy/tex-capf)))
-
 (use-package auctex
   :defer t
   :ensure (auctex :pre-build (("./autogen.sh")
@@ -62,7 +51,11 @@
 
   (add-to-list 'TeX-view-program-selection '(output-pdf "Sioyek"))
   (setq-default TeX-master nil)
-  (setq-default TeX-command-extra-options "--shell-escape"))
+  (setq-default TeX-command-extra-options "--shell-escape")
+
+  ;; Fix AUCTeX rebinding completion key - restore completion-at-point
+  (define-key TeX-mode-map [remap TeX-complete-symbol] #'completion-at-point)
+  (define-key LaTeX-mode-map [remap TeX-complete-symbol] #'completion-at-point))
 
 ;; RefTeX - Bibliography & Label/Ref management
 (use-package reftex

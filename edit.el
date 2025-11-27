@@ -120,4 +120,12 @@
   :ensure t
   :after yasnippet)
 
+;; Yasnippet completion-at-point backend for corfu integration
+;; NOTE: :demand t ensures this loads immediately after yasnippet
+;; so it's available when completion.el capf hooks run
+(use-package yasnippet-capf
+  :ensure t
+  :demand t
+  :after yasnippet)
+
 ;;; edit.el ends here
