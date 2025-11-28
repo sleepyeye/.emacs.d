@@ -125,6 +125,14 @@ NEW-NAME should be an absolute or relative file path."
     "br" '(revert-buffer :which-key "revert"))
 
   (sleepy/leader-def
+    "B"   '(:ignore t :which-key "Bookmark")
+    "Bb" '(consult-bookmark :which-key "jump")
+    "Bs" '(bookmark-set :which-key "set")
+    "Bd" '(bookmark-delete :which-key "delete")
+    "Bl" '(bookmark-bmenu-list :which-key "list")
+    "BR" '(bookmark-rename :which-key "rename"))
+
+  (sleepy/leader-def
     "s"   '(:ignore t :which-key "Search")
     "sb" '(consult-line :which-key "in buffer")
     "sB" '(consult-line-multi :which-key "multi buf")

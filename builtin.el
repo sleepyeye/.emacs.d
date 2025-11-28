@@ -195,6 +195,17 @@ Values > 100 prevent automatic recentering when cursor moves off screen.")
 
 (setq calendar-date-style 'iso)
 
+;; --- Bookmarks --------------------------------------------------------------
+(defconst sleepy/bookmark-default-file
+  (expand-file-name "bookmarks" user-emacs-directory)
+  "File to store bookmarks.")
+
+(setq bookmark-default-file sleepy/bookmark-default-file
+      bookmark-save-flag 1              ; Save after every bookmark change
+      bookmark-use-annotations nil      ; Don't prompt for annotations
+      bookmark-automatically-show-annotations nil
+      bookmark-fringe-mark nil)         ; No fringe indicator (cleaner UI)
+
 ;; --- Mode hooks (consolidated in after-init) --------------------------------
 (add-hook 'after-init-hook #'global-auto-revert-mode)
 (add-hook 'after-init-hook #'recentf-mode)
