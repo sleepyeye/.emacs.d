@@ -9,29 +9,15 @@
 (defvar sleepy--initial-file-name-handler-alist file-name-handler-alist
   "Store initial file-name-handler-alist to restore later.")
 
-;; GC configuration constants
-(defconst sleepy/gc-cons-threshold-mb 150
-  "Normal GC threshold in megabytes.
-Used after startup completes. During startup, GC is effectively disabled
-for maximum performance.")
-
-(defconst sleepy/gc-cons-percentage-normal 0.1
-  "Normal GC percentage of heap size.
-Lower values mean more frequent but shorter GC pauses.")
-
-(defconst sleepy/gc-cons-percentage-startup 0.6
-  "GC percentage during startup.
-Higher value defers GC until more memory is allocated.")
-
+;; Disable GC during startup, restore after
 (setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage sleepy/gc-cons-percentage-startup
+      gc-cons-percentage 0.6
       file-name-handler-alist nil)
 
-;; Restore GC settings and file-name-handler-alist after startup
 (add-hook 'emacs-startup-hook
           (lambda ()
-            (setq gc-cons-threshold (* sleepy/gc-cons-threshold-mb 1024 1024)
-                  gc-cons-percentage sleepy/gc-cons-percentage-normal
+            (setq gc-cons-threshold (* 384 1024 1024)
+                  gc-cons-percentage 0.6
                   file-name-handler-alist sleepy--initial-file-name-handler-alist)))
 
 ;; Basic Startup Settings
@@ -53,10 +39,6 @@ Higher value defers GC until more memory is allocated.")
   "Delay in seconds before updating idle timers.
 Higher values reduce CPU usage but may feel less responsive.")
 
-(defconst sleepy/read-process-output-max-mb 4
-  "Maximum bytes to read from subprocess in one chunk, in megabytes.
-Higher values improve LSP performance but use more memory.")
-
 (setq idle-update-delay sleepy/idle-update-delay
       bidi-display-reordering 'left-to-right
       bidi-paragraph-direction 'left-to-right
@@ -66,7 +48,7 @@ Higher values improve LSP performance but use more memory.")
       fast-but-imprecise-scrolling t
       inhibit-compacting-font-caches t
       load-prefer-newer t
-      read-process-output-max (* sleepy/read-process-output-max-mb 1024 1024))
+      read-process-output-max (* 3 1024 1024))
 
 ;; UI Tweaks
 (tool-bar-mode -1)
