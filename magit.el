@@ -8,7 +8,7 @@
 
 ;; magit
 (use-package magit
-  :commands (magit-status magit-log-all)
+  :defer nil
   :init
   ;; Open status buffer in fullscreen
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
