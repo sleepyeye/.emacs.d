@@ -162,8 +162,7 @@
   (add-hook 'ediff-prepare-buffer-hook #'solaire-mode))
 
 (use-package popper
-  :hook ((after-init . popper-mode)
-         (after-init . popper-echo-mode))
+  :ensure t
   :init
   (setq popper-reference-buffers
 		'(help-mode
@@ -184,13 +183,14 @@
 		  ))
   (setq popper-window-height 20)
   :config
-  ;; Group by projects
-  (setq popper-group-function #'popper-group-by-projectile)
+  ;; Group by projects (after projectile loads)
+  (with-eval-after-load 'projectile
+    (setq popper-group-function #'popper-group-by-projectile))
   (setq popper-mode-line nil)
   (setq popper-display-control t)
   (general-define-key
    "C-M-'" #'popper-toggle-type
-   "C-`" #'popper-toggle
+   "C-;" #'popper-toggle
    "C-'" #'popper-cycle)
 
   ;; Prevent which-key from showing when in a popper window
@@ -200,7 +200,10 @@
                  (popper-popup-p (current-buffer)))
       (apply orig-fun args)))
 
-  (advice-add 'which-key--show-popup :around #'sleepy/which-key-inhibit-in-popper))
+  (advice-add 'which-key--show-popup :around #'sleepy/which-key-inhibit-in-popper)
+
+  (popper-mode +1)
+  (popper-echo-mode +1))
 
 (use-package frame
   :ensure nil

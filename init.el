@@ -27,7 +27,7 @@
   (load "~/.emacs.d/macos.el"))
 ;; (load "~/.emacs.d/note.el")
 
-;;; setup languages
+;;; setup language
 ;; (load "~/.emacs.d/yaml.el")
 (load "~/.emacs.d/markdown.el")
 (load "~/.emacs.d/tex.el")
