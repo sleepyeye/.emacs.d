@@ -58,6 +58,35 @@
   ;; Nerd icons required for doom-modeline
   (require 'nerd-icons))
 
+;; -------------------------
+;; Mode line (moody + minions)
+;; -------------------------
+;; Moody: tab/ribbon style mode-line elements
+(use-package moody
+  :ensure t
+  :config
+  (setq-default mode-line-format
+                '("" mode-line-front-space
+                  mode-line-client
+                  mode-line-frame-identification
+                  mode-line-buffer-identification
+                  " " mode-line-position
+                  (vc-mode vc-mode)
+                  (multiple-cursors-mode mc/mode-line)
+                  mode-line-modes
+                  mode-line-end-spaces))
+  (moody-replace-mode-line-buffer-identification)
+  (moody-replace-vc-mode))
+
+;; Minions: collapse minor modes into a menu
+(use-package minions
+  :ensure t
+  :custom
+  (minions-mode-line-delimiters nil)
+  (minions-mode-line-lighter " ...")
+  :config
+  (minions-mode 1))
+
 (use-package doom-themes
   :disabled t
   :ensure t
