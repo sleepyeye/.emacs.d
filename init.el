@@ -20,7 +20,7 @@
 (load "~/.emacs.d/media.el")
 (load "~/.emacs.d/tree-sitter.el")
 (load "~/.emacs.d/register.el")
-;; (load "~/.emacs.d/ai.el")
+(load "~/.emacs.d/ai.el")
 
 ;;; Platform-specific configuration
 (when IS-MAC
