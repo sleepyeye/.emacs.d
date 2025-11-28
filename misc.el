@@ -53,3 +53,13 @@ Only hides display. For actual conversion, use `set-buffer-file-coding-system`."
           (lambda ()
             (when (fboundp 'global-so-long-mode)
               (global-so-long-mode 1))))
+
+;; -------------------------
+;; Terminal (vterm)
+;; -------------------------
+(use-package vterm
+  :ensure t
+  :hook (vterm-mode . (lambda () (display-line-numbers-mode -1)))
+  :custom
+  (vterm-max-scrollback 5000)
+  (vterm-timer-delay 0.01))

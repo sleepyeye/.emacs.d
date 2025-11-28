@@ -6,19 +6,6 @@
 
 ;;; Code:
 
-;; Install vterm - full featured terminal emulator
-(use-package vterm
-  :ensure t
-  :config
-  (with-eval-after-load 'evil
-	(evil-set-initial-state 'vterm-mode 'emacs))
-
-  ;; Optimize vterm for better performance
-  (setq vterm-max-scrollback 5000
-        vterm-timer-delay 0.01)
-  ;; Disable line numbers in vterm buffers
-  (add-hook 'vterm-mode-hook (lambda () (display-line-numbers-mode -1))))
-
 ;; Install claude-code-ide from GitHub using elpaca
 (use-package claude-code-ide
   :ensure (:host github :repo "manzaltu/claude-code-ide.el")
