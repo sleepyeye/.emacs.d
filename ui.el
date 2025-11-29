@@ -63,6 +63,7 @@
 ;; -------------------------
 ;; Minions: collapse minor modes into a menu
 (use-package minions
+  :defer 1
   :ensure t
   :custom
   (minions-mode-line-delimiters nil)
@@ -119,6 +120,7 @@
 
 
 (use-package pulsar
+  :defer 1
   :hook
   ((consult-after-jump-hook . pulsar-recenter-top)
    (consult-after-jump-hook . pulsar-reveal-entry))
