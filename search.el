@@ -9,15 +9,39 @@
         dumb-jump-force-searcher  'rg))
 
 
-;;; --- Imenu: only classes & functions ---------------------------------
-
-;; Show hierarchy in one line in consult-imenu (e.g., Class.method)
-(with-eval-after-load 'consult
-  (setq consult-imenu-namespace 'concat))
+;;; --- Imenu & consult-imenu configuration -----------------------------
 
 ;; Common: auto-rescan and accuracy options
 (setq imenu-auto-rescan t
-	  imenu-use-markers t)
+      imenu-use-markers t)
+
+;; consult-imenu per-mode configuration with narrowing keys and faces
+(with-eval-after-load 'consult-imenu
+  (setq consult-imenu-config
+        '((emacs-lisp-mode :toplevel "Functions"
+                           :types ((?f "Functions" font-lock-function-name-face)
+                                   (?m "Macros"    font-lock-function-name-face)
+                                   (?p "Packages"  font-lock-constant-face)
+                                   (?t "Types"     font-lock-type-face)
+                                   (?v "Variables" font-lock-variable-name-face)))
+          (python-mode :toplevel "Functions"
+                       :types ((?c "Classes"   font-lock-type-face)
+                               (?f "Functions" font-lock-function-name-face)
+                               (?v "Variables" font-lock-variable-name-face)))
+          (python-ts-mode :toplevel "Functions"
+                          :types ((?c "Classes"   font-lock-type-face)
+                                  (?f "Functions" font-lock-function-name-face)
+                                  (?v "Variables" font-lock-variable-name-face)))
+          (LaTeX-mode :types ((?c "Commands"    font-lock-function-name-face)
+                              (?e "Environments" font-lock-type-face)
+                              (?l "Labels"      font-lock-constant-face)
+                              (?s "Sections"    font-lock-keyword-face)))
+          (markdown-mode :types ((?h "Headings" font-lock-keyword-face)))))
+
+  ;; Preview configuration for imenu
+  (consult-customize
+   consult-imenu consult-imenu-multi
+   :preview-key '(:debounce 0.2 any)))
 
 ;;; --- Advanced ripgrep search functions -----------------------------------
 
