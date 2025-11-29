@@ -119,3 +119,13 @@ ext/
 /saveplace
 /undo-fu-session/
 /.ctags.d/
+
+# Custom configuration
+custom.el
+
+# AI/Claude directories
+.claude/
+claudedocs/
+
+# Variable/cache directory
+var/
