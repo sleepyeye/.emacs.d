@@ -25,7 +25,7 @@
 ;;; Platform-specific configuration
 (when IS-MAC
   (load "~/.emacs.d/macos.el"))
-;; (load "~/.emacs.d/note.el")
+(load "~/.emacs.d/note.el")
 
 ;;; setup language
 ;; (load "~/.emacs.d/yaml.el")
