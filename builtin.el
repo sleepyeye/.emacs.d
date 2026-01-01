@@ -1,8 +1,17 @@
 ;;; builtin.el --- core builtins, tidy & fast -*- lexical-binding: t; -*-
 
-;; --- Required built-ins -----------------------------------------------------
-(require 'xref)
-(require 'compile)
+;; --- Frequently used built-ins (load after elpaca init) ---------------------
+(use-package xref
+  :ensure nil
+  :hook (emacs-startup . (lambda () (require 'xref))))
+
+(use-package compile
+  :ensure nil
+  :hook (emacs-startup . (lambda () (require 'compile)))
+  :config
+  (setq compilation-always-kill t
+        compilation-ask-about-save nil
+        compilation-scroll-output t))
 
 ;; --- User info --------------------------------------------------------------
 (setq user-full-name "sleepyeye"
@@ -131,9 +140,7 @@
   (display-warning 'builtin "No find program found. File search functionality will be limited." :warning))
 
 ;; --- Compilation ------------------------------------------------------------
-(setq compilation-always-kill t
-      compilation-ask-about-save nil
-      compilation-scroll-output t)
+;; Settings moved to use-package compile block above
 
 ;; --- Auto-revert ------------------------------------------------------------
 (setq revert-without-query (list ".")
@@ -206,12 +213,12 @@ Values > 100 prevent automatic recentering when cursor moves off screen.")
       bookmark-automatically-show-annotations nil
       bookmark-fringe-mark nil)         ; No fringe indicator (cleaner UI)
 
-;; --- Mode hooks (consolidated in after-init) --------------------------------
-(add-hook 'after-init-hook #'global-auto-revert-mode)
-(add-hook 'after-init-hook #'recentf-mode)
-(add-hook 'after-init-hook #'savehist-mode)
-(add-hook 'after-init-hook #'save-place-mode)
-(add-hook 'after-init-hook #'show-paren-mode)
+;; --- Mode hooks (consolidated in elpaca-after-init) -------------------------
+(add-hook 'elpaca-after-init-hook #'global-auto-revert-mode)
+(add-hook 'elpaca-after-init-hook #'recentf-mode)
+(add-hook 'elpaca-after-init-hook #'savehist-mode)
+(add-hook 'elpaca-after-init-hook #'save-place-mode)
+(add-hook 'elpaca-after-init-hook #'show-paren-mode)
 
 ;; show-paren configuration
 (setq show-paren-delay 0.0

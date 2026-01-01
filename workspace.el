@@ -1,17 +1,15 @@
 ;;;; workspace.el --- perspective + consult integration -*- lexical-binding: t; -*-
 
 (use-package perspective
-  :demand t
+  :hook (elpaca-after-init . persp-mode)
   :init
   (setq persp-state-default-file (expand-file-name ".persp" user-emacs-directory)
         persp-suppress-no-prefix-key-warning t
         persp-initial-frame-name "1")  ; Start with workspace "1" instead of "main"
   :config
-  (persp-mode 1)
-
   ;; Session save/restore
   (add-hook 'kill-emacs-hook #'persp-state-save)
-  (add-hook 'emacs-startup-hook
+  (add-hook 'elpaca-after-init-hook
             (lambda ()
               (when (file-exists-p persp-state-default-file)
                 (ignore-errors (persp-state-load persp-state-default-file)))))
