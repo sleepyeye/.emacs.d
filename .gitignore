@@ -124,7 +124,6 @@ ext/
 custom.el
 
 # AI/Claude directories
-.claude/
 claudedocs/
 
 # Variable/cache directory
