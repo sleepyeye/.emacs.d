@@ -1,40 +1,48 @@
 ;;; init.el --- init.el -*- no-byte-compile: t; lexical-binding: t; -*-
 
- ;; Setup built-in emacs features
-(load "~/.emacs.d/builtin.el")
+(defun sleepy--load-module (module)
+  "Load MODULE source file from `user-emacs-directory'."
+  (let ((path (expand-file-name module user-emacs-directory)))
+    (unless (file-readable-p path)
+      (error "Config module is not readable: %s" path))
+    ;; Load source file explicitly to avoid stale .elc shadowing.
+    (load path nil nil t)))
+
+;; Setup built-in emacs features
+(sleepy--load-module "builtin.el")
 
 ;;; load core packages
-(load "~/.emacs.d/general.el")
-(load "~/.emacs.d/evil.el")
-(load "~/.emacs.d/edit.el")
-(load "~/.emacs.d/completion.el")
-(load "~/.emacs.d/font.el")
-(load "~/.emacs.d/projectile.el")
-(load "~/.emacs.d/eglot.el")
-(load "~/.emacs.d/tags.el")
-(load "~/.emacs.d/xref.el")
-(load "~/.emacs.d/magit.el")
-(load "~/.emacs.d/workspace.el")
-(load "~/.emacs.d/search.el")
-(load "~/.emacs.d/misc.el")
-(load "~/.emacs.d/media.el")
-(load "~/.emacs.d/tree-sitter.el")
-(load "~/.emacs.d/register.el")
-(load "~/.emacs.d/ai.el")
+(sleepy--load-module "general.el")
+(sleepy--load-module "evil.el")
+(sleepy--load-module "edit.el")
+(sleepy--load-module "completion.el")
+(sleepy--load-module "font.el")
+(sleepy--load-module "projectile.el")
+(sleepy--load-module "eglot.el")
+(sleepy--load-module "tags.el")
+(sleepy--load-module "xref.el")
+(sleepy--load-module "magit.el")
+(sleepy--load-module "workspace.el")
+(sleepy--load-module "search.el")
+(sleepy--load-module "misc.el")
+(sleepy--load-module "media.el")
+(sleepy--load-module "tree-sitter.el")
+(sleepy--load-module "register.el")
+(sleepy--load-module "ai.el")
 
 ;;; Platform-specific configuration
 (when IS-MAC
-  (load "~/.emacs.d/macos.el"))
-(load "~/.emacs.d/note.el")
+  (sleepy--load-module "macos.el"))
+(sleepy--load-module "note.el")
 
 ;;; setup language
-;; (load "~/.emacs.d/yaml.el")
-(load "~/.emacs.d/markdown.el")
-(load "~/.emacs.d/tex.el")
-;; (load "~/.emacs.d/quarto.el")
-;; (load "~/.emacs.d/cc.el")
-(load "~/.emacs.d/python.el")
-(load "~/.emacs.d/elisp.el")
+;; (sleepy--load-module "yaml.el")
+(sleepy--load-module "markdown.el")
+(sleepy--load-module "tex.el")
+;; (sleepy--load-module "quarto.el")
+;; (sleepy--load-module "cc.el")
+(sleepy--load-module "python.el")
+(sleepy--load-module "elisp.el")
 
 ;;; Load ui stuffs
-(load "~/.emacs.d/ui.el")
+(sleepy--load-module "ui.el")

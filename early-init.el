@@ -118,8 +118,14 @@ Paths are expanded and prepended to the existing PATH."
 
 ;; Load elpaca and wait
 (defvar user-emacs-directory "~/.emacs.d")
-(load (concat user-emacs-directory "bootstraps"))
-(defvar local-package-directory (expand-file-name "~/.emacs.d/local-packages/"))
+(let ((sleepy--bootstrap-file
+       (expand-file-name "bootstraps.el" user-emacs-directory)))
+  (unless (file-readable-p sleepy--bootstrap-file)
+    (error "Bootstrap file is not readable: %s" sleepy--bootstrap-file))
+  ;; Load source file explicitly to avoid stale .elc shadowing.
+  (load sleepy--bootstrap-file nil nil t))
+(defvar local-package-directory
+  (expand-file-name "local-packages/" user-emacs-directory))
 (elpaca-wait)
 
 ;; evil keybinding setup for elpaca
