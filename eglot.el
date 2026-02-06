@@ -56,10 +56,10 @@ Each LSP server only receives its relevant configuration."
   (setq eglot-extend-to-xref t
         eglot-ignored-server-capabilities '(:inlayHintProvider :foldingRangeProvider))
 
-  ;; Completion integration with orderless
-  (setq completion-category-overrides
-        '((file (styles partial-completion))
-          (eglot (styles orderless basic))))
+  ;; Completion integration with orderless.
+  ;; Update only Eglot entry to avoid clobbering other category overrides.
+  (setf (alist-get 'eglot completion-category-overrides)
+        '(styles orderless basic))
 
   ;; Cape integration for better completion
   ;; Note: cape-wrap-buster can interfere with some LSP servers' completion

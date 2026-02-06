@@ -16,7 +16,8 @@
       imenu-use-markers t)
 
 ;; consult-imenu per-mode configuration with narrowing keys and faces
-(with-eval-after-load 'consult-imenu
+;; `consult-imenu' is provided by `consult'.
+(with-eval-after-load 'consult
   (setq consult-imenu-config
         '((emacs-lisp-mode :toplevel "Functions"
                            :types ((?f "Functions" font-lock-function-name-face)
