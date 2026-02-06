@@ -2,7 +2,7 @@
 
 (use-package projectile
   :ensure t
-  :hook (after-init . projectile-mode)
+  :hook (elpaca-after-init . projectile-mode)
   :init
   ;; Only recognize Git root as project (prevent unwanted parent folder auto-registration)
   (setq projectile-project-root-files-bottom-up '(".git")

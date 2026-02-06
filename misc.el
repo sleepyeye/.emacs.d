@@ -38,7 +38,7 @@ Only hides display. For actual conversion, use `set-buffer-file-coding-system`."
 ;; GC tuning (gcmh)
 ;; -------------------------
 (use-package gcmh
-  :hook (after-init . gcmh-mode)
+  :hook (elpaca-after-init . gcmh-mode)
   :custom
   ;; Auto-calculate idle time
   (gcmh-idle-delay 'auto)

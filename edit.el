@@ -81,7 +81,7 @@
 ;; EditorConfig support for consistent coding styles across editors
 (use-package editorconfig
   :ensure t
-  :hook (after-init . editorconfig-mode)
+  :hook (elpaca-after-init . editorconfig-mode)
   :config
   (setq editorconfig-trim-whitespaces-mode 'ws-butler-mode)
   :diminish editorconfig-mode)

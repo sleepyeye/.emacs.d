@@ -146,7 +146,7 @@
 (use-package undo-fu :ensure t)
 (use-package undo-fu-session
   :ensure t
-  :hook (after-init . undo-fu-session-global-mode))
+  :hook (elpaca-after-init . undo-fu-session-global-mode))
 
 ;; ---- Evil core --------------------------------------------------------------
 (use-package evil
@@ -214,6 +214,7 @@
 (use-package evil-collection
   :after evil
   :ensure t
+  :demand t
   :diminish evil-collection-unimpaired-mode
   :config
   (evil-collection-init))
@@ -221,9 +222,10 @@
 ;; ---- Surround ---------------------------------------------------------------
 (use-package evil-surround
   :ensure t
+  :demand t
   :after (evil general)
-  :hook (evil-mode . global-evil-surround-mode)
   :config
+  (global-evil-surround-mode 1)
   (general-define-key
    :states 'visual
    "s" 'evil-surround-region
@@ -235,11 +237,13 @@
 ;; ---- Other text objects/tools -----------------------------------------------
 (use-package evil-textobj-line
   :ensure t
+  :demand t
   :after evil
   :commands (evil-a-line evil-inner-line))
 
 (use-package evil-args
   :ensure t
+  :demand t
   :after (evil general)
   :config
   ;; text objects
@@ -260,7 +264,7 @@
 
 (use-package evil-exchange
   :ensure t
-  :commands (evil-exchange evil-exchange-cancel)
+  :demand t
   :init
   (setq evil-exchange-key (kbd "gx")
         evil-exchange-cancel-key (kbd "gX"))
@@ -269,19 +273,17 @@
 
 (use-package evil-multiedit
   :ensure t
+  :demand t
   :after evil
-  :commands (evil-multiedit-match-all
-             evil-multiedit-match-symbol-and-next
-             evil-multiedit-match-symbol-and-prev
-             evil-multiedit-toggle-marker-here)
   :config
   (evil-multiedit-default-keybinds))
 
 (use-package evil-visualstar
   :ensure t
+  :demand t
   :after evil
-  :commands global-evil-visualstar-mode
-  :hook (after-init . global-evil-visualstar-mode))
+  :config
+  (global-evil-visualstar-mode 1))
 
 ;; ---- vdiff (optional) -------------------------------------------------------
 (use-package vdiff
@@ -315,6 +317,7 @@
 ;; ---- Tree-sitter text objects (optional) ------------------------------------
 (use-package evil-textobj-tree-sitter
   :ensure t
+  :demand t
   :after (evil general)
   :config
   ;; function text objects
@@ -347,11 +350,8 @@
 
 (use-package evil-numbers
   :ensure t
+  :demand t
   :after (evil general)
-  :commands (evil-numbers/inc-at-pt
-             evil-numbers/dec-at-pt
-             evil-numbers/inc-at-pt-incremental
-             evil-numbers/dec-at-pt-incremental)
   :config
   (general-define-key
    :states 'visual

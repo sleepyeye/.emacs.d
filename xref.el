@@ -31,6 +31,14 @@
 (when (boundp 'xref-history-storage)
   (setq xref-history-storage 'xref-window-local-history))
 
+;; Safe wrapper for citre-xref-backend (may not be loaded yet)
+(defun sleepy/citre-xref-backend ()
+  "Call citre-xref-backend if available and tags file exists."
+  (when (and (fboundp 'citre-xref-backend)
+             (fboundp 'citre-tags-file-path)
+             (citre-tags-file-path))
+    (citre-xref-backend)))
+
 ;; Helper macro to set up xref backends for a mode
 (defmacro sleepy/setup-xref-backends (mode &rest backends)
   "Set up xref backends for MODE.
@@ -51,40 +59,40 @@ Note: eglot-xref-backend is auto-prepended when eglot is active."
 ;; Python: eglot (auto) > citre > dumb-jump
 ;; eglot-xref-backend is prepended automatically when eglot is active
 (sleepy/setup-xref-backends python-mode
-  citre-xref-backend)
+  sleepy/citre-xref-backend)
 
 (sleepy/setup-xref-backends python-ts-mode
-  citre-xref-backend)
+  sleepy/citre-xref-backend)
 
 ;; C/C++: eglot (auto) > citre > dumb-jump
 (sleepy/setup-xref-backends c-mode
-  citre-xref-backend)
+  sleepy/citre-xref-backend)
 
 (sleepy/setup-xref-backends c++-mode
-  citre-xref-backend)
+  sleepy/citre-xref-backend)
 
 (sleepy/setup-xref-backends c-ts-mode
-  citre-xref-backend)
+  sleepy/citre-xref-backend)
 
 (sleepy/setup-xref-backends c++-ts-mode
-  citre-xref-backend)
+  sleepy/citre-xref-backend)
 
 ;; Emacs Lisp: elisp > citre > dumb-jump
 ;; elisp--xref-backend is the built-in elisp navigation
 (sleepy/setup-xref-backends emacs-lisp-mode
   elisp--xref-backend
-  citre-xref-backend)
+  sleepy/citre-xref-backend)
 
 ;; LaTeX: eglot (auto) > citre > dumb-jump
 (sleepy/setup-xref-backends LaTeX-mode
-  citre-xref-backend)
+  sleepy/citre-xref-backend)
 
 ;; Shell: citre > dumb-jump (no LSP typically)
 (sleepy/setup-xref-backends sh-mode
-  citre-xref-backend)
+  sleepy/citre-xref-backend)
 
 (sleepy/setup-xref-backends bash-ts-mode
-  citre-xref-backend)
+  sleepy/citre-xref-backend)
 
 (provide 'xref-config)
 ;;; xref.el ends here

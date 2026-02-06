@@ -54,7 +54,7 @@
 
 ;; git-gutter (VC-independent, lightweight)
 (use-package git-gutter
-  :hook (after-init . global-git-gutter-mode)
+  :hook (elpaca-after-init . global-git-gutter-mode)
   :init
   ;; Minimize symbols to avoid visual clutter
   (setq git-gutter:modified-sign " "

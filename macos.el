@@ -15,7 +15,7 @@
 ;; Dark mode aware titlebar
 (use-package ns-auto-titlebar
   :ensure t
-  :hook (after-init . ns-auto-titlebar-mode))
+  :hook (elpaca-after-init . ns-auto-titlebar-mode))
 
 ;; macOS-specific settings (deferred for startup performance)
 (add-hook 'after-init-hook
