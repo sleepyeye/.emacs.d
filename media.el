@@ -26,7 +26,15 @@
 ;; - Isearch in PDF
 ;; - HiDPI/Retina support
 
+(defun sleepy--pdf-tools-ready-p ()
+  "Return non-nil when pdf-tools build prerequisites are available."
+  (and (executable-find "make")
+       (or (executable-find "gcc")
+           (executable-find "cc"))
+       (executable-find "pkg-config")))
+
 (use-package pdf-tools
+  :if (sleepy--pdf-tools-ready-p)
   :mode ("\\.pdf\\'" . pdf-view-mode)
   :magic ("%PDF" . pdf-view-mode)
   :init

@@ -1,6 +1,14 @@
 ;;; tex.el --- LaTeX editing configuration -*- lexical-binding: t; -*-
 
+(defun sleepy--auctex-build-ready-p ()
+  "Return non-nil when local AUCTeX build prerequisites are available."
+  (and (executable-find "sh")
+       (executable-find "make")
+       (executable-find "autoconf")
+       (executable-find "automake")))
+
 (use-package auctex
+  :if (sleepy--auctex-build-ready-p)
   :defer t
   :ensure (auctex :pre-build (("./autogen.sh")
 							  ("./configure"
@@ -17,8 +25,7 @@
   :mode ("\\.tex\\'" . LaTeX-mode)
   :after auctex
   :config
-  (setq TeX-engine 'xetex ;; Use XeTeX
-		latex-run-command "xetex")
+  (setq TeX-engine 'xetex)
   (setq TeX-parse-self t ; parse on load
 		TeX-auto-save nil  ; was t - causes lag on every save
 		TeX-source-correlate-mode t

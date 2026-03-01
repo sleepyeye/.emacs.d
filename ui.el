@@ -211,11 +211,19 @@
   :ensure nil
   :config
   (setq frame-resize-pixelwise t)
-  (set-frame-parameter nil 'internal-border-width 0)
-  (set-frame-position (selected-frame) 30 60)
-  (set-frame-size (selected-frame)
-				  (- (nth 3 (assq 'geometry (car (display-monitor-attributes-list)))) 60 29)
-				  (- (nth 4 (assq 'geometry (car (display-monitor-attributes-list)))) 60 60 30) t))
+  (when (display-graphic-p)
+    (set-frame-parameter nil 'internal-border-width 0)
+    (let* ((attrs (car-safe (display-monitor-attributes-list)))
+           (geometry (cdr (assq 'geometry attrs))))
+      (when (and (listp geometry)
+                 (>= (length geometry) 4)
+                 (numberp (nth 2 geometry))
+                 (numberp (nth 3 geometry)))
+        (set-frame-position (selected-frame) 30 60)
+        (set-frame-size (selected-frame)
+                        (- (nth 2 geometry) 60 29)
+                        (- (nth 3 geometry) 60 60 30)
+                        t)))))
 
 (use-package dired
   :ensure nil

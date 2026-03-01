@@ -2,13 +2,16 @@
 
 ;; transient
 (use-package transient
+  :ensure (transient :host github :repo "magit/transient")
   :defer t
   :config
   (transient-bind-q-to-quit))
 
 ;; magit
 (use-package magit
-  :defer nil
+  :ensure (magit :host github :repo "magit/magit")
+  :commands (magit-status magit-file-dispatch magit-blame-addition)
+  :after transient
   :init
   ;; Open status buffer in fullscreen
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1

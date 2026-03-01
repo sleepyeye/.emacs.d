@@ -20,7 +20,14 @@ Only hides display. For actual conversion, use `set-buffer-file-coding-system`."
 ;; -------------------------
 ;; Spell checking (jinx)
 ;; -------------------------
+(defun sleepy--jinx-ready-p ()
+  "Return non-nil when Jinx native module prerequisites seem available."
+  (and (fboundp 'module-load)
+       (or (executable-find "enchant-2")
+           (executable-find "enchant"))))
+
 (use-package jinx
+  :if (sleepy--jinx-ready-p)
   :hook
   ;; Enable globally
   (text-mode . jinx-mode)
@@ -57,7 +64,16 @@ Only hides display. For actual conversion, use `set-buffer-file-coding-system`."
 ;; -------------------------
 ;; Terminal (vterm)
 ;; -------------------------
+(defun sleepy--vterm-ready-p ()
+  "Return non-nil when vterm native module build tools are available."
+  (and (boundp 'module-file-suffix)
+       module-file-suffix
+       (executable-find "cmake")
+       (executable-find "make")
+       (executable-find "gcc")))
+
 (use-package vterm
+  :if (sleepy--vterm-ready-p)
   :ensure t
   :hook (vterm-mode . (lambda () (display-line-numbers-mode -1)))
   :custom
