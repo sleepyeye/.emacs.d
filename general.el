@@ -148,16 +148,4 @@ NEW-NAME should be an absolute or relative file path."
   (sleepy/leader-def
     "p" '(projectile-command-map :which-key "Project"))
 
-  ;; Registers - Enhanced system with DWIM commands + completion
-  (sleepy/leader-def
-    "r"   '(:ignore t :which-key "Registers")
-    "r a" '(sleepy/register-add-dwim :which-key "add DWIM")
-    "r u" '(sleepy/register-use-dwim :which-key "use DWIM")
-    "r j" '(sleepy/register-jump :which-key "jump only")
-    "r i" '(sleepy/register-insert :which-key "insert only")
-    "r f" '(sleepy/register-save-file-position :which-key "file+pos")
-    "r l" '(consult-register :which-key "list all")
-    "r s" '(consult-register-store :which-key "store (consult)")
-    "r L" '(consult-register-load :which-key "load (consult)"))
-
 )

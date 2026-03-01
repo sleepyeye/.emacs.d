@@ -323,9 +323,4 @@ Note: eglot-xref-backend is auto-prepended when Eglot is active."
   :config
   (eglot-booster-mode 1))
 
-;; Provide compatibility symbols for old split modules.
-(provide 'code-navigation)
-(provide 'xref-config)
-(provide 'tags)
-
 ;;; code-navigation.el ends here
