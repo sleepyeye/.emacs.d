@@ -358,7 +358,21 @@ NEW-NAME should be an absolute or relative file path."
    :states 'normal
    :keymaps 'global
    "gc" 'my-evil-comment-or-uncomment
-   "gf" 'find-file-at-point))
+   "gf" 'find-file-at-point)
+
+  ;; Motion map cleanup
+  (general-define-key
+   :states 'motion
+   "SPC" nil
+   "RET" nil
+   "TAB" nil)
+
+  ;; Better-jumper motion bindings
+  (general-define-key
+   :states 'motion
+   "C-o" 'better-jumper-jump-backward
+   ;; <C-i> can conflict with TAB - use alternative key
+   "M-]" 'better-jumper-jump-forward))
 
 ;; ---- Evil collection (use package default evil bindings) -------------------
 (use-package evil-collection
@@ -443,26 +457,12 @@ NEW-NAME should be an absolute or relative file path."
   (vdiff-auto-refine t)
   (vdiff-only-highlight-refinements t))
 
-;; ---- Motion map cleanup -----------------------------------------------------
-(with-eval-after-load 'evil-maps
-  (general-define-key
-   :states 'motion
-   "SPC" nil
-   "RET" nil
-   "TAB" nil))
-
 ;; ---- Better-jumper (prevent C-i conflict) -----------------------------------
 (use-package better-jumper
   :ensure t
-  :after general
+  :after (evil general)
   :config
-  (better-jumper-mode 1)
-  (with-eval-after-load 'evil-maps
-    (general-define-key
-     :states 'motion
-     "C-o" 'better-jumper-jump-backward
-     ;; <C-i> can conflict with TAB - use alternative key
-     "M-]" 'better-jumper-jump-forward)))
+  (better-jumper-mode 1))
 
 ;; ---- Tree-sitter text objects (optional) ------------------------------------
 (use-package evil-textobj-tree-sitter
@@ -516,12 +516,10 @@ NEW-NAME should be an absolute or relative file path."
   :config
   (require 'smartparens-config)
   ;; Evil integration
-  (with-eval-after-load 'evil
-    ;; Use smartparens for text objects
-    (setq sp-navigate-consider-symbols nil)
-    ;; Better Evil integration
-    (setq sp-autoskip-closing-pair 'always
-          sp-hybrid-kill-entire-symbol nil))
+  (setq sp-navigate-consider-symbols nil)
+  ;; Better Evil integration
+  (setq sp-autoskip-closing-pair 'always
+        sp-hybrid-kill-entire-symbol nil)
   ;; Don't insert space before delimiters in some modes
   (sp-local-pair 'emacs-lisp-mode "`" nil :actions nil)
   (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
@@ -615,12 +613,11 @@ NEW-NAME should be an absolute or relative file path."
         yas-wrap-around-region t
         yas-verbosity 1)
   ;; Keybindings
-  (with-eval-after-load 'general
-    (when (fboundp 'sleepy/leader-def)
-      (sleepy/leader-def
-        "i s" '(yas-insert-snippet :which-key "insert snippet")
-        "i n" '(yas-new-snippet :which-key "new snippet")
-        "i v" '(yas-visit-snippet-file :which-key "visit snippet")))))
+  (when (fboundp 'sleepy/leader-def)
+    (sleepy/leader-def
+      "i s" '(yas-insert-snippet :which-key "insert snippet")
+      "i n" '(yas-new-snippet :which-key "new snippet")
+      "i v" '(yas-visit-snippet-file :which-key "visit snippet"))))
 
 ;; Collection of snippets for many languages
 (use-package yasnippet-snippets
