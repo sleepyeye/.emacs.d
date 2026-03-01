@@ -2,9 +2,7 @@
 
 (dolist (module
          '("builtin.el"
-           "general.el"
-           "evil.el"
-           "edit.el"
+           "core.el"
            "completion.el"
            "font.el"
            "projectile.el"

@@ -1,4 +1,154 @@
-;;; evil.el --- lean evil setup using package defaults (no :general) -*- lexical-binding: t; -*-
+;;; core.el --- general, evil, and editing config -*- lexical-binding: t; -*-
+
+(defconst sleepy/leader-key "SPC")
+(defconst sleepy/global-leader-key "M-SPC")
+
+;; Helper function for renaming visited file
+(defun sleepy/rename-visited-file (new-name)
+  "Rename the file being visited to NEW-NAME.
+The buffer name is also updated to match the new file name.
+
+This function performs comprehensive validation before renaming:
+- Ensures buffer is visiting a file
+- Validates new filename is not empty
+- Checks target directory exists and is writable
+- Confirms overwrite if target file exists
+- Handles errors gracefully
+
+NEW-NAME should be an absolute or relative file path."
+  (interactive "FNew name: ")
+  (let ((old-name (buffer-file-name)))
+    ;; Validate preconditions
+    (unless old-name
+      (user-error "Buffer is not visiting a file"))
+    (when (string-empty-p new-name)
+      (user-error "New filename cannot be empty"))
+    (when (file-directory-p new-name)
+      (user-error "Target is a directory, not a file"))
+
+    ;; Ensure target directory exists and is writable
+    (let ((target-dir (file-name-directory (expand-file-name new-name))))
+      (unless (file-directory-p target-dir)
+        (user-error "Target directory does not exist: %s" target-dir))
+      (unless (file-writable-p target-dir)
+        (user-error "Target directory is not writable: %s" target-dir)))
+
+    ;; Confirm overwrite if file exists
+    (when (file-exists-p new-name)
+      (unless (y-or-n-p (format "File %s already exists. Overwrite? " new-name))
+        (user-error "Rename cancelled")))
+
+    ;; Perform rename with error handling
+    (condition-case err
+        (progn
+          (rename-file old-name new-name 1)
+          (set-visited-file-name new-name)
+          (rename-buffer (file-name-nondirectory new-name))
+          (set-buffer-modified-p nil)
+          (message "File renamed to %s" new-name))
+      (file-error
+       (user-error "Failed to rename file: %s" (error-message-string err))))))
+
+(use-package general
+  :ensure (:wait t)
+  :demand t
+  :config
+  (general-evil-setup)
+
+  (general-create-definer sleepy/leader-def
+    :states '(normal visual motion)
+    :keymaps 'override
+    :prefix sleepy/leader-key
+    :global-prefix sleepy/global-leader-key)
+
+  ;; Minimal global keys
+  (general-define-key
+   "M-x" 'execute-extended-command
+   "s-x" 'execute-extended-command
+   "C-=" 'text-scale-increase
+   "C--" 'text-scale-decrease)
+
+  ;; Leader menu
+  (sleepy/leader-def
+    "SPC" '(find-file :which-key "find file")
+    "-"   '(dired-jump :which-key "dired here")
+    ":"   '(eval-expression :which-key "eval")
+    "!"   '(shell-command :which-key "shell cmd")
+    "&"   '(async-shell-command :which-key "async shell"))
+
+  (sleepy/leader-def
+	"f"   '(:ignore t :which-key "File")
+	"ff"  'find-file
+	"fp"  'projectile-find-file
+	"fg"  'consult-ripgrep
+	"fl"  'consult-line
+	"fr"  'consult-recent-file
+	"fP"  'projectile-recentf
+	"fd"  'dired-jump
+	"fs"  'save-buffer
+	"fu"  'revert-buffer
+	"fR"  'sleepy/rename-visited-file
+	"fx"  'delete-file)
+
+
+  (sleepy/leader-def
+    "h"   '(:ignore t :which-key "Help")
+    "h m" '(describe-mode     :which-key "mode")
+    "h k" '(describe-key      :which-key "key")
+    "h K" '(describe-keymap   :which-key "keymap")
+    "h f" '(describe-function :which-key "func")
+    "h F" '(describe-face     :which-key "face")
+    "h v" '(describe-variable :which-key "var"))
+
+  (sleepy/leader-def
+    "o"   '(:ignore t :which-key "Open")
+    "o p" '(proced :which-key "process manager"))
+
+  (sleepy/leader-def
+    "w"   '(:ignore t :which-key "Window")
+    "w o" '(other-window :which-key "other")
+    "w d" '(delete-window :which-key "delete")
+    "w s" '(evil-window-split :which-key "split-h")
+    "w v" '(evil-window-vsplit :which-key "split-v")
+    "w r" '(evil-window-rotate-upwards :which-key "rotate ↻")
+    "w R" '(evil-window-rotate-downwards :which-key "rotate ↺")
+    "w h" '(evil-window-left :which-key "←")
+    "w j" '(evil-window-down :which-key "↓")
+    "w k" '(evil-window-up   :which-key "↑")
+    "w l" '(evil-window-right :which-key "→"))
+
+  (sleepy/leader-def
+    "b"   '(:ignore t :which-key "Buffer")
+    "bb" '(consult-buffer :which-key "switch")
+    "bB" '(consult-buffer-other-window :which-key "switch other")
+    "bd" '(kill-current-buffer :which-key "kill")
+    "br" '(revert-buffer :which-key "revert"))
+
+  (sleepy/leader-def
+    "B"   '(:ignore t :which-key "Bookmark")
+    "Bb" '(consult-bookmark :which-key "jump")
+    "Bs" '(bookmark-set :which-key "set")
+    "Bd" '(bookmark-delete :which-key "delete")
+    "Bl" '(bookmark-bmenu-list :which-key "list")
+    "BR" '(bookmark-rename :which-key "rename"))
+
+  (sleepy/leader-def
+    "s"   '(:ignore t :which-key "Search")
+    "sb" '(consult-line :which-key "in buffer")
+    "sB" '(consult-line-multi :which-key "multi buf")
+    "sp" '(consult-ripgrep :which-key "ripgrep proj")
+    "sd" '(consult-ripgrep-current :which-key "ripgrep here")
+    "si" '(consult-imenu :which-key "imenu")
+    "sI" '(consult-imenu-multi :which-key "imenu*"))
+
+  (sleepy/leader-def
+    "g"   '(:ignore t :which-key "Git")
+    "gg" '(magit-status :which-key "status"))
+
+  (sleepy/leader-def
+    "p" '(projectile-command-map :which-key "Project"))
+
+  )
 
 ;; ==============================================================================
 ;; EVIL COMMANDS REFERENCE GUIDE
@@ -189,8 +339,8 @@
 
   ;; Evil state exceptions
   (dolist (mode '(custom-mode eshell-mode shell-mode term-mode vterm-mode
-                  elpaca-ui-mode calc-mode inferior-python-mode wdired-mode
-                  log-edit-mode))
+							  elpaca-ui-mode calc-mode inferior-python-mode wdired-mode
+							  log-edit-mode))
     (add-to-list 'evil-emacs-state-modes mode))
   (evil-set-initial-state 'debugger-mode 'motion)
   (evil-set-initial-state 'pdf-view-mode 'motion)
@@ -350,10 +500,139 @@
 
 (use-package evil-numbers
   :ensure t
-  :demand t
   :after (evil general)
   :config
   (general-define-key
    :states 'visual
-   "g C-a" 'evil-numbers/inc-at-pt-incremental
-   "g C-A" 'evil-numbers/dec-at-pt-incremental))
+   "g C-a" 'evil-numbers/inc-at-pt
+   "g C-A" 'evil-numbers/dec-at-pt))
+
+;; Smart parentheses management
+(use-package smartparens
+  :ensure t
+  :hook ((prog-mode . smartparens-mode)
+         (text-mode . smartparens-mode)
+         (LaTeX-mode . smartparens-mode))
+  :config
+  (require 'smartparens-config)
+  ;; Evil integration
+  (with-eval-after-load 'evil
+    ;; Use smartparens for text objects
+    (setq sp-navigate-consider-symbols nil)
+    ;; Better Evil integration
+    (setq sp-autoskip-closing-pair 'always
+          sp-hybrid-kill-entire-symbol nil))
+  ;; Don't insert space before delimiters in some modes
+  (sp-local-pair 'emacs-lisp-mode "`" nil :actions nil)
+  (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
+  ;; Python-specific
+  (sp-local-pair 'python-mode "'" nil :unless '(sp-point-after-word-p))
+  ;; LaTeX-specific
+  (sp-local-pair 'LaTeX-mode "$" "$")
+  (sp-local-pair 'LaTeX-mode "\\[" "\\]")
+  :diminish smartparens-mode)
+
+;; iedit: multiple identical region editing (loaded on demand)
+(use-package iedit
+  :ensure t
+  :commands (iedit-mode iedit-mode-toggle-on-function))
+
+;; evil-mc: multiple cursors for Evil (manual cursor placement)
+(use-package evil-mc
+  :ensure t
+  :after (evil general)
+  :config
+  ;; global-evil-mc-mode disabled - post-command-hook overhead on every keystroke
+  ;; Enable locally with gm keybindings when needed
+  ;; (global-evil-mc-mode 1)
+
+  ;; Evil style: gm prefix (multiple cursors - consistent with other packages)
+  (general-define-key
+   :states 'normal
+   "gmm" 'evil-mc-make-all-cursors
+   "gmu" 'evil-mc-undo-all-cursors
+   "gmn" 'evil-mc-make-and-goto-next-match
+   "gmp" 'evil-mc-make-and-goto-prev-match
+   "gmN" 'evil-mc-skip-and-goto-next-match
+   "gmP" 'evil-mc-skip-and-goto-prev-match
+   "gmq" 'evil-mc-pause-cursors
+   "gmr" 'evil-mc-resume-cursors)
+
+  ;; Line-wise cursor addition (normal & visual)
+  (general-define-key
+   :states '(normal visual)
+   "C-M-j" 'evil-mc-make-cursor-move-next-line
+   "C-M-k" 'evil-mc-make-cursor-move-prev-line)
+
+  ;; Emacs style: C-c m prefix (global)
+  (general-define-key
+   "C-c m j" 'evil-mc-make-cursor-move-next-line
+   "C-c m k" 'evil-mc-make-cursor-move-prev-line
+   "C-c m n" 'evil-mc-make-and-goto-next-match
+   "C-c m p" 'evil-mc-make-and-goto-prev-match
+   "C-c m m" 'evil-mc-make-all-cursors
+   "C-c m u" 'evil-mc-undo-all-cursors
+   "C-c m q" 'evil-mc-pause-cursors
+   "C-c m r" 'evil-mc-resume-cursors))
+
+(use-package ialign
+  :ensure t)
+
+(use-package wgrep
+  :ensure t
+  :commands (wgrep-change-to-wgrep-mode wgrep-finish-edit)
+  :config
+  (setq wgrep-change-readonly-file t
+        wgrep-auto-save-buffer t))
+
+;; EditorConfig support for consistent coding styles across editors
+(use-package editorconfig
+  :ensure t
+  :hook (elpaca-after-init . editorconfig-mode)
+  :config
+  (setq editorconfig-trim-whitespaces-mode 'ws-butler-mode)
+  :diminish editorconfig-mode)
+
+(use-package expand-region
+  :ensure t
+  :commands (er/expand-region er/contract-region)
+  :bind (("M-=" . er/expand-region)
+         ("M-+" . er/expand-region)
+         ("M--" . er/contract-region)))
+
+;; Snippet expansion system
+(use-package yasnippet
+  :ensure t
+  :hook ((prog-mode . yas-minor-mode)
+         (text-mode . yas-minor-mode)
+         (LaTeX-mode . yas-minor-mode))
+  :init
+  (setq yas-snippet-dirs (list (expand-file-name "snippets" user-emacs-directory)))
+  :config
+  (yas-reload-all)
+  ;; Use TAB only when at word end/beginning for better completion integration
+  (setq yas-triggers-in-field t
+        yas-wrap-around-region t
+        yas-verbosity 1)
+  ;; Keybindings
+  (with-eval-after-load 'general
+    (when (fboundp 'sleepy/leader-def)
+      (sleepy/leader-def
+        "i s" '(yas-insert-snippet :which-key "insert snippet")
+        "i n" '(yas-new-snippet :which-key "new snippet")
+        "i v" '(yas-visit-snippet-file :which-key "visit snippet")))))
+
+;; Collection of snippets for many languages
+(use-package yasnippet-snippets
+  :ensure t
+  :after yasnippet)
+
+;; Yasnippet completion-at-point backend for corfu integration
+;; NOTE: :demand t ensures this loads immediately after yasnippet
+;; so it's available when completion.el capf hooks run
+(use-package yasnippet-capf
+  :ensure t
+  :demand t
+  :after yasnippet)
+
+;;; core.el ends here
