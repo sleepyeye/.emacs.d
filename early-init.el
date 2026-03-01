@@ -116,6 +116,25 @@ Paths are expanded and prepended to the existing PATH."
 ;; Disable x-session resource loading
 (advice-add #'x-apply-session-resources :override #'ignore)
 
+;; Refresh package archives once before elpaca bootstrap
+(require 'package)
+
+(setq package-archives
+      '(("gnu" . "https://elpa.gnu.org/packages/")
+        ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+        ("melpa" . "https://melpa.org/packages/")))
+
+(let ((sleepy--archives-flag
+       (expand-file-name ".package-archives-refreshed" user-emacs-directory)))
+  (unless (file-exists-p sleepy--archives-flag)
+    (package-initialize)
+    (condition-case err
+        (progn
+          (package-refresh-contents)
+          (with-temp-file sleepy--archives-flag
+            (insert (format-time-string "%F %T"))))
+      (error (message "Package refresh failed: %s" err)))))
+
 ;; Load elpaca and wait
 (defvar user-emacs-directory "~/.emacs.d")
 (let ((sleepy--bootstrap-file
