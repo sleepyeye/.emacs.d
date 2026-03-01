@@ -318,7 +318,7 @@ Note: eglot-xref-backend is auto-prepended when Eglot is active."
         "c S" '(eglot-shutdown :which-key "shutdown LSP server")))))
 
 (use-package eglot-booster
-  :ensure (eglot-booster :host github :repo "jdtsmith/eglot-booster")
+  :ensure (:host github :repo "jdtsmith/eglot-booster")
   :after eglot
   :config
   (eglot-booster-mode 1))

@@ -52,7 +52,7 @@
   :hook (elpaca-after-init . marginalia-mode))
 
 (use-package corfu
-  :ensure (corfu :host github :repo "minad/corfu" :files (:defaults "extensions/*"))
+  :ensure (:host github :repo "minad/corfu" :files (:defaults "extensions/*"))
   :custom
   (read-extended-command-predicate #'command-completion-default-include-p)
   (text-mode-ispell-word-completion nil)

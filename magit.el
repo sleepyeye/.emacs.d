@@ -2,14 +2,14 @@
 
 ;; transient
 (use-package transient
-  :ensure (transient :host github :repo "magit/transient")
+  :ensure (:host github :repo "magit/transient")
   :defer t
   :config
   (transient-bind-q-to-quit))
 
 ;; magit
 (use-package magit
-  :ensure (magit :host github :repo "magit/magit")
+  :ensure (:host github :repo "magit/magit")
   :commands (magit-status magit-file-dispatch magit-blame-addition)
   :after transient
   :init
