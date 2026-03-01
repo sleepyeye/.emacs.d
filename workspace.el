@@ -46,7 +46,7 @@
   ;; Consult: Prioritize current workspace buffers
   (with-eval-after-load 'consult
     ;; Don't hide default buffer source, just lower its priority
-    (consult-customize consult--source-buffer :hidden nil :default nil)
+    (consult-customize consult-source-buffer :hidden nil :default nil)
     (defvar consult--source-perspective
       (list :name     "Workspace Buffers"
             :narrow   ?w
