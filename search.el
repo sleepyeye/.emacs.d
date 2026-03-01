@@ -1,6 +1,6 @@
 ;;; search.el --- ripgrep / dumb-jump setup -*- lexical-binding: t; -*-
 
-;; dumb-jump (used as xref backend fallback via xref.el)
+;; dumb-jump (used as xref backend fallback via code-navigation.el)
 (use-package dumb-jump
   :commands dumb-jump-xref-activate
   :init
