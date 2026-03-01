@@ -18,9 +18,7 @@
 (sleepy--load-module "completion.el")
 (sleepy--load-module "font.el")
 (sleepy--load-module "projectile.el")
-(sleepy--load-module "eglot.el")
-(sleepy--load-module "tags.el")
-(sleepy--load-module "xref.el")
+(sleepy--load-module "code-navigation.el")
 (sleepy--load-module "magit.el")
 (sleepy--load-module "workspace.el")
 (sleepy--load-module "search.el")
@@ -28,7 +26,6 @@
 (sleepy--load-module "media.el")
 (sleepy--load-module "tree-sitter.el")
 (sleepy--load-module "register.el")
-(sleepy--load-module "ai.el")
 
 ;;; Platform-specific configuration
 (when IS-MAC
