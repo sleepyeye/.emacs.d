@@ -39,16 +39,42 @@
   "Delay in seconds before updating idle timers.
 Higher values reduce CPU usage but may feel less responsive.")
 
+;;; Best Emacs Configs
+;;; https://emacsredux.com/blog/2026/04/07/stealing-from-the-best-emacs-configs/
+(setq-default bidi-display-reordering 'left-to-right
+			  bidi-paragraph-direction 'left-to-right
+			  cursor-in-non-selected-windows nil)
+
 (setq idle-update-delay sleepy/idle-update-delay
-      bidi-display-reordering 'left-to-right
-      bidi-paragraph-direction 'left-to-right
-      bidi-inhibit-bpa t
-      cursor-in-non-selected-windows nil
+	  redisplay-skip-fontification-on-input t
+	  bidi-inhibit-bpa t
+	  kill-do-not-save-duplicates t
+	  save-interprogram-paste-before-kill t
       highlight-nonselected-windows nil
       fast-but-imprecise-scrolling t
       inhibit-compacting-font-caches t
       load-prefer-newer t
-      read-process-output-max (* 3 1024 1024))
+	  ffap-machine-p-known 'reject
+	  window-combination-resize t
+	  help-window-select t
+      read-process-output-max (* 4 1024 1024))
+
+
+(setq savehist-additional-variables
+      '(search-ring regexp-search-ring kill-ring))
+;; Remove text properties such as fonts, overlays.
+;; Doom emacs config that strips the text props
+(add-hook 'savehist-save-hook
+          (lambda ()
+            (setq kill-ring
+                  (mapcar #'substring-no-properties
+                          (cl-remove-if-not #'stringp kill-ring)))))
+
+;; Auto chmod+x for files with a shebang line
+(add-hook 'after-save-hook
+          #'executable-make-buffer-file-executable-if-script-p)
+
+
 
 ;; UI Tweaks
 (tool-bar-mode -1)

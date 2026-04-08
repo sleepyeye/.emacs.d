@@ -56,7 +56,6 @@
 ;; --- General UX -------------------------------------------------------------
 (setq use-short-answers t
       confirm-kill-emacs 'yes-or-no-p
-      save-interprogram-paste-before-kill t
       apropos-do-all t
       mouse-yank-at-point t
       what-cursor-show-names t
