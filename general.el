@@ -160,15 +160,13 @@ NEW-NAME should be an absolute or relative file path."
     "r s" '(consult-register-store :which-key "store (consult)")
     "r L" '(consult-register-load :which-key "load (consult)"))
 
-  ;; AI/Claude writing assistance
+  ;; AI: claude-code-ide 명령만 바인딩 (존재하지 않는 sleepy/claude-* 제거)
   (sleepy/leader-def
     "a"   '(:ignore t :which-key "AI/Claude")
     "ac" '(claude-code-ide-menu :which-key "claude menu")
-    "aw" '(sleepy/claude-write :which-key "write")
-    "ar" '(sleepy/claude-rewrite-region :which-key "rewrite region")
-    "ap" '(sleepy/claude-proofread-region :which-key "proofread")
-    "ae" '(sleepy/claude-explain :which-key "explain")
-    "as" '(sleepy/claude-summarize :which-key "summarize")
-    "ai" '(sleepy/claude-improve-writing :which-key "improve writing")
-    "am" '(sleepy/claude-email :which-key "compose email"))
+    "aa" '(claude-code-ide :which-key "start")
+    "at" '(claude-code-ide-toggle :which-key "toggle")
+    "ap" '(claude-code-ide-send-prompt :which-key "send prompt")
+    "ai" '(claude-code-ide-insert-at-mentioned :which-key "insert selection")
+    "as" '(claude-code-ide-stop :which-key "stop"))
 )

@@ -82,8 +82,6 @@
 (use-package editorconfig
   :ensure t
   :hook (after-init . editorconfig-mode)
-  :config
-  (setq editorconfig-trim-whitespaces-mode 'ws-butler-mode)
   :diminish editorconfig-mode)
 
 (use-package expand-region

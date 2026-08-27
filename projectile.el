@@ -97,7 +97,7 @@ The todo.org file is created at the project root directory."
     (define-key map (kbd "b") #'projectile-switch-to-buffer)
     (define-key map (kbd "k") #'projectile-kill-buffers)
     (define-key map (kbd "r") #'projectile-recentf)
-    (define-key map (kbd "s r") #'projectile-ripgrep)
+    (define-key map (kbd "s r") #'consult-ripgrep)
     (define-key map (kbd ":") #'projectile-commander)
     (define-key map (kbd "'") #'sleepy/open-project-todo))
 

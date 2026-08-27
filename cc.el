@@ -3,8 +3,7 @@
 (defun sleepy/cc-capf ()
   (setq-local completion-at-point-functions
 			  (list (cape-capf-super
-					 #'tempel-complete
-					 ;; #'cape-keyword
+					 #'yasnippet-capf
 					 #'eglot-completion-at-point))))
 
 
