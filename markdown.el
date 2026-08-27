@@ -21,7 +21,6 @@
     "m p" '(markdown-preview :which-key "preview")
     "m e" '(markdown-export :which-key "export")
     "m i" '(markdown-insert-link :which-key "insert link")
-    "m I" '(markdown-insert-image :which-key "insert image")
-    "m t" '(markdown-toc-generate-toc :which-key "generate toc")))
+    "m I" '(markdown-insert-image :which-key "insert image")))
 
 ;;; markdown.el ends here
