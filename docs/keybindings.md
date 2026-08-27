@@ -258,7 +258,6 @@ ma          → 현재 위치에 'a' 마크
 | `SPC g d` | git-timemachine-toggle | 파일 히스토리 보기 |
 | `SPC g D` | magit-diff-buffer-file | 현재 파일 diff |
 | `SPC g E` | ediff-buffers | 버퍼 diff |
-| `SPC g c` | sleepy/ai-commit-message | AI 커밋 메시지 생성 |
 
 ### Magit Status Buffer
 
@@ -266,7 +265,7 @@ ma          → 현재 위치에 'a' 마크
 |-----------|----------|-------------|
 | `s` | magit-stage | Stage 파일/hunk |
 | `u` | magit-unstage | Unstage |
-| `c c` | magit-commit | Commit (`=a` for AI message) |
+| `c c` | magit-commit | Commit |
 | `P p` | magit-push | Push |
 | `F p` | magit-pull | Pull |
 | `TAB` | magit-section-toggle | 섹션 접기/펼치기 |

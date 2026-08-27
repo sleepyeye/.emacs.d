@@ -73,7 +73,6 @@ early-init.el → bootstraps.el → init.el → [27 modules] → ui.el
 - **search.el**: Enhanced search (consult-ripgrep)
 - **tree-sitter.el**: Advanced syntax parsing
 - **register.el**: Enhanced register system (custom file+position type)
-- **ai.el**: Claude Code IDE integration
 
 ### Layer 4: Language Support
 - **python.el**: Python mode + Jupyter + basedpyright LSP
@@ -302,23 +301,6 @@ Tools: executable-find checks
 - No platform assumptions scattered across modules
 - Clean conditional blocks
 
-## AI Integration Architecture
-
-### Claude Code IDE
-```
-Package: claude-code-ide
-Backend: vterm (terminal-based)
-Anti-flicker: enabled
-Window: Side window, right side, 90 columns
-Diff: ediff integration
-Keybinding: C-c C-'
-```
-
-### Integration Points
-- Evil keybinding compatibility
-- MCP (Model Context Protocol) awareness
-- Emacs tool integration
-
 ## Architectural Patterns
 
 ### 1. Modular Configuration Pattern
@@ -366,7 +348,6 @@ Keybinding: C-c C-'
 ## Cross-Cutting Concerns
 
 ### Documentation
-- CLAUDE.md: Comprehensive guide for Claude Code
 - REGISTER-GUIDE.md: Register system documentation
 - Inline comments: Good coverage
 - Reference guides in evil.el

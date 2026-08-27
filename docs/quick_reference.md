@@ -225,8 +225,6 @@ npm install -g basedpyright
 brew install llvm  # for clangd
 brew install texlab
 
-# Optional
-brew install claude  # AI assistant
 ```
 
 ## Troubleshooting

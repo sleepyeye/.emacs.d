@@ -100,7 +100,6 @@ Temporary Items
 /.tags/
 /org-roam.db
 /.org-generic-id-locations
-/chatgpt/
 /image-dired/
 /persist/
 /request/
@@ -122,9 +121,6 @@ ext/
 
 # Custom configuration
 custom.el
-
-# AI/Claude directories
-claudedocs/
 
 # Variable/cache directory
 var/

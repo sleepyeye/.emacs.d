@@ -163,12 +163,11 @@ SPC p p        → 프로젝트 전환 (자동 워크스페이스)
 ```
 SPC g g        → Magit status
 SPC g d        → Timemachine (히스토리)
-SPC g c        → AI 커밋 메시지
 
 # In magit:
 s              → Stage
 u              → Unstage
-c c            → Commit (=a: AI)
+c c            → Commit
 P p            → Push
 ```
 
