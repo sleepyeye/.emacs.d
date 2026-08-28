@@ -112,6 +112,11 @@ Each LSP server only receives its relevant configuration."
   :ensure (eglot-booster :host github :repo "jdtsmith/eglot-booster")
   :after eglot
   :config
-  (eglot-booster-mode 1))
+  (if (executable-find "emacs-lsp-booster")
+      (eglot-booster-mode 1)
+    (display-warning
+     'eglot
+     "emacs-lsp-booster not found on PATH; eglot-booster not enabled"
+     :warning)))
 
 ;;; eglot.el ends here

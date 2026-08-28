@@ -62,9 +62,9 @@ NEW-NAME should be an absolute or relative file path."
     :global-prefix sleepy/global-leader-key)
 
   ;; Minimal global keys
+  ;; s-x는 builtin.el에서 macOS GUI cut(kill-region)으로 씀. M-x만 명령 실행.
   (general-define-key
    "M-x" 'execute-extended-command
-   "s-x" 'execute-extended-command
    "C-=" 'text-scale-increase
    "C--" 'text-scale-decrease)
 

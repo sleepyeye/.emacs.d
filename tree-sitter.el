@@ -24,9 +24,14 @@
                       (cmake-mode      . cmake-ts-mode)
                       (conf-toml-mode  . toml-ts-mode)
                       (js-json-mode    . json-ts-mode)
-                      (markdown-mode   . markdown-ts-mode)
                       (python-mode     . python-ts-mode)
                       (sh-mode         . bash-ts-mode)))
+              ;; markdown-ts-mode는 grammar가 있을 때만 remap. 없으면 markdown-mode.
+              (when (and (fboundp 'markdown-ts-mode)
+                         (fboundp 'treesit-ready-p)
+                         (treesit-ready-p 'markdown t))
+                (add-to-list 'major-mode-remap-alist
+                             '(markdown-mode . markdown-ts-mode)))
               (setq treesit-font-lock-level 4)
               ;; Auto-mode-alist for files without existing major modes
               (add-to-list 'auto-mode-alist '("CMakeLists\\'" . cmake-ts-mode))
