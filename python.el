@@ -10,17 +10,6 @@
 
 (add-hook 'eglot-managed-mode-hook #'sleepy/python-capf)
 
-(use-package exec-path-from-shell
-  :if (memq (window-system) '(mac ns))
-  :defer 2
-  :init
-  (defvar sleepy/exec-path-from-shell-did-init nil)
-  :config
-  (unless sleepy/exec-path-from-shell-did-init
-    (exec-path-from-shell-initialize)
-    (setq sleepy/exec-path-from-shell-did-init t)))
-
-
 ;; Auto-formatting with apheleia
 (with-eval-after-load 'apheleia
   ;; Configure ruff as Python formatter (fast, modern alternative to black+isort)

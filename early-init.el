@@ -72,37 +72,26 @@ Higher values reduce CPU usage but may feel less responsive.")
 (defconst IS-WINDOWS (memq system-type '(cygwin windows-nt ms-dos)))
 (defconst IS-BSD     (memq system-type '(darwin berkeley-unix gnu/kfreebsd)))
 
-;; PATH and exec-path Setup
-(defun sleepy--add-paths-to-env (paths)
-  "Add PATHS to both PATH environment variable and exec-path.
-PATHS should be a list of directory path strings.
-Paths are expanded and prepended to the existing PATH."
-  (let ((path-string (mapconcat (lambda (p) (expand-file-name p))
-                                paths
-                                path-separator)))
-    (setenv "PATH" (concat path-string path-separator (getenv "PATH")))
-    (dolist (path paths)
-      (add-to-list 'exec-path (expand-file-name path)))))
+;; PATH: exist-only user bins here; login-shell PATH after Elpaca (below)
+(defun sleepy--add-existing-paths-to-env (paths)
+  "Prepend existing directories in PATHS to PATH and exec-path.
+Missing directories are skipped. PATHS are expanded."
+  (dolist (path (reverse paths))
+    (let ((expanded (expand-file-name path)))
+      (when (file-directory-p expanded)
+        (add-to-list 'exec-path expanded)
+        (let* ((current (getenv "PATH"))
+               (parts (and current (split-string current path-separator t))))
+          (unless (member expanded parts)
+            (setenv "PATH" (if current
+                               (concat expanded path-separator current)
+                             expanded))))))))
 
-(cond
- (IS-MAC
-  (sleepy--add-paths-to-env
-   '("/opt/homebrew/bin"
-     "~/.cargo/bin"
-     "/Library/TeX/texbin"
-     "~/miniforge3/bin"
-     "~/.local/bin"
-     "/usr/local/bin")))
+(defconst sleepy/user-bin-dirs
+  '("~/.local/bin" "~/.cargo/bin")
+  "Portable user bin directories. Added only when they exist.")
 
- (IS-LINUX
-  (sleepy--add-paths-to-env
-   '("~/.local/bin"
-     "~/.cargo/bin"
-     "~/miniconda3/bin"
-     "/usr/local/bin"
-     "/usr/local/sbin"
-     "/usr/sbin"
-     "/sbin"))))
+(sleepy--add-existing-paths-to-env sleepy/user-bin-dirs)
 
 ;; macOS-specific Frame Appearance
 (when IS-MAC
@@ -121,6 +110,15 @@ Paths are expanded and prepended to the existing PATH."
 (load (concat user-emacs-directory "bootstraps"))
 (defvar local-package-directory (expand-file-name "~/.emacs.d/local-packages/"))
 (elpaca-wait)
+
+;; GUI/daemon Emacs does not inherit login-shell PATH (Homebrew, rustup, uv, pipx)
+(use-package exec-path-from-shell
+  :ensure (:wait t)
+  :demand t
+  :if (or (display-graphic-p) (daemonp))
+  :config
+  (exec-path-from-shell-initialize)
+  (sleepy--add-existing-paths-to-env sleepy/user-bin-dirs))
 
 ;; evil keybinding setup for elpaca
 (with-eval-after-load 'evil

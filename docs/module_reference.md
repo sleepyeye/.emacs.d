@@ -9,7 +9,7 @@ Complete documentation for all 27 configuration modules in the Emacs configurati
 **Load Order**: First (automatic by Emacs)
 **Key Features**:
 - GC tuning (disabled during startup, 80MB after)
-- PATH configuration for macOS and Linux
+- PATH via exec-path-from-shell (GUI/daemon) and exist-only ~/.local/bin, ~/.cargo/bin
 - UI tweaks (disable toolbar, scrollbar, menu)
 - System detection constants (IS-MAC, IS-LINUX)
 

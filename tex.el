@@ -76,22 +76,9 @@
 (use-package apheleia
   :ensure t
   :config
-  ;; latexindent formatter configuration
-  ;; macOS: Use Homebrew version (avoid Perl dependency issues)
-  ;; Other OS: Use latexindent from PATH
-  (let ((latexindent-cmd
-         (if (eq system-type 'darwin)
-             ;; macOS: Check Homebrew paths
-             (cond
-              ((file-exists-p "/opt/homebrew/bin/latexindent")
-               "/opt/homebrew/bin/latexindent")  ; Apple Silicon
-              ((file-exists-p "/usr/local/bin/latexindent")
-               "/usr/local/bin/latexindent")     ; Intel
-              (t "latexindent"))                 ; fallback
-           ;; Linux/Windows: Use PATH
-           "latexindent")))
-    (setf (alist-get 'latexindent apheleia-formatters)
-          (list latexindent-cmd "-")))
+  ;; latexindent: PATH에서 검색 (early-init의 exec-path)
+  (setf (alist-get 'latexindent apheleia-formatters)
+        '("latexindent" "-"))
   ;; Connect latexindent to LaTeX modes
   (setf (alist-get 'latex-mode apheleia-mode-alist) 'latexindent)
   (setf (alist-get 'LaTeX-mode apheleia-mode-alist) 'latexindent)
