@@ -32,7 +32,7 @@
 - Runs before package system initialization
 - Performance optimizations (GC tuning, file handlers)
 - System detection (IS-MAC, IS-LINUX constants)
-- PATH configuration per platform
+- PATH via login shell (exec-path-from-shell) plus exist-only user bins
 - UI tweaks (disable toolbar, scrollbar, menu-bar)
 - Frame appearance setup
 
@@ -290,7 +290,7 @@ IS-BSD: (memq system-type '(darwin berkeley-unix))
 
 ### Platform-Specific Configuration
 ```
-PATH: Different for macOS vs Linux
+PATH: login-shell PATH on GUI/daemon; ~/.local/bin and ~/.cargo/bin if they exist
 Frame: macOS transparent titlebar
 Loading: macos.el conditional on IS-MAC
 Tools: executable-find checks
